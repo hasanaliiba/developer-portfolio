@@ -1,0 +1,30 @@
+<section class="px-12 py-16 max-w-xl">
+  <h1 class="text-white font-extrabold mb-12" style="font-size:clamp(2rem,4vw,3rem)">Contact</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-5 mb-12">
+    <div>
+      <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Name</label>
+      <input formControlName="name" type="text" class="w-full bg-[#0f0f0f] border border-[#2a2a2a] text-white px-4 py-3 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="Your name" />
+    </div>
+    <div>
+      <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Email</label>
+      <input formControlName="email" type="email" class="w-full bg-[#0f0f0f] border border-[#2a2a2a] text-white px-4 py-3 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="you@example.com" />
+    </div>
+    <div>
+      <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Message</label>
+      <textarea formControlName="message" rows="5" class="w-full bg-[#0f0f0f] border border-[#2a2a2a] text-white px-4 py-3 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="What's on your mind?"></textarea>
+    </div>
+    <button type="submit" [disabled]="form.invalid || status() === 'sending'" class="bg-[#22c55e] text-black font-bold text-sm px-6 py-3 rounded-sm hover:bg-[#16a34a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed self-start">
+      @if (status() === 'sending') { Sending... } @else { Send Message }
+    </button>
+    @if (status() === 'sent') { <p class="text-[#22c55e] text-sm font-mono">Message sent! I'll get back to you soon.</p> }
+    @if (status() === 'error') { <p class="text-red-500 text-sm font-mono">Something went wrong. Please try again.</p> }
+  </form>
+  <div class="border-t border-[#1a1a1a] pt-8">
+    <p class="text-[#333] text-xs tracking-widest uppercase font-mono mb-5">Find me online</p>
+    <div class="flex flex-col gap-3">
+      <a href="https://github.com/hasansali" target="_blank" rel="noopener noreferrer" class="text-[#555] hover:text-[#22c55e] transition-colors text-sm font-mono">↗ GitHub</a>
+      <a href="https://linkedin.com/in/hasansali" target="_blank" rel="noopener noreferrer" class="text-[#555] hover:text-[#22c55e] transition-colors text-sm font-mono">↗ LinkedIn</a>
+      <a href="mailto:hasan@example.com" class="text-[#555] hover:text-[#22c55e] transition-colors text-sm font-mono">↗ Email</a>
+    </div>
+  </div>
+</section>
