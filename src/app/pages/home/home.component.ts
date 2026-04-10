@@ -1,3 +1,11 @@
 import { Component } from '@angular/core';
-@Component({ selector: 'app-home', standalone: true, template: '<p>Home</p>' })
+import { RouterLink } from '@angular/router';
+import { TypewriterComponent } from '../../shared/components/typewriter/typewriter.component';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [RouterLink, TypewriterComponent],
+  templateUrl: './home.component.html',
+})
 export class HomeComponent {}
