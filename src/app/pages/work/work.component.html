@@ -1,0 +1,10 @@
+<section class="px-12 py-16">
+  <h1 class="text-white font-extrabold mb-12" style="font-size:clamp(2rem,4vw,3rem)">Work</h1>
+  <div class="grid grid-cols-2 gap-6">
+    @for (study of studies$ | async; track study.id) {
+      <app-case-study-card [study]="study" />
+    } @empty {
+      <p class="text-[#555] col-span-2 font-mono text-sm">No case studies yet.</p>
+    }
+  </div>
+</section>
