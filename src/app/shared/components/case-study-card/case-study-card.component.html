@@ -1,13 +1,30 @@
-<a [routerLink]="['/work', study().slug]" class="block bg-[#1a1a1a] border border-[#222] rounded-sm hover:border-[#22c55e] transition-colors group">
-  <div class="h-44 overflow-hidden rounded-t-sm">
-    <img [src]="study().bannerUrl" [alt]="study().title" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300" />
+<a [routerLink]="['/work', study().slug]"
+   class="group block bg-[#0d1627] border border-[#1E293B] rounded-lg overflow-hidden cursor-pointer transition-all duration-200 hover:border-[#22c55e] hover:shadow-[0_0_0_1px_rgba(34,197,94,0.15),0_8px_32px_rgba(0,0,0,0.4)] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#0F172A]">
+
+  <!-- Image -->
+  <div class="aspect-[16/9] overflow-hidden bg-[#1E293B]">
+    <img [src]="study().bannerUrl"
+         [alt]="study().title"
+         loading="lazy"
+         width="800" height="450"
+         class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-300" />
   </div>
-  <div class="p-4">
-    <h3 class="text-white font-semibold mb-3">{{ study().title }}</h3>
+
+  <!-- Content -->
+  <div class="p-5">
+    <h3 class="text-[#F8FAFC] font-semibold text-base mb-3 group-hover:text-white transition-colors">{{ study().title }}</h3>
     <div class="flex flex-wrap gap-1.5">
       @for (tag of study().tags; track tag) {
-        <span class="bg-[#0d1f0d] text-[#22c55e] text-xs px-2 py-0.5 rounded-sm font-mono">{{ tag }}</span>
+        <span class="bg-[#0d1f0d] text-[#22c55e] text-[10px] tracking-widest uppercase px-2.5 py-1 rounded font-mono">{{ tag }}</span>
       }
+    </div>
+
+    <!-- Arrow indicator -->
+    <div class="flex items-center gap-1.5 mt-5 text-[#334155] group-hover:text-[#22c55e] transition-colors duration-200">
+      <span class="font-mono text-[11px] tracking-widest uppercase">View case study</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5 -translate-x-1 group-hover:translate-x-0 transition-transform duration-200" aria-hidden="true">
+        <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+      </svg>
     </div>
   </div>
 </a>

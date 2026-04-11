@@ -1,8 +1,33 @@
-<nav class="fixed left-0 top-0 h-full w-14 bg-[#0f0f0f] border-r border-[#1a1a1a] flex flex-col items-center py-6 z-50">
-  <a routerLink="/" class="font-mono text-[#22c55e] text-sm font-bold tracking-widest mb-auto hover:opacity-80 transition-opacity" style="writing-mode:vertical-rl;transform:rotate(180deg)">HA</a>
-  <div class="flex flex-col items-center gap-6 mb-6">
-    <a routerLink="/" routerLinkActive="!text-[#22c55e]" [routerLinkActiveOptions]="{exact:true}" class="text-[#555] hover:text-[#22c55e] text-[10px] tracking-[0.15em] uppercase transition-colors" style="writing-mode:vertical-rl;transform:rotate(180deg)">Home</a>
-    <a routerLink="/work" routerLinkActive="!text-[#22c55e]" class="text-[#555] hover:text-[#22c55e] text-[10px] tracking-[0.15em] uppercase transition-colors" style="writing-mode:vertical-rl;transform:rotate(180deg)">Work</a>
-    <a routerLink="/contact" routerLinkActive="!text-[#22c55e]" class="text-[#555] hover:text-[#22c55e] text-[10px] tracking-[0.15em] uppercase transition-colors" style="writing-mode:vertical-rl;transform:rotate(180deg)">Contact</a>
+<nav class="fixed left-0 top-0 h-full w-14 bg-[#0a0f1e] border-r border-[#1E293B] flex flex-col items-center py-6 z-50" aria-label="Primary navigation">
+  <!-- Logo -->
+  <a routerLink="/" aria-label="Home" class="font-mono text-[#22c55e] text-sm font-bold tracking-widest mb-auto hover:opacity-70 transition-opacity duration-200 cursor-pointer" style="writing-mode:vertical-rl;transform:rotate(180deg)">HA</a>
+
+  <!-- Nav links -->
+  <div class="flex flex-col items-center gap-7 mb-6">
+    <a routerLink="/"
+       routerLinkActive="is-active"
+       [routerLinkActiveOptions]="{exact:true}"
+       class="nav-link group relative flex flex-col items-center gap-1.5 cursor-pointer"
+       aria-label="Home"
+       style="writing-mode:vertical-rl;transform:rotate(180deg)">
+      <span class="text-[10px] tracking-[0.18em] uppercase transition-colors duration-200 group-[.is-active]:text-[#22c55e] text-[#475569] group-hover:text-[#F8FAFC]">Home</span>
+    </a>
+    <a routerLink="/work"
+       routerLinkActive="is-active"
+       class="nav-link group relative flex flex-col items-center gap-1.5 cursor-pointer"
+       aria-label="Work"
+       style="writing-mode:vertical-rl;transform:rotate(180deg)">
+      <span class="text-[10px] tracking-[0.18em] uppercase transition-colors duration-200 group-[.is-active]:text-[#22c55e] text-[#475569] group-hover:text-[#F8FAFC]">Work</span>
+    </a>
+    <a routerLink="/contact"
+       routerLinkActive="is-active"
+       class="nav-link group relative flex flex-col items-center gap-1.5 cursor-pointer"
+       aria-label="Contact"
+       style="writing-mode:vertical-rl;transform:rotate(180deg)">
+      <span class="text-[10px] tracking-[0.18em] uppercase transition-colors duration-200 group-[.is-active]:text-[#22c55e] text-[#475569] group-hover:text-[#F8FAFC]">Contact</span>
+    </a>
   </div>
+
+  <!-- Active indicator dot -->
+  <div class="w-1 h-1 rounded-full bg-[#22c55e] mb-2 opacity-60"></div>
 </nav>

@@ -1,10 +1,20 @@
-<section class="px-12 py-16">
-  <h1 class="text-white font-extrabold mb-12" style="font-size:clamp(2rem,4vw,3rem)">Work</h1>
-  <div class="grid grid-cols-2 gap-6">
+<section class="px-10 md:px-16 py-16">
+  <!-- Header -->
+  <div class="mb-14">
+    <p class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase mb-3">Portfolio</p>
+    <h1 class="font-bold text-[#F8FAFC] leading-none tracking-tight"
+        style="font-size: clamp(2rem, 5vw, 3.5rem)">Selected Work</h1>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
     @for (study of studies$ | async; track study.id) {
       <app-case-study-card [study]="study" />
     } @empty {
-      <p class="text-[#555] col-span-2 font-mono text-sm">No case studies yet.</p>
+      <div class="col-span-2 flex flex-col items-start gap-2 py-16">
+        <p class="text-[#475569] font-mono text-sm">No case studies published yet.</p>
+        <p class="text-[#334155] font-mono text-xs">Check back soon.</p>
+      </div>
     }
   </div>
 </section>

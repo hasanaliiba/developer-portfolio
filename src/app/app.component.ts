@@ -7,9 +7,9 @@ import { SidebarNavComponent } from './shared/components/sidebar-nav/sidebar-nav
   standalone: true,
   imports: [RouterOutlet, SidebarNavComponent],
   template: `
-    <div class="flex min-h-screen bg-black">
+    <div class="flex min-h-dvh bg-[#0F172A]">
       <app-sidebar-nav />
-      <main class="flex-1 ml-14 min-h-screen">
+      <main class="flex-1 ml-14 min-h-dvh">
         <router-outlet />
       </main>
     </div>

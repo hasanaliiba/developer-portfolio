@@ -1,42 +1,115 @@
-<form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-2 gap-5">
-  <div class="col-span-2 md:col-span-1">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Title *</label>
-    <input formControlName="title" type="text" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="Project Name" />
-  </div>
-  <div class="col-span-2 md:col-span-1">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Slug *</label>
-    <input formControlName="slug" type="text" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors font-mono" placeholder="project-name" />
-  </div>
-  <div class="col-span-2">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Banner URL *</label>
-    <input formControlName="bannerUrl" type="url" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="https://example.com/image.jpg" />
-  </div>
-  <div class="col-span-2">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Tags * <span class="text-[#333] normal-case">(comma-separated)</span></label>
-    <input formControlName="tags" type="text" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="Angular, TypeScript, Web App" />
-  </div>
-  <div class="col-span-2">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Problem *</label>
-    <textarea formControlName="problem" rows="3" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="What challenge existed before this project?"></textarea>
-  </div>
-  <div class="col-span-2">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Solution *</label>
-    <textarea formControlName="solution" rows="3" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="How did you approach and solve it?"></textarea>
-  </div>
-  <div class="col-span-2">
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Result *</label>
-    <textarea formControlName="result" rows="3" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="What was the measurable outcome or impact?"></textarea>
-  </div>
+<form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <!-- Title -->
   <div>
-    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Display Order</label>
-    <input formControlName="order" type="number" min="0" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" />
+    <label for="title" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Title <span class="text-[#22c55e]" aria-label="required">*</span>
+    </label>
+    <input id="title"
+           formControlName="title"
+           type="text"
+           class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 placeholder:text-[#334155]"
+           placeholder="Project Name" />
+  </div>
+
+  <!-- Slug -->
+  <div>
+    <label for="slug" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Slug <span class="text-[#22c55e]" aria-label="required">*</span>
+    </label>
+    <input id="slug"
+           formControlName="slug"
+           type="text"
+           class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 font-mono placeholder:text-[#334155]"
+           placeholder="project-name" />
+  </div>
+
+  <!-- Banner URL -->
+  <div class="md:col-span-2">
+    <label for="bannerUrl" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Banner URL <span class="text-[#22c55e]" aria-label="required">*</span>
+    </label>
+    <input id="bannerUrl"
+           formControlName="bannerUrl"
+           type="url"
+           class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 placeholder:text-[#334155]"
+           placeholder="https://example.com/image.jpg" />
+  </div>
+
+  <!-- Tags -->
+  <div class="md:col-span-2">
+    <label for="tags" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Tags <span class="text-[#22c55e]" aria-label="required">*</span>
+      <span class="text-[#334155] normal-case ml-2 text-[10px]">(comma-separated)</span>
+    </label>
+    <input id="tags"
+           formControlName="tags"
+           type="text"
+           class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 placeholder:text-[#334155]"
+           placeholder="Angular, TypeScript, Web App" />
+  </div>
+
+  <!-- Problem -->
+  <div class="md:col-span-2">
+    <label for="problem" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Problem <span class="text-[#22c55e]" aria-label="required">*</span>
+    </label>
+    <textarea id="problem"
+              formControlName="problem"
+              rows="3"
+              class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 resize-none placeholder:text-[#334155]"
+              placeholder="What challenge existed before this project?"></textarea>
+  </div>
+
+  <!-- Solution -->
+  <div class="md:col-span-2">
+    <label for="solution" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Solution <span class="text-[#22c55e]" aria-label="required">*</span>
+    </label>
+    <textarea id="solution"
+              formControlName="solution"
+              rows="3"
+              class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 resize-none placeholder:text-[#334155]"
+              placeholder="How did you approach and solve it?"></textarea>
+  </div>
+
+  <!-- Result -->
+  <div class="md:col-span-2">
+    <label for="result" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">
+      Result <span class="text-[#22c55e]" aria-label="required">*</span>
+    </label>
+    <textarea id="result"
+              formControlName="result"
+              rows="3"
+              class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200 resize-none placeholder:text-[#334155]"
+              placeholder="What was the measurable outcome or impact?"></textarea>
+  </div>
+
+  <!-- Order + Visible -->
+  <div>
+    <label for="order" class="text-[#64748B] text-[10px] tracking-[0.2em] uppercase font-mono block mb-2">Display Order</label>
+    <input id="order"
+           formControlName="order"
+           type="number"
+           min="0"
+           class="w-full bg-[#0a0f1e] border border-[#1E293B] text-[#F8FAFC] px-4 py-2.5 rounded-md text-sm focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e] transition-colors duration-200" />
   </div>
   <div class="flex items-center gap-3 pt-6">
-    <input formControlName="visible" type="checkbox" id="visible" class="accent-[#22c55e] w-4 h-4" />
-    <label for="visible" class="text-[#888] text-sm">Visible to public</label>
+    <input formControlName="visible"
+           type="checkbox"
+           id="visible"
+           class="accent-[#22c55e] w-4 h-4 cursor-pointer" />
+    <label for="visible" class="text-[#94A3B8] text-sm cursor-pointer select-none">Visible to public</label>
   </div>
-  <div class="col-span-2 flex gap-3 pt-2">
-    <button type="submit" [disabled]="form.invalid" class="bg-[#22c55e] text-black font-bold text-sm px-6 py-2.5 rounded-sm hover:bg-[#16a34a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed">{{ study() ? 'Save Changes' : 'Add Case Study' }}</button>
-    <button type="button" (click)="cancel()" class="border border-[#333] text-[#555] text-sm px-6 py-2.5 rounded-sm hover:border-[#555] transition-colors">Cancel</button>
+
+  <!-- Actions -->
+  <div class="md:col-span-2 flex gap-3 pt-2">
+    <button type="submit"
+            [disabled]="form.invalid"
+            class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-6 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#0d1627]">
+      {{ study() ? 'Save Changes' : 'Add Case Study' }}
+    </button>
+    <button type="button"
+            (click)="cancel()"
+            class="border border-[#1E293B] text-[#64748B] text-sm px-6 py-2.5 rounded hover:border-[#334155] hover:text-[#94A3B8] transition-colors duration-200 cursor-pointer">Cancel</button>
   </div>
 </form>
