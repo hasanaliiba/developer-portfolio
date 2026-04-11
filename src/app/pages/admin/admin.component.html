@@ -1,66 +1,61 @@
 <section class="px-10 md:px-16 py-16">
-  <!-- Header -->
   <div class="flex items-center justify-between mb-12 gap-4 flex-wrap">
     <div>
       <p class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase mb-1">Dashboard</p>
-      <h1 class="text-[#F8FAFC] font-bold text-2xl">Admin Portal</h1>
+      <h1 class="text-[var(--c-fg)] font-bold text-2xl">Admin Portal</h1>
     </div>
     <div class="flex gap-3">
       <button (click)="showAddForm.set(true); editingStudy.set(null)"
-              class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#0F172A]">
+              class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
           <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
         </svg>
         Add Case Study
       </button>
       <button (click)="signOut()"
-              class="border border-[#1E293B] text-[#64748B] text-sm px-5 py-2.5 rounded hover:border-[#475569] hover:text-[#94A3B8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#475569] focus:ring-offset-2 focus:ring-offset-[#0F172A]">
+              class="border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-5 py-2.5 rounded hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--c-border2)] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         Sign Out
       </button>
     </div>
   </div>
 
-  <!-- Add/Edit form panel -->
   @if (showAddForm() || editingStudy()) {
-    <div class="mb-10 bg-[#0d1627] border border-[#1E293B] rounded-lg p-8">
-      <h2 class="text-[#F8FAFC] font-semibold mb-6">{{ editingStudy() ? 'Edit Case Study' : 'New Case Study' }}</h2>
+    <div class="mb-10 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-lg p-8">
+      <h2 class="text-[var(--c-fg)] font-semibold mb-6">{{ editingStudy() ? 'Edit Case Study' : 'New Case Study' }}</h2>
       <app-case-study-form [study]="editingStudy()" (saved)="onFormSaved()" (cancelled)="onFormSaved()" />
     </div>
   }
 
-  <!-- Case studies list -->
   <div class="flex flex-col gap-3">
     @for (study of studies$ | async; track study.id) {
-      <div class="bg-[#0d1627] border border-[#1E293B] rounded-lg p-4 flex items-center gap-4 hover:border-[#334155] transition-colors duration-200">
-        <img [src]="study.bannerUrl"
-             [alt]="study.title"
-             loading="lazy"
+      <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-lg p-4 flex items-center gap-4 hover:border-[var(--c-border2)] transition-colors duration-200">
+        <img [src]="study.bannerUrl" [alt]="study.title" loading="lazy"
              class="w-16 h-11 object-cover rounded flex-shrink-0 opacity-70" />
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2.5 mb-1">
-            <p class="text-[#F8FAFC] font-medium text-sm truncate">{{ study.title }}</p>
+            <p class="text-[var(--c-fg)] font-medium text-sm truncate">{{ study.title }}</p>
             <span class="text-[10px] font-mono px-2 py-0.5 rounded-full flex-shrink-0 tracking-wider"
-                  [class]="study.visible ? 'bg-[#0d1f0d] text-[#22c55e]' : 'bg-[#1E293B] text-[#475569]'">
+                  [class]="study.visible
+                    ? 'bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)]'
+                    : 'bg-[var(--c-surface2)] text-[var(--c-fg-subtle)]'">
               {{ study.visible ? 'visible' : 'hidden' }}
             </span>
           </div>
-          <p class="text-[#475569] text-xs font-mono">Order: {{ study.order }} &middot; {{ study.tags.join(', ') }}</p>
+          <p class="text-[var(--c-fg-subtle)] text-xs font-mono">Order: {{ study.order }} &middot; {{ study.tags.join(', ') }}</p>
         </div>
         <div class="flex gap-2 flex-shrink-0">
           <button (click)="editStudy(study)"
-                  class="text-[#64748B] hover:text-[#F8FAFC] text-xs px-3 py-2 border border-[#1E293B] rounded hover:border-[#334155] transition-colors duration-200 cursor-pointer">Edit</button>
-          <button data-testid="toggle-visibility"
-                  (click)="toggleVisibility(study)"
-                  class="text-[#64748B] hover:text-[#22c55e] text-xs px-3 py-2 border border-[#1E293B] rounded hover:border-[#22c55e] transition-colors duration-200 cursor-pointer">{{ study.visible ? 'Hide' : 'Show' }}</button>
-          <button data-testid="delete"
-                  (click)="delete(study)"
-                  class="text-[#64748B] hover:text-red-400 text-xs px-3 py-2 border border-[#1E293B] rounded hover:border-red-500/50 transition-colors duration-200 cursor-pointer">Delete</button>
+                  class="text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] text-xs px-3 py-2 border border-[var(--c-border)] rounded hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer">Edit</button>
+          <button data-testid="toggle-visibility" (click)="toggleVisibility(study)"
+                  class="text-[var(--c-fg-muted)] hover:text-[#22c55e] text-xs px-3 py-2 border border-[var(--c-border)] rounded hover:border-[#22c55e] transition-colors duration-200 cursor-pointer">{{ study.visible ? 'Hide' : 'Show' }}</button>
+          <button data-testid="delete" (click)="delete(study)"
+                  class="text-[var(--c-fg-muted)] hover:text-red-500 text-xs px-3 py-2 border border-[var(--c-border)] rounded hover:border-red-500/50 transition-colors duration-200 cursor-pointer">Delete</button>
         </div>
       </div>
     } @empty {
-      <div class="py-12 text-center border border-dashed border-[#1E293B] rounded-lg">
-        <p class="text-[#475569] font-mono text-sm">No case studies yet.</p>
-        <p class="text-[#334155] font-mono text-xs mt-1">Click "Add Case Study" to get started.</p>
+      <div class="py-12 text-center border border-dashed border-[var(--c-border)] rounded-lg">
+        <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies yet.</p>
+        <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-1">Click "Add Case Study" to get started.</p>
       </div>
     }
   </div>

@@ -2,19 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-*, *::before, *::after { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
+/* ─── Theme tokens ──────────────────────────────── */
+:root {
+  --c-bg:        #F8FAFC;
+  --c-surface:   #FFFFFF;
+  --c-surface2:  #F1F5F9;
+  --c-sidebar:   #F1F5F9;
+  --c-border:    #E2E8F0;
+  --c-border2:   #CBD5E1;
+  --c-fg:        #0F172A;
+  --c-fg-muted:  #475569;
+  --c-fg-subtle: #94A3B8;
+  --c-tag-bg:    #dcfce7;
+  --c-tag-fg:    #15803d;
+  --c-input:     #F1F5F9;
+  --c-ring-off:  #F8FAFC;
 }
 
+.dark {
+  --c-bg:        #0F172A;
+  --c-surface:   #0d1627;
+  --c-surface2:  #1E293B;
+  --c-sidebar:   #0a0f1e;
+  --c-border:    #1E293B;
+  --c-border2:   #334155;
+  --c-fg:        #F8FAFC;
+  --c-fg-muted:  #94A3B8;
+  --c-fg-subtle: #475569;
+  --c-tag-bg:    #0d1f0d;
+  --c-tag-fg:    #22c55e;
+  --c-input:     #0a0f1e;
+  --c-ring-off:  #0F172A;
+}
+
+/* ─── Base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
-  background-color: #0F172A;
-  color: #F8FAFC;
+  background-color: var(--c-bg);
+  color: var(--c-fg);
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -25,8 +58,31 @@ body {
   }
 }
 
-/* Scrollbar */
+/* ─── Scrollbar ─────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0F172A; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #475569; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb { background: var(--c-border2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-fg-subtle); }
+
+/* ─── Print (Resume page) ───────────────────────── */
+@media print {
+  app-sidebar-nav,
+  [data-no-print] { display: none !important; }
+
+  main {
+    margin-left: 0 !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+  }
+
+  a { color: inherit !important; text-decoration: none !important; }
+
+  @page {
+    margin: 18mm 20mm;
+    size: A4;
+  }
+}

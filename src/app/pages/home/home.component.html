@@ -4,51 +4,51 @@
   <div class="absolute inset-0 pointer-events-none opacity-[0.04]"
        style="background-image: linear-gradient(#22c55e 1px, transparent 1px), linear-gradient(90deg, #22c55e 1px, transparent 1px); background-size: 64px 64px;"></div>
 
-  <!-- Green glow blob -->
+  <!-- Green glow -->
   <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full pointer-events-none"
        style="background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);"></div>
 
   <div class="relative z-10 max-w-2xl">
-    <!-- Role badge -->
+    <!-- Available badge -->
     <div class="inline-flex items-center gap-2 mb-8">
       <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse"></span>
       <span class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase">Available for work</span>
     </div>
 
     <!-- Name -->
-    <p class="text-[#475569] text-sm tracking-[0.2em] uppercase font-mono mb-3">Hasan Ali</p>
+    <p class="text-[var(--c-fg-muted)] text-sm tracking-[0.2em] uppercase font-mono mb-3">Hasan Ali</p>
 
     <!-- Headline -->
-    <h1 class="font-bold leading-[1.08] tracking-tight mb-6 text-[#F8FAFC]"
+    <h1 class="font-bold leading-[1.08] tracking-tight mb-6 text-[var(--c-fg)]"
         style="font-size: clamp(2.8rem, 7vw, 5.5rem)">
       Front End<br/>
       <span class="text-[#22c55e]">Developer</span>
     </h1>
 
     <!-- Typewriter -->
-    <p class="font-mono text-[#475569] text-sm md:text-base mb-12 min-h-[1.5rem]">
+    <p class="font-mono text-[var(--c-fg-muted)] text-sm md:text-base mb-12 min-h-[1.5rem]">
       <app-typewriter text="Building performant, beautiful web interfaces." />
     </p>
 
     <!-- CTAs -->
     <div class="flex flex-wrap gap-4 items-center">
       <a routerLink="/work"
-         class="inline-flex items-center gap-2 bg-[#22c55e] text-black text-sm font-semibold px-7 py-3.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#0F172A]">
+         class="inline-flex items-center gap-2 bg-[#22c55e] text-black text-sm font-semibold px-7 py-3.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         View Work
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
           <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
         </svg>
       </a>
       <a routerLink="/contact"
-         class="inline-flex items-center gap-2 border border-[#334155] text-[#94A3B8] text-sm font-medium px-7 py-3.5 rounded hover:border-[#22c55e] hover:text-[#22c55e] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#0F172A]">
+         class="inline-flex items-center gap-2 border border-[var(--c-border2)] text-[var(--c-fg-muted)] text-sm font-medium px-7 py-3.5 rounded hover:border-[#22c55e] hover:text-[#22c55e] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         Contact
       </a>
     </div>
 
-    <!-- Stack pills -->
+    <!-- Tech stack pills -->
     <div class="flex flex-wrap gap-2 mt-14">
       @for (tech of ['Angular', 'TypeScript', 'Laravel', 'Tailwind CSS', 'Firebase']; track tech) {
-        <span class="font-mono text-[10px] tracking-widest uppercase text-[#475569] border border-[#1E293B] px-2.5 py-1 rounded-sm">{{ tech }}</span>
+        <span class="font-mono text-[10px] tracking-widest uppercase text-[var(--c-fg-subtle)] border border-[var(--c-border)] px-2.5 py-1 rounded-sm">{{ tech }}</span>
       }
     </div>
   </div>
