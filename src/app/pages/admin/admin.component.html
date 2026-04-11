@@ -1,0 +1,36 @@
+<section class="px-12 py-16">
+  <div class="flex items-center justify-between mb-12">
+    <h1 class="text-white font-extrabold text-3xl">Admin Portal</h1>
+    <div class="flex gap-4">
+      <button (click)="showAddForm.set(true); editingStudy.set(null)" class="bg-[#22c55e] text-black font-bold text-sm px-5 py-2.5 rounded-sm hover:bg-[#16a34a] transition-colors">+ Add Case Study</button>
+      <button (click)="signOut()" class="border border-[#333] text-[#555] text-sm px-5 py-2.5 rounded-sm hover:border-[#22c55e] hover:text-[#22c55e] transition-colors">Sign Out</button>
+    </div>
+  </div>
+  @if (showAddForm() || editingStudy()) {
+    <div class="mb-12 bg-[#0f0f0f] border border-[#1a1a1a] rounded-sm p-8">
+      <h2 class="text-white font-semibold mb-6">{{ editingStudy() ? 'Edit Case Study' : 'New Case Study' }}</h2>
+      <app-case-study-form [study]="editingStudy()" (saved)="onFormSaved()" (cancelled)="onFormSaved()" />
+    </div>
+  }
+  <div class="flex flex-col gap-3">
+    @for (study of studies$ | async; track study.id) {
+      <div class="bg-[#0f0f0f] border border-[#1a1a1a] rounded-sm p-5 flex items-center gap-5">
+        <img [src]="study.bannerUrl" [alt]="study.title" class="w-16 h-12 object-cover rounded-sm flex-shrink-0 opacity-70" />
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3 mb-1">
+            <p class="text-white font-semibold truncate">{{ study.title }}</p>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm flex-shrink-0" [class]="study.visible ? 'bg-[#0d1f0d] text-[#22c55e]' : 'bg-[#1a1a1a] text-[#555]'">{{ study.visible ? 'visible' : 'hidden' }}</span>
+          </div>
+          <p class="text-[#555] text-xs font-mono">Order: {{ study.order }} · {{ study.tags.join(', ') }}</p>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button (click)="editStudy(study)" class="text-[#555] hover:text-white text-xs px-3 py-2 border border-[#2a2a2a] rounded-sm hover:border-[#555] transition-colors">Edit</button>
+          <button data-testid="toggle-visibility" (click)="toggleVisibility(study)" class="text-[#555] hover:text-[#22c55e] text-xs px-3 py-2 border border-[#2a2a2a] rounded-sm hover:border-[#22c55e] transition-colors">{{ study.visible ? 'Hide' : 'Show' }}</button>
+          <button data-testid="delete" (click)="delete(study)" class="text-[#555] hover:text-red-500 text-xs px-3 py-2 border border-[#2a2a2a] rounded-sm hover:border-red-500 transition-colors">Delete</button>
+        </div>
+      </div>
+    } @empty {
+      <p class="text-[#555] font-mono text-sm">No case studies yet. Add one above.</p>
+    }
+  </div>
+</section>

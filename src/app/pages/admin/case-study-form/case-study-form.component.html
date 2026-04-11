@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-2 gap-5">
+  <div class="col-span-2 md:col-span-1">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Title *</label>
+    <input formControlName="title" type="text" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="Project Name" />
+  </div>
+  <div class="col-span-2 md:col-span-1">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Slug *</label>
+    <input formControlName="slug" type="text" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors font-mono" placeholder="project-name" />
+  </div>
+  <div class="col-span-2">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Banner URL *</label>
+    <input formControlName="bannerUrl" type="url" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="https://example.com/image.jpg" />
+  </div>
+  <div class="col-span-2">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Tags * <span class="text-[#333] normal-case">(comma-separated)</span></label>
+    <input formControlName="tags" type="text" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" placeholder="Angular, TypeScript, Web App" />
+  </div>
+  <div class="col-span-2">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Problem *</label>
+    <textarea formControlName="problem" rows="3" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="What challenge existed before this project?"></textarea>
+  </div>
+  <div class="col-span-2">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Solution *</label>
+    <textarea formControlName="solution" rows="3" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="How did you approach and solve it?"></textarea>
+  </div>
+  <div class="col-span-2">
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Result *</label>
+    <textarea formControlName="result" rows="3" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors resize-none" placeholder="What was the measurable outcome or impact?"></textarea>
+  </div>
+  <div>
+    <label class="text-[#555] text-xs tracking-widest uppercase font-mono block mb-2">Display Order</label>
+    <input formControlName="order" type="number" min="0" class="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white px-4 py-2.5 rounded-sm text-sm focus:border-[#22c55e] focus:outline-none transition-colors" />
+  </div>
+  <div class="flex items-center gap-3 pt-6">
+    <input formControlName="visible" type="checkbox" id="visible" class="accent-[#22c55e] w-4 h-4" />
+    <label for="visible" class="text-[#888] text-sm">Visible to public</label>
+  </div>
+  <div class="col-span-2 flex gap-3 pt-2">
+    <button type="submit" [disabled]="form.invalid" class="bg-[#22c55e] text-black font-bold text-sm px-6 py-2.5 rounded-sm hover:bg-[#16a34a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed">{{ study() ? 'Save Changes' : 'Add Case Study' }}</button>
+    <button type="button" (click)="cancel()" class="border border-[#333] text-[#555] text-sm px-6 py-2.5 rounded-sm hover:border-[#555] transition-colors">Cancel</button>
+  </div>
+</form>
