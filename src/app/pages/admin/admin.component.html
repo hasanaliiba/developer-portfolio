@@ -1,4 +1,4 @@
-<section class="px-10 md:px-16 py-16">
+<section class="max-w-6xl mx-auto px-6 md:px-10 py-16">
   <div class="flex items-center justify-between mb-12 gap-4 flex-wrap">
     <div>
       <p class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase mb-1">Dashboard</p>
@@ -6,21 +6,21 @@
     </div>
     <div class="flex gap-3">
       <button (click)="showAddForm.set(true); editingStudy.set(null)"
-              class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+              class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
           <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
         </svg>
         Add Case Study
       </button>
       <button (click)="signOut()"
-              class="border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-5 py-2.5 rounded hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--c-border2)] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+              class="border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-5 py-2.5 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--c-border2)] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         Sign Out
       </button>
     </div>
   </div>
 
   @if (showAddForm() || editingStudy()) {
-    <div class="mb-10 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-lg p-8">
+    <div class="mb-10 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-8 shadow-sm">
       <h2 class="text-[var(--c-fg)] font-semibold mb-6">{{ editingStudy() ? 'Edit Case Study' : 'New Case Study' }}</h2>
       <app-case-study-form [study]="editingStudy()" (saved)="onFormSaved()" (cancelled)="onFormSaved()" />
     </div>
@@ -28,16 +28,16 @@
 
   <div class="flex flex-col gap-3">
     @for (study of studies$ | async; track study.id) {
-      <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-lg p-4 flex items-center gap-4 hover:border-[var(--c-border2)] transition-colors duration-200">
+      <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-4 flex items-center gap-4 hover:border-[var(--c-border2)] transition-colors duration-200 shadow-sm">
         <img [src]="study.bannerUrl" [alt]="study.title" loading="lazy"
-             class="w-16 h-11 object-cover rounded flex-shrink-0 opacity-70" />
+             class="w-16 h-11 object-cover rounded-lg flex-shrink-0 opacity-80" />
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2.5 mb-1">
             <p class="text-[var(--c-fg)] font-medium text-sm truncate">{{ study.title }}</p>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full flex-shrink-0 tracking-wider"
+            <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full flex-shrink-0 tracking-wider border"
                   [class]="study.visible
-                    ? 'bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)]'
-                    : 'bg-[var(--c-surface2)] text-[var(--c-fg-subtle)]'">
+                    ? 'bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] border-transparent'
+                    : 'bg-[var(--c-surface2)] text-[var(--c-fg-subtle)] border-[var(--c-border)]'">
               {{ study.visible ? 'visible' : 'hidden' }}
             </span>
           </div>
@@ -45,15 +45,15 @@
         </div>
         <div class="flex gap-2 flex-shrink-0">
           <button (click)="editStudy(study)"
-                  class="text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] text-xs px-3 py-2 border border-[var(--c-border)] rounded hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer">Edit</button>
+                  class="text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer">Edit</button>
           <button data-testid="toggle-visibility" (click)="toggleVisibility(study)"
-                  class="text-[var(--c-fg-muted)] hover:text-[#22c55e] text-xs px-3 py-2 border border-[var(--c-border)] rounded hover:border-[#22c55e] transition-colors duration-200 cursor-pointer">{{ study.visible ? 'Hide' : 'Show' }}</button>
+                  class="text-[var(--c-fg-muted)] hover:text-[#22c55e] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[#22c55e]/50 transition-colors duration-200 cursor-pointer">{{ study.visible ? 'Hide' : 'Show' }}</button>
           <button data-testid="delete" (click)="delete(study)"
-                  class="text-[var(--c-fg-muted)] hover:text-red-500 text-xs px-3 py-2 border border-[var(--c-border)] rounded hover:border-red-500/50 transition-colors duration-200 cursor-pointer">Delete</button>
+                  class="text-[var(--c-fg-muted)] hover:text-red-500 text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-red-400/50 transition-colors duration-200 cursor-pointer">Delete</button>
         </div>
       </div>
     } @empty {
-      <div class="py-12 text-center border border-dashed border-[var(--c-border)] rounded-lg">
+      <div class="py-16 text-center border border-dashed border-[var(--c-border)] rounded-2xl">
         <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies yet.</p>
         <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-1">Click "Add Case Study" to get started.</p>
       </div>

@@ -1,148 +1,40 @@
-<!-- Controls bar — hidden when printing -->
-<div class="sticky top-0 z-10 bg-[var(--c-bg)] border-b border-[var(--c-border)] px-10 md:px-16 py-4 flex items-center justify-between transition-colors duration-200" data-no-print>
-  <a routerLink="/"
-     class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 cursor-pointer group">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
-      <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
-    </svg>
-    Back
-  </a>
-  <button (click)="downloadPdf()"
-          class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
-      <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"/>
-      <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"/>
-    </svg>
-    Download PDF
-  </button>
+<div class="flex flex-col" style="height:calc(100dvh - 4rem)">
+
+  <!-- Controls bar -->
+  <div class="flex-shrink-0 bg-[var(--c-bg)] border-b border-[var(--c-border)] px-10 md:px-16 py-4 flex items-center justify-between transition-colors duration-200" data-no-print>
+    <a routerLink="/"
+       class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 cursor-pointer group">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
+        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+      </svg>
+      Back
+    </a>
+
+    <button (click)="downloadPdf()"
+            class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+        <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"/>
+        <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"/>
+      </svg>
+      Download PDF
+    </button>
+  </div>
+
+  <!-- PDF viewer -->
+  <div class="flex-1 bg-[var(--c-surface2)] overflow-hidden">
+    <iframe [src]="pdfUrl"
+            title="Hasan Ali — Resume"
+            class="w-full h-full border-0"
+            aria-label="Resume PDF viewer">
+      <!-- Fallback for browsers that can't render PDFs inline -->
+      <div class="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
+        <p class="text-[var(--c-fg-muted)] font-mono text-sm">Your browser cannot display the PDF inline.</p>
+        <button (click)="downloadPdf()"
+                class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer">
+          Download PDF instead
+        </button>
+      </div>
+    </iframe>
+  </div>
+
 </div>
-
-<!-- Resume document -->
-<article class="px-10 md:px-16 py-12 max-w-3xl mx-auto print:px-0 print:py-0 print:max-w-none">
-
-  <!-- Header -->
-  <header class="mb-10 pb-8 border-b border-[var(--c-border)]">
-    <h1 class="text-[var(--c-fg)] font-bold text-4xl tracking-tight mb-1 print:text-black">Hasan Ali</h1>
-    <p class="text-[#22c55e] font-semibold text-lg mb-4 print:text-[#15803d]">Front End Developer</p>
-    <div class="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-[var(--c-fg-muted)] font-mono print:text-gray-700">
-      <a href="mailto:hasanaliiba@gmail.com" class="hover:text-[#22c55e] transition-colors duration-200">hasanaliiba&#64;gmail.com</a>
-      <a href="https://github.com/hasanaliiba" target="_blank" rel="noopener noreferrer" class="hover:text-[#22c55e] transition-colors duration-200">github.com/hasanaliiba</a>
-      <a href="https://linkedin.com/in/hasanaliiba" target="_blank" rel="noopener noreferrer" class="hover:text-[#22c55e] transition-colors duration-200">linkedin.com/in/hasanaliiba</a>
-    </div>
-  </header>
-
-  <!-- Summary -->
-  <section class="mb-8">
-    <h2 class="resume-section-title">Summary</h2>
-    <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] print:text-gray-700">
-      Front End Developer with hands-on experience building production-grade web applications using
-      Angular and Laravel. Focused on delivering clean, maintainable code and pixel-perfect interfaces
-      that scale. Experienced working with Firebase, RESTful APIs, and modern CSS tooling including
-      Tailwind CSS.
-    </p>
-  </section>
-
-  <!-- Skills -->
-  <section class="mb-8">
-    <h2 class="resume-section-title">Skills</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div>
-        <p class="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--c-fg-subtle)] mb-2">Front End</p>
-        <div class="flex flex-wrap gap-1.5">
-          @for (skill of ['Angular', 'TypeScript', 'RxJS', 'Tailwind CSS', 'HTML5', 'CSS3', 'SCSS']; track skill) {
-            <span class="bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] text-[11px] px-2.5 py-1 rounded font-mono print:border print:border-gray-300 print:bg-gray-50 print:text-gray-800">{{ skill }}</span>
-          }
-        </div>
-      </div>
-      <div>
-        <p class="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--c-fg-subtle)] mb-2">Back End & Tools</p>
-        <div class="flex flex-wrap gap-1.5">
-          @for (skill of ['Laravel', 'PHP', 'Firebase', 'REST APIs', 'Git', 'GitHub Actions']; track skill) {
-            <span class="bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] text-[11px] px-2.5 py-1 rounded font-mono print:border print:border-gray-300 print:bg-gray-50 print:text-gray-800">{{ skill }}</span>
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Experience -->
-  <section class="mb-8">
-    <h2 class="resume-section-title">Experience</h2>
-    <div class="flex flex-col gap-7">
-
-      <!-- Job 1 — update with your real content -->
-      <div>
-        <div class="flex flex-wrap items-start justify-between gap-2 mb-1.5">
-          <div>
-            <p class="text-[var(--c-fg)] font-semibold print:text-black">Front End Developer</p>
-            <p class="text-[#22c55e] text-sm font-mono print:text-[#15803d]">Company Name</p>
-          </div>
-          <span class="text-[var(--c-fg-muted)] text-sm font-mono print:text-gray-600">2023 — Present</span>
-        </div>
-        <ul class="list-none space-y-1.5 text-[var(--c-fg-muted)] text-[15px] leading-relaxed print:text-gray-700">
-          <li class="flex gap-2"><span class="text-[#22c55e] mt-1.5 flex-shrink-0 print:text-[#15803d]">▸</span><span>Built and maintained Angular applications with a focus on performance and accessibility.</span></li>
-          <li class="flex gap-2"><span class="text-[#22c55e] mt-1.5 flex-shrink-0 print:text-[#15803d]">▸</span><span>Collaborated with designers to implement pixel-perfect, responsive UI components.</span></li>
-          <li class="flex gap-2"><span class="text-[#22c55e] mt-1.5 flex-shrink-0 print:text-[#15803d]">▸</span><span>Integrated Firebase for real-time data and authentication workflows.</span></li>
-        </ul>
-      </div>
-
-      <!-- Add more experience blocks as needed -->
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section class="mb-8">
-    <h2 class="resume-section-title">Projects</h2>
-    <div class="flex flex-col gap-5">
-      <div>
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
-          <p class="text-[var(--c-fg)] font-semibold print:text-black">Developer Portfolio</p>
-          <a href="https://hasanaliiba.github.io/developer-portfolio"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="text-[var(--c-fg-muted)] text-xs font-mono hover:text-[#22c55e] transition-colors duration-200 print:text-gray-600">
-            hasanaliiba.github.io/developer-portfolio
-          </a>
-        </div>
-        <p class="text-[var(--c-fg-muted)] text-[15px] leading-relaxed print:text-gray-700">
-          Personal portfolio built with Angular 17, Tailwind CSS, and Firebase. Features an admin portal
-          for managing case studies, Google authentication restricted to a single UID, and CI/CD via
-          GitHub Actions to GitHub Pages.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Education -->
-  <section class="mb-8">
-    <h2 class="resume-section-title">Education</h2>
-    <div class="flex flex-wrap items-start justify-between gap-2">
-      <div>
-        <p class="text-[var(--c-fg)] font-semibold print:text-black">Your Degree / Qualification</p>
-        <p class="text-[#22c55e] text-sm font-mono print:text-[#15803d]">Institution Name</p>
-      </div>
-      <span class="text-[var(--c-fg-muted)] text-sm font-mono print:text-gray-600">Year — Year</span>
-    </div>
-  </section>
-
-</article>
-
-<style>
-  .resume-section-title {
-    font-size: 0.625rem;
-    font-family: 'Fira Code', monospace;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--c-fg-subtle);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--c-border);
-  }
-
-  @media print {
-    .resume-section-title {
-      color: #6b7280;
-      border-bottom-color: #e5e7eb;
-    }
-  }
-</style>

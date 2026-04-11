@@ -6,15 +6,20 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-login',
   standalone: true,
   template: `
-    <div class="min-h-dvh flex items-center justify-center bg-[var(--c-bg)] px-12">
-      <div class="text-center">
-        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[var(--c-tag-bg)] mb-6">
+    <div class="min-h-dvh flex items-center justify-center bg-[var(--c-bg)] px-12 relative overflow-hidden">
+      <!-- blobs -->
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full" style="background:radial-gradient(circle,var(--c-blob-1) 0%,transparent 70%);filter:blur(48px)"></div>
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full" style="background:radial-gradient(circle,var(--c-blob-2) 0%,transparent 70%);filter:blur(64px)"></div>
+      </div>
+      <div class="relative text-center">
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[var(--c-tag-bg)] border border-[var(--c-border)] mb-6 shadow-sm">
           <span class="font-mono text-[var(--c-tag-fg)] font-bold text-sm">HA</span>
         </span>
         <p class="text-[var(--c-fg-subtle)] text-xs tracking-[0.25em] uppercase font-mono mb-3">Portfolio</p>
         <h1 class="text-[var(--c-fg)] text-2xl font-bold mb-10">Admin Portal</h1>
         <button (click)="signIn()"
-                class="inline-flex items-center gap-3 bg-[#22c55e] text-black font-semibold text-sm px-8 py-3.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+                class="inline-flex items-center gap-3 bg-[#22c55e] text-black font-semibold text-sm px-8 py-3.5 rounded-xl hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)] shadow-lg shadow-green-500/25">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>

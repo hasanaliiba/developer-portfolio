@@ -1,43 +1,221 @@
-<section class="px-10 md:px-16 py-16 max-w-3xl">
-  <a routerLink="/work"
-     class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 mb-12 cursor-pointer group">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
-      <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
-    </svg>
-    Back to Work
-  </a>
+@if (study(); as s) {
 
-  @if (study(); as s) {
-    <div class="w-full aspect-[21/9] rounded-lg overflow-hidden mb-10 bg-[var(--c-surface2)]">
-      <img [src]="s.bannerUrl" [alt]="s.title" class="w-full h-full object-cover" />
+  <!-- ── Hero ─────────────────────────────────────────────────── -->
+  <div class="relative overflow-hidden bg-[var(--c-surface)] border-b border-[var(--c-border)]">
+    <!-- Gradient blobs -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full"
+           style="background:radial-gradient(circle,var(--c-blob-1) 0%,transparent 70%);filter:blur(60px)"></div>
+      <div class="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full"
+           style="background:radial-gradient(circle,var(--c-blob-2) 0%,transparent 70%);filter:blur(60px)"></div>
     </div>
 
-    <h1 class="font-bold text-[var(--c-fg)] leading-tight tracking-tight mb-5"
-        style="font-size: clamp(1.8rem, 4vw, 2.8rem)">{{ s.title }}</h1>
+    <div class="relative max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-20">
 
-    <div class="flex flex-wrap gap-2 mb-14">
-      @for (tag of s.tags; track tag) {
-        <span class="bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] text-[10px] tracking-widest uppercase px-3 py-1 rounded font-mono">{{ tag }}</span>
+      <!-- Back link -->
+      <a routerLink="/work"
+         class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 mb-10 cursor-pointer group">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+             class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+        </svg>
+        Back to Work
+      </a>
+
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        @for (tag of s.tags; track tag) {
+          <span class="bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] text-[10px] tracking-widest uppercase px-3 py-1 rounded-full font-mono">{{ tag }}</span>
+        }
+      </div>
+
+      <!-- Title & subtitle -->
+      <h1 class="font-bold text-[var(--c-fg)] leading-tight tracking-tight mb-3"
+          style="font-size:clamp(2rem,5vw,3.25rem)">{{ s.title }}</h1>
+      @if (s.subtitle) {
+        <p class="text-[var(--c-fg-muted)] text-lg leading-relaxed max-w-2xl mb-10">{{ s.subtitle }}</p>
+      }
+
+      <!-- Metric stat cards -->
+      @if (s.metrics && s.metrics.length) {
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10">
+          @for (m of s.metrics; track m.label) {
+            <div class="bg-[var(--c-surface2)] border border-[var(--c-border)] rounded-2xl px-5 py-6 text-center">
+              <div class="text-[#22c55e] font-bold mb-1" style="font-size:clamp(1.5rem,3vw,2rem)">{{ m.value }}</div>
+              <div class="text-[var(--c-fg-muted)] text-xs font-mono tracking-wide uppercase">{{ m.label }}</div>
+            </div>
+          }
+        </div>
       }
     </div>
+  </div>
 
-    <div class="flex flex-col gap-10">
-      <div class="border-l-2 border-[#22c55e] pl-6">
-        <h2 class="text-[#22c55e] text-[10px] font-semibold tracking-[0.25em] uppercase mb-4 font-mono">Problem</h2>
-        <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px]">{{ s.problem }}</p>
+  <!-- ── Banner image ──────────────────────────────────────────── -->
+  @if (s.bannerUrl) {
+    <div class="max-w-6xl mx-auto px-6 md:px-10 py-8">
+      <div class="w-full aspect-[21/9] rounded-2xl overflow-hidden bg-[var(--c-surface2)]">
+        <img [src]="s.bannerUrl" [alt]="s.title" class="w-full h-full object-cover" loading="lazy" />
       </div>
-      <div class="border-l-2 border-[var(--c-border2)] pl-6">
-        <h2 class="text-[var(--c-fg-subtle)] text-[10px] font-semibold tracking-[0.25em] uppercase mb-4 font-mono">Solution</h2>
-        <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px]">{{ s.solution }}</p>
-      </div>
-      <div class="border-l-2 border-[var(--c-border2)] pl-6">
-        <h2 class="text-[var(--c-fg-subtle)] text-[10px] font-semibold tracking-[0.25em] uppercase mb-4 font-mono">Result</h2>
-        <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px]">{{ s.result }}</p>
-      </div>
-    </div>
-  } @else {
-    <div class="py-16">
-      <p class="text-[var(--c-fg-muted)] font-mono text-sm">Case study not found.</p>
     </div>
   }
-</section>
+
+  <!-- ── Body: main content + sidebar ─────────────────────────── -->
+  <div class="max-w-6xl mx-auto px-6 md:px-10 py-12 pb-20">
+    <div class="flex flex-col lg:flex-row gap-12">
+
+      <!-- Left: main content -->
+      <div class="flex-1 min-w-0 flex flex-col gap-14">
+
+        <!-- Challenge -->
+        @if (s.problem) {
+          <section>
+            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[#22c55e] mb-4">The Challenge</h2>
+            <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] mb-6">{{ s.problem }}</p>
+            @if (s.challengePoints && s.challengePoints.length) {
+              <ul class="flex flex-col gap-3">
+                @for (point of s.challengePoints; track point) {
+                  <li class="flex items-start gap-3 text-[var(--c-fg-muted)] text-[15px] leading-relaxed">
+                    <span class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+                    {{ point }}
+                  </li>
+                }
+              </ul>
+            }
+          </section>
+        }
+
+        <!-- Solution -->
+        @if (s.solution) {
+          <section>
+            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">The Solution</h2>
+            <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] mb-8">{{ s.solution }}</p>
+            @if (s.solutionItems && s.solutionItems.length) {
+              <div class="grid sm:grid-cols-2 gap-5">
+                @for (item of s.solutionItems; track item.title) {
+                  <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-xl p-5">
+                    <h3 class="text-[var(--c-fg)] font-semibold text-sm mb-2">{{ item.title }}</h3>
+                    <p class="text-[var(--c-fg-muted)] text-[13px] leading-relaxed">{{ item.description }}</p>
+                  </div>
+                }
+              </div>
+            }
+          </section>
+        }
+
+        <!-- Results & Benefits -->
+        @if (s.result) {
+          <section>
+            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">Results & Impact</h2>
+            <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] mb-8">{{ s.result }}</p>
+            @if (s.benefits && s.benefits.length) {
+              <div class="flex flex-col gap-4">
+                @for (b of s.benefits; track b.title) {
+                  <div class="flex items-start gap-4 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-xl p-5">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/20 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-[#22c55e]">
+                        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                    <div>
+                      <h3 class="text-[var(--c-fg)] font-semibold text-sm mb-1">{{ b.title }}</h3>
+                      <p class="text-[var(--c-fg-muted)] text-[13px] leading-relaxed">{{ b.description }}</p>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </section>
+        }
+
+      </div>
+
+      <!-- Right: sticky sidebar -->
+      <aside class="lg:w-72 flex-shrink-0">
+        <div class="lg:sticky lg:top-24 flex flex-col gap-6">
+
+          <!-- Technologies Used -->
+          @if (s.technologies && s.technologies.length) {
+            <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6">
+              <h3 class="text-[10px] font-semibold tracking-[0.2em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">Technologies Used</h3>
+              <div class="flex flex-wrap gap-2">
+                @for (tech of s.technologies; track tech) {
+                  <span class="bg-[var(--c-surface2)] border border-[var(--c-border)] text-[var(--c-fg-muted)] text-xs font-mono px-3 py-1.5 rounded-lg">{{ tech }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Project Details -->
+          <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6">
+            <h3 class="text-[10px] font-semibold tracking-[0.2em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">Project Details</h3>
+            <dl class="flex flex-col gap-4">
+              @if (s.client) {
+                <div>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">Client</dt>
+                  <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.client }}</dd>
+                </div>
+              }
+              @if (s.industry) {
+                <div>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">Industry</dt>
+                  <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.industry }}</dd>
+                </div>
+              }
+              @if (s.timeline) {
+                <div>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">Timeline</dt>
+                  <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.timeline }}</dd>
+                </div>
+              }
+              @if (s.role) {
+                <div>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">My Role</dt>
+                  <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.role }}</dd>
+                </div>
+              }
+            </dl>
+          </div>
+
+          <!-- Live URL -->
+          @if (s.liveUrl) {
+            <a [href]="s.liveUrl" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-3 rounded-xl hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd"/>
+              </svg>
+              View Live Project
+            </a>
+          }
+
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ── Related Case Studies ──────────────────────────────────── -->
+  @if (related().length) {
+    <div class="border-t border-[var(--c-border)] bg-[var(--c-surface)]">
+      <div class="max-w-6xl mx-auto px-6 md:px-10 py-16">
+        <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-8">Related Case Studies</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (r of related(); track r.id) {
+            <app-case-study-card [study]="r" />
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+} @else {
+  <div class="max-w-3xl mx-auto px-6 py-24 text-center">
+    <div class="rounded-2xl border border-dashed border-[var(--c-border)] py-16">
+      <p class="text-[var(--c-fg-muted)] font-mono text-sm">Case study not found.</p>
+      <a routerLink="/work"
+         class="inline-flex items-center gap-2 mt-6 text-[#22c55e] text-sm font-mono hover:underline cursor-pointer">
+        ← Back to Work
+      </a>
+    </div>
+  </div>
+}

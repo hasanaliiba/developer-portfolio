@@ -1,17 +1,18 @@
-<section class="px-10 md:px-16 py-16">
+<section class="max-w-6xl mx-auto px-6 md:px-10 py-16">
+  <!-- Header -->
   <div class="mb-14">
     <p class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase mb-3">Portfolio</p>
     <h1 class="font-bold text-[var(--c-fg)] leading-none tracking-tight"
-        style="font-size: clamp(2rem, 5vw, 3.5rem)">Selected Work</h1>
+        style="font-size:clamp(2rem,5vw,3.5rem)">Selected Work</h1>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
     @for (study of studies$ | async; track study.id) {
       <app-case-study-card [study]="study" />
     } @empty {
-      <div class="col-span-2 flex flex-col items-start gap-2 py-16">
+      <div class="col-span-2 rounded-2xl border border-dashed border-[var(--c-border)] py-24 text-center">
         <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies published yet.</p>
-        <p class="text-[var(--c-fg-subtle)] font-mono text-xs">Check back soon.</p>
+        <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-2">Check back soon.</p>
       </div>
     }
   </div>
