@@ -1,19 +1,52 @@
 <section class="max-w-6xl mx-auto px-6 md:px-10 py-16">
+
   <!-- Header -->
-  <div class="mb-14">
+  <div class="mb-10">
     <p class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase mb-3">Portfolio</p>
     <h1 class="font-bold text-[var(--c-fg)] leading-none tracking-tight"
         style="font-size:clamp(2rem,5vw,3.5rem)">Selected Work</h1>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-    @for (study of studies$ | async; track study.id) {
+  <!-- Tag filters -->
+  @if (allTags().length) {
+    <div class="flex flex-wrap gap-2 mb-10">
+      <button (click)="setTag(null)"
+              class="px-4 py-1.5 rounded-full text-xs font-mono tracking-widest uppercase transition-colors duration-150 cursor-pointer"
+              [class]="activeTag() === null
+                ? 'bg-[#22c55e] text-black'
+                : 'bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-fg-muted)] hover:border-[#22c55e]/50 hover:text-[#22c55e]'">
+        All
+      </button>
+      @for (tag of allTags(); track tag) {
+        <button (click)="setTag(tag)"
+                class="px-4 py-1.5 rounded-full text-xs font-mono tracking-widest uppercase transition-colors duration-150 cursor-pointer"
+                [class]="activeTag() === tag
+                  ? 'bg-[#22c55e] text-black'
+                  : 'bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-fg-muted)] hover:border-[#22c55e]/50 hover:text-[#22c55e]'">
+          {{ tag }}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Grid -->
+  <div class="grid gap-5" [class]="gridClass()">
+    @for (study of filtered(); track study.id) {
       <app-case-study-card [study]="study" />
     } @empty {
-      <div class="col-span-2 rounded-2xl border border-dashed border-[var(--c-border)] py-24 text-center">
-        <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies published yet.</p>
-        <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-2">Check back soon.</p>
+      <div class="col-span-full rounded-2xl border border-dashed border-[var(--c-border)] py-24 text-center">
+        @if (activeTag()) {
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies tagged "{{ activeTag() }}".</p>
+          <button (click)="setTag(null)"
+                  class="mt-4 text-[#22c55e] font-mono text-xs tracking-widest uppercase hover:underline cursor-pointer">
+            Clear filter
+          </button>
+        } @else {
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies published yet.</p>
+          <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-2">Check back soon.</p>
+        }
       </div>
     }
   </div>
+
 </section>

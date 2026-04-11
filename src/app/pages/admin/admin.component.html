@@ -1,10 +1,233 @@
 <section class="max-w-6xl mx-auto px-6 md:px-10 py-16">
+
+  <!-- Header -->
   <div class="flex items-center justify-between mb-12 gap-4 flex-wrap">
     <div>
       <p class="font-mono text-[#22c55e] text-xs tracking-[0.25em] uppercase mb-1">Dashboard</p>
       <h1 class="text-[var(--c-fg)] font-bold text-2xl">Admin Portal</h1>
     </div>
-    <div class="flex gap-3">
+    <button (click)="signOut()"
+            class="border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-5 py-2.5 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--c-border2)] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+      Sign Out
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  DISPLAY SETTINGS                                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="mb-14">
+    <div class="mb-5">
+      <p class="font-mono text-[var(--c-fg-subtle)] text-[10px] tracking-[0.2em] uppercase mb-0.5">Configure</p>
+      <h2 class="text-[var(--c-fg)] font-semibold text-lg">Display Settings</h2>
+    </div>
+    <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6 shadow-sm flex items-center gap-6 flex-wrap">
+      <div>
+        <p class="text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-3">Cards per row (Work page)</p>
+        <div class="flex gap-2">
+          @for (n of columnOptions; track n) {
+            <button (click)="setColumns(n)"
+                    class="w-10 h-10 rounded-xl border text-sm font-mono font-semibold transition-colors duration-150 cursor-pointer"
+                    [class]="settings().columnsPerRow === n
+                      ? 'bg-[#22c55e] text-black border-transparent'
+                      : 'bg-[var(--c-surface2)] border-[var(--c-border)] text-[var(--c-fg-muted)] hover:border-[#22c55e]/50 hover:text-[#22c55e]'">
+              {{ n }}
+            </button>
+          }
+        </div>
+      </div>
+      <!-- Visual preview -->
+      <div class="flex-1 min-w-[140px]">
+        <p class="text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-3">Preview</p>
+        <div class="grid gap-1.5 max-w-[160px]"
+             [class]="settings().columnsPerRow === 1 ? 'grid-cols-1'
+                    : settings().columnsPerRow === 2 ? 'grid-cols-2'
+                    : settings().columnsPerRow === 3 ? 'grid-cols-3'
+                    : 'grid-cols-4'">
+          @for (n of columnOptions.slice(0, settings().columnsPerRow * 2); track n) {
+            <div class="h-7 rounded bg-[var(--c-surface2)] border border-[var(--c-border)]"></div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  RESUMES SECTION                                          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="mb-14">
+    <div class="flex items-center justify-between mb-5 gap-4 flex-wrap">
+      <div>
+        <p class="font-mono text-[var(--c-fg-subtle)] text-[10px] tracking-[0.2em] uppercase mb-0.5">Manage</p>
+        <h2 class="text-[var(--c-fg)] font-semibold text-lg">Resumes</h2>
+      </div>
+      <button (click)="showResumeForm.set(!showResumeForm())"
+              class="inline-flex items-center gap-2 bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-4 py-2 rounded-xl hover:border-[#22c55e]/50 hover:text-[#22c55e] transition-colors duration-200 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+        </svg>
+        Add Resume
+      </button>
+    </div>
+
+    <!-- Add resume form -->
+    @if (showResumeForm()) {
+      <div class="mb-5 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6 shadow-sm">
+        <h3 class="text-[var(--c-fg)] font-medium text-sm mb-4">New Resume</h3>
+
+        <!-- Tabs -->
+        <div class="flex gap-1 p-1 bg-[var(--c-surface2)] rounded-xl mb-5 w-fit">
+          <button (click)="setTab('upload')"
+                  class="px-4 py-1.5 text-xs font-mono rounded-lg transition-colors duration-150 cursor-pointer"
+                  [class]="resumeTab() === 'upload'
+                    ? 'bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm'
+                    : 'text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'">
+            Upload PDF
+          </button>
+          <button (click)="setTab('link')"
+                  class="px-4 py-1.5 text-xs font-mono rounded-lg transition-colors duration-150 cursor-pointer"
+                  [class]="resumeTab() === 'link'
+                    ? 'bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm'
+                    : 'text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'">
+            Paste Link
+          </button>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <!-- Label -->
+          <div>
+            <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">Label</label>
+            <input type="text"
+                   [value]="resumeName()"
+                   (input)="resumeName.set($any($event.target).value)"
+                   placeholder="e.g. Software Engineer Resume"
+                   class="w-full bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-4 py-2.5 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors duration-150" />
+          </div>
+
+          <!-- Upload tab -->
+          @if (resumeTab() === 'upload') {
+            <div>
+              <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">PDF File <span class="normal-case tracking-normal">(max 750 KB)</span></label>
+              <label class="flex items-center gap-3 w-full bg-[var(--c-input)] border-2 border-dashed rounded-xl px-4 py-5 cursor-pointer transition-colors duration-150"
+                     [class]="sizeError() ? 'border-red-400/60' : selectedFile() ? 'border-[#22c55e]/60' : 'border-[var(--c-border)] hover:border-[#22c55e]/40'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                     class="w-6 h-6 flex-shrink-0"
+                     [class]="selectedFile() ? 'text-[#22c55e]' : 'text-[var(--c-fg-subtle)]'" aria-hidden="true">
+                  <path d="M9.25 13.25a.75.75 0 001.5 0V4.636l2.955 3.129a.75.75 0 001.09-1.03l-4.25-4.5a.75.75 0 00-1.09 0l-4.25 4.5a.75.75 0 101.09 1.03L9.25 4.636v8.614z"/>
+                  <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"/>
+                </svg>
+                <div class="flex-1 min-w-0">
+                  @if (selectedFile()) {
+                    <p class="text-sm text-[var(--c-fg)] font-medium truncate">{{ selectedFile()!.name }}</p>
+                    <p class="text-xs text-[var(--c-fg-subtle)] font-mono mt-0.5">{{ fileSizeMB() }} MB</p>
+                  } @else {
+                    <p class="text-sm text-[var(--c-fg-muted)]">Click to choose a PDF</p>
+                    <p class="text-xs text-[var(--c-fg-subtle)] font-mono mt-0.5">Stored securely in Firestore</p>
+                  }
+                </div>
+                <input type="file" accept=".pdf,application/pdf" class="sr-only" (change)="onFileSelected($event)" />
+              </label>
+              @if (sizeError()) {
+                <p class="mt-2 text-xs text-red-500">{{ sizeError() }}</p>
+              }
+            </div>
+          }
+
+          <!-- Link tab -->
+          @if (resumeTab() === 'link') {
+            <div>
+              <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">PDF URL</label>
+              <input type="url"
+                     [value]="resumeUrl()"
+                     (input)="resumeUrl.set($any($event.target).value)"
+                     placeholder="https://drive.google.com/…"
+                     class="w-full bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-4 py-2.5 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors duration-150" />
+              <p class="mt-1.5 text-[11px] text-[var(--c-fg-subtle)] font-mono">Google Drive · Dropbox · GitHub raw · any direct PDF link</p>
+            </div>
+          }
+
+          <div class="flex gap-3 pt-1">
+            <button (click)="addResume()"
+                    [disabled]="saving()
+                      || !resumeName().trim()
+                      || (resumeTab() === 'upload' && !selectedFile())
+                      || (resumeTab() === 'link'   && !resumeUrl().trim())"
+                    class="bg-[#22c55e] text-black font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+              {{ saving() ? 'Saving…' : 'Save Resume' }}
+            </button>
+            <button (click)="showResumeForm.set(false)" [disabled]="saving()"
+                    class="text-[var(--c-fg-muted)] text-sm px-5 py-2 border border-[var(--c-border)] rounded-lg hover:text-[var(--c-fg)] hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer disabled:opacity-50">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Resume list -->
+    <div class="flex flex-col gap-3">
+      @for (resume of resumes$ | async; track resume.id) {
+        <div class="bg-[var(--c-surface)] border rounded-2xl px-5 py-4 flex items-center gap-4 shadow-sm transition-colors duration-200"
+             [class]="resume.visible
+               ? 'border-[#22c55e]/40 bg-[#22c55e]/5'
+               : 'border-[var(--c-border)] hover:border-[var(--c-border2)]'">
+
+          <!-- File icon -->
+          <span class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
+                [class]="resume.visible ? 'bg-[#22c55e]/15' : 'bg-[var(--c-surface2)]'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="w-5 h-5" [class]="resume.visible ? 'text-[#22c55e]' : 'text-[var(--c-fg-subtle)]'" aria-hidden="true">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a.75.75 0 01.75-.75h6.5a.75.75 0 010 1.5h-6.5A.75.75 0 016 10zm.75 2.75a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd"/>
+            </svg>
+          </span>
+
+          <!-- Info -->
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2.5 mb-0.5">
+              <p class="text-[var(--c-fg)] font-medium text-sm truncate">{{ resume.name }}</p>
+              @if (resume.visible) {
+                <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] tracking-wider flex-shrink-0">active</span>
+              }
+            </div>
+            <p class="text-[var(--c-fg-subtle)] text-xs font-mono truncate">{{ resume.fileUrl }}</p>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex gap-2 flex-shrink-0">
+            @if (!resume.visible) {
+              <button (click)="setActiveResume(resume.id)"
+                      class="text-[var(--c-fg-muted)] hover:text-[#22c55e] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[#22c55e]/50 transition-colors duration-200 cursor-pointer">
+                Set Active
+              </button>
+            } @else {
+              <button (click)="hideResume(resume.id)"
+                      class="text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer">
+                Hide
+              </button>
+            }
+            <button (click)="deleteResume(resume.id)"
+                    class="text-[var(--c-fg-muted)] hover:text-red-500 text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-red-400/50 transition-colors duration-200 cursor-pointer">
+              Delete
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="py-12 text-center border border-dashed border-[var(--c-border)] rounded-2xl">
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No resumes yet.</p>
+          <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-1">Click "Add Resume" to upload one.</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  CASE STUDIES SECTION                                     -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div>
+    <div class="flex items-center justify-between mb-5 gap-4 flex-wrap">
+      <div>
+        <p class="font-mono text-[var(--c-fg-subtle)] text-[10px] tracking-[0.2em] uppercase mb-0.5">Manage</p>
+        <h2 class="text-[var(--c-fg)] font-semibold text-lg">Case Studies</h2>
+      </div>
       <button (click)="showAddForm.set(true); editingStudy.set(null)"
               class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
@@ -12,51 +235,48 @@
         </svg>
         Add Case Study
       </button>
-      <button (click)="signOut()"
-              class="border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-5 py-2.5 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--c-border2)] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
-        Sign Out
-      </button>
     </div>
-  </div>
 
-  @if (showAddForm() || editingStudy()) {
-    <div class="mb-10 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-8 shadow-sm">
-      <h2 class="text-[var(--c-fg)] font-semibold mb-6">{{ editingStudy() ? 'Edit Case Study' : 'New Case Study' }}</h2>
-      <app-case-study-form [study]="editingStudy()" (saved)="onFormSaved()" (cancelled)="onFormSaved()" />
-    </div>
-  }
-
-  <div class="flex flex-col gap-3">
-    @for (study of studies$ | async; track study.id) {
-      <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-4 flex items-center gap-4 hover:border-[var(--c-border2)] transition-colors duration-200 shadow-sm">
-        <img [src]="study.bannerUrl" [alt]="study.title" loading="lazy"
-             class="w-16 h-11 object-cover rounded-lg flex-shrink-0 opacity-80" />
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-2.5 mb-1">
-            <p class="text-[var(--c-fg)] font-medium text-sm truncate">{{ study.title }}</p>
-            <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full flex-shrink-0 tracking-wider border"
-                  [class]="study.visible
-                    ? 'bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] border-transparent'
-                    : 'bg-[var(--c-surface2)] text-[var(--c-fg-subtle)] border-[var(--c-border)]'">
-              {{ study.visible ? 'visible' : 'hidden' }}
-            </span>
-          </div>
-          <p class="text-[var(--c-fg-subtle)] text-xs font-mono">Order: {{ study.order }} &middot; {{ study.tags.join(', ') }}</p>
-        </div>
-        <div class="flex gap-2 flex-shrink-0">
-          <button (click)="editStudy(study)"
-                  class="text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer">Edit</button>
-          <button data-testid="toggle-visibility" (click)="toggleVisibility(study)"
-                  class="text-[var(--c-fg-muted)] hover:text-[#22c55e] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[#22c55e]/50 transition-colors duration-200 cursor-pointer">{{ study.visible ? 'Hide' : 'Show' }}</button>
-          <button data-testid="delete" (click)="delete(study)"
-                  class="text-[var(--c-fg-muted)] hover:text-red-500 text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-red-400/50 transition-colors duration-200 cursor-pointer">Delete</button>
-        </div>
-      </div>
-    } @empty {
-      <div class="py-16 text-center border border-dashed border-[var(--c-border)] rounded-2xl">
-        <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies yet.</p>
-        <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-1">Click "Add Case Study" to get started.</p>
+    @if (showAddForm() || editingStudy()) {
+      <div class="mb-6 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-8 shadow-sm">
+        <h3 class="text-[var(--c-fg)] font-semibold mb-6">{{ editingStudy() ? 'Edit Case Study' : 'New Case Study' }}</h3>
+        <app-case-study-form [study]="editingStudy()" (saved)="onFormSaved()" (cancelled)="onFormSaved()" />
       </div>
     }
+
+    <div class="flex flex-col gap-3">
+      @for (study of studies$ | async; track study.id) {
+        <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-4 flex items-center gap-4 hover:border-[var(--c-border2)] transition-colors duration-200 shadow-sm">
+          <img [src]="study.bannerUrl" [alt]="study.title" loading="lazy"
+               class="w-16 h-11 object-cover rounded-lg flex-shrink-0 opacity-80" />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2.5 mb-1">
+              <p class="text-[var(--c-fg)] font-medium text-sm truncate">{{ study.title }}</p>
+              <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full flex-shrink-0 tracking-wider border"
+                    [class]="study.visible
+                      ? 'bg-[var(--c-tag-bg)] text-[var(--c-tag-fg)] border-transparent'
+                      : 'bg-[var(--c-surface2)] text-[var(--c-fg-subtle)] border-[var(--c-border)]'">
+                {{ study.visible ? 'visible' : 'hidden' }}
+              </span>
+            </div>
+            <p class="text-[var(--c-fg-subtle)] text-xs font-mono">Order: {{ study.order }} &middot; {{ study.tags.join(', ') }}</p>
+          </div>
+          <div class="flex gap-2 flex-shrink-0">
+            <button (click)="editStudy(study)"
+                    class="text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer">Edit</button>
+            <button (click)="toggleVisibility(study)"
+                    class="text-[var(--c-fg-muted)] hover:text-[#22c55e] text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-[#22c55e]/50 transition-colors duration-200 cursor-pointer">{{ study.visible ? 'Hide' : 'Show' }}</button>
+            <button (click)="deleteStudy(study)"
+                    class="text-[var(--c-fg-muted)] hover:text-red-500 text-xs px-3 py-2 border border-[var(--c-border)] rounded-lg hover:border-red-400/50 transition-colors duration-200 cursor-pointer">Delete</button>
+          </div>
+        </div>
+      } @empty {
+        <div class="py-16 text-center border border-dashed border-[var(--c-border)] rounded-2xl">
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies yet.</p>
+          <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-1">Click "Add Case Study" to get started.</p>
+        </div>
+      }
+    </div>
   </div>
+
 </section>

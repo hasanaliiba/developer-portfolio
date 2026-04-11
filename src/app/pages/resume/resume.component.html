@@ -1,40 +1,57 @@
-<div class="flex flex-col" style="height:calc(100dvh - 4rem)">
+@if (active(); as r) {
+  <div class="flex flex-col" style="height:calc(100dvh - 4rem)">
 
-  <!-- Controls bar -->
-  <div class="flex-shrink-0 bg-[var(--c-bg)] border-b border-[var(--c-border)] px-10 md:px-16 py-4 flex items-center justify-between transition-colors duration-200" data-no-print>
-    <a routerLink="/"
-       class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 cursor-pointer group">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
-        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
-      </svg>
-      Back
-    </a>
+    <!-- Controls bar -->
+    <div class="flex-shrink-0 bg-[var(--c-bg)] border-b border-[var(--c-border)] px-10 md:px-16 py-4 flex items-center justify-between transition-colors duration-200" data-no-print>
+      <a routerLink="/"
+         class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 cursor-pointer group">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+        </svg>
+        Back
+      </a>
 
-    <button (click)="downloadPdf()"
-            class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
-        <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"/>
-        <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"/>
-      </svg>
-      Download PDF
-    </button>
+      <button (click)="downloadPdf(r.fileUrl, r.name)"
+              class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+          <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"/>
+          <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"/>
+        </svg>
+        Download PDF
+      </button>
+    </div>
+
+    <!-- PDF viewer -->
+    <div class="flex-1 bg-[var(--c-surface2)] overflow-hidden">
+      <iframe [src]="r.safeUrl"
+              [title]="r.name"
+              class="w-full h-full border-0"
+              [attr.aria-label]="r.name + ' PDF viewer'">
+        <div class="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">Your browser cannot display the PDF inline.</p>
+          <button (click)="downloadPdf(r.fileUrl, r.name)"
+                  class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer">
+            Download PDF instead
+          </button>
+        </div>
+      </iframe>
+    </div>
+
   </div>
-
-  <!-- PDF viewer -->
-  <div class="flex-1 bg-[var(--c-surface2)] overflow-hidden">
-    <iframe [src]="pdfUrl"
-            title="Hasan Ali — Resume"
-            class="w-full h-full border-0"
-            aria-label="Resume PDF viewer">
-      <!-- Fallback for browsers that can't render PDFs inline -->
-      <div class="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
-        <p class="text-[var(--c-fg-muted)] font-mono text-sm">Your browser cannot display the PDF inline.</p>
-        <button (click)="downloadPdf()"
-                class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer">
-          Download PDF instead
-        </button>
+} @else {
+  <div class="flex flex-col items-center justify-center" style="height:calc(100dvh - 4rem)">
+    <div class="text-center max-w-sm px-6">
+      <div class="w-14 h-14 rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-center mx-auto mb-5">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 text-[var(--c-fg-subtle)]" aria-hidden="true">
+          <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a.75.75 0 01.75-.75h6.5a.75.75 0 010 1.5h-6.5A.75.75 0 016 10zm.75 2.75a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd"/>
+        </svg>
       </div>
-    </iframe>
+      <p class="text-[var(--c-fg)] font-semibold mb-2">No resume available</p>
+      <p class="text-[var(--c-fg-muted)] text-sm font-mono">Check back later or contact me directly.</p>
+      <a routerLink="/"
+         class="inline-flex items-center gap-2 mt-6 text-[#22c55e] text-sm font-mono hover:underline cursor-pointer">
+        ← Back to Home
+      </a>
+    </div>
   </div>
-
-</div>
+}

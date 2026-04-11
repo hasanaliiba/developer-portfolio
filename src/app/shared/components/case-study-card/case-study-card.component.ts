@@ -7,6 +7,7 @@ import { CaseStudy } from '../../models/case-study.model';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './case-study-card.component.html',
+  host: { class: 'flex w-full h-full' },
 })
 export class CaseStudyCardComponent {
   study = input.required<CaseStudy>();

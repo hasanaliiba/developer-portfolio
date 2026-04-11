@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
+import { ResumeService } from '../../core/services/resume.service';
 
 @Component({
   selector: 'app-resume',
@@ -10,13 +13,21 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class ResumeComponent {
   private sanitizer = inject(DomSanitizer);
-  readonly pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('assets/resume.pdf');
-  readonly pdfHref = 'assets/resume.pdf';
-  
-  downloadPdf(): void {
+  private resumeService = inject(ResumeService);
+
+  active = toSignal(
+    this.resumeService.getActive().pipe(
+      map(r => r
+        ? { ...r, safeUrl: this.sanitizer.bypassSecurityTrustResourceUrl(r.fileUrl) }
+        : null
+      )
+    )
+  );
+
+  downloadPdf(fileUrl: string, name: string): void {
     const a = document.createElement('a');
-    a.href = this.pdfHref;
-    a.download = 'Hasan_Ali_Resume.pdf';
+    a.href = fileUrl;
+    a.download = `${name.replace(/\s+/g, '_')}.pdf`;
     a.click();
   }
 }

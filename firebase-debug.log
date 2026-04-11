@@ -1,0 +1,84 @@
+[debug] [2026-04-11T12:19:29.411Z] ----------------------------------------------------------------------
+[debug] [2026-04-11T12:19:29.412Z] Command:       /Users/hasansali/Library/Application Support/Herd/config/nvm/versions/node/v20.18.1/bin/node /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/.bin/firebase deploy --only firestore:rules
+[debug] [2026-04-11T12:19:29.413Z] CLI Version:   15.14.0
+[debug] [2026-04-11T12:19:29.413Z] Platform:      darwin
+[debug] [2026-04-11T12:19:29.413Z] Node Version:  v20.18.1
+[debug] [2026-04-11T12:19:29.413Z] Time:          Sat Apr 11 2026 17:19:29 GMT+0500 (Pakistan Standard Time)
+[debug] [2026-04-11T12:19:29.413Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-11T12:19:29.414Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-04-11T12:19:29.489Z] Error: Cannot find module 'readable-stream'
+Require stack:
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/compress-commons/lib/archivers/archive-output-stream.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/compress-commons/lib/compress-commons.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/zip-stream/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/archiver/lib/plugins/zip.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/archiver/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/archiveDirectory.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/extensions/extensionsHelper.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/extensions/planner.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/extensions/manifest.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/emulator/functionsEmulatorShared.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/frameworks/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/hosting/prepare.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/hosting/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/commands/deploy.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/commands/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/bin/cli.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/bin/firebase.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (/Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/compress-commons/lib/archivers/archive-output-stream.js:10:17)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-04-11T12:19:33.680Z] ----------------------------------------------------------------------
+[debug] [2026-04-11T12:19:33.682Z] Command:       /Users/hasansali/Library/Application Support/Herd/config/nvm/versions/node/v20.18.1/bin/node /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/.bin/firebase deploy --only firestore:rules
+[debug] [2026-04-11T12:19:33.682Z] CLI Version:   15.14.0
+[debug] [2026-04-11T12:19:33.682Z] Platform:      darwin
+[debug] [2026-04-11T12:19:33.682Z] Node Version:  v20.18.1
+[debug] [2026-04-11T12:19:33.682Z] Time:          Sat Apr 11 2026 17:19:33 GMT+0500 (Pakistan Standard Time)
+[debug] [2026-04-11T12:19:33.682Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-11T12:19:33.683Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-04-11T12:19:33.729Z] Error: Cannot find module 'readable-stream'
+Require stack:
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/compress-commons/lib/archivers/archive-output-stream.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/compress-commons/lib/compress-commons.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/zip-stream/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/archiver/lib/plugins/zip.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/archiver/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/archiveDirectory.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/extensions/extensionsHelper.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/extensions/planner.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/extensions/manifest.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/emulator/functionsEmulatorShared.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/frameworks/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/hosting/prepare.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/hosting/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/deploy/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/commands/deploy.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/commands/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/index.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/bin/cli.js
+- /Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/bin/firebase.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (/Users/hasansali/.npm/_npx/7750544ccf494d8b/node_modules/compress-commons/lib/archivers/archive-output-stream.js:10:17)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+[error] 
+[error] Error: An unexpected error has occurred.
