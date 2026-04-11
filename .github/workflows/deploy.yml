@@ -51,7 +51,7 @@ jobs:
           ENVEOF
 
       - name: Build
-        run: npx ng build --base-href=/
+        run: npx ng build --base-href=/developer-portfolio/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
