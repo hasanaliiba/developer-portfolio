@@ -33,6 +33,7 @@ jobs:
               appId: '${{ secrets.FIREBASE_APP_ID }}',
             },
             formspreeEndpoint: '${{ secrets.FORMSPREE_ENDPOINT }}',
+            adminUid: '${{ secrets.ADMIN_UID }}',
           };
           ENVEOF
           cat > src/environments/environment.prod.ts << 'ENVEOF'
@@ -47,6 +48,7 @@ jobs:
               appId: '${{ secrets.FIREBASE_APP_ID }}',
             },
             formspreeEndpoint: '${{ secrets.FORMSPREE_ENDPOINT }}',
+            adminUid: '${{ secrets.ADMIN_UID }}',
           };
           ENVEOF
 
