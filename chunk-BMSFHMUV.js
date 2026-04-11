@@ -1,0 +1,1 @@
+var e={production:!1,firebase:{apiKey:"AIzaSyBc97QxKwvzFJKnuOo5y-fZ8pRsYpB3UDg",authDomain:"angular-portfolio-5241d.firebaseapp.com",projectId:"angular-portfolio-5241d",storageBucket:"angular-portfolio-5241d.firebasestorage.app",messagingSenderId:"481037404228",appId:"1:481037404228:web:3d149b1990110274ef5411"},formspreeEndpoint:"https://formspree.io/f/mbdpnggk"};export{e as a};
