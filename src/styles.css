@@ -84,3 +84,26 @@ body {
   a { color: inherit !important; text-decoration: none !important; }
   @page { margin: 18mm 20mm; size: A4; }
 }
+
+/* ─── Scroll animations ─────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 500ms ease-out, transform 500ms ease-out;
+  }
+  .fade-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Elements are always visible when reduced-motion is set */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1; transform: none; }
+}
