@@ -20,9 +20,65 @@
       <input id="subtitle" formControlName="subtitle" type="text" class="form-input" placeholder="One-line project summary shown in the hero" />
     </div>
 
+    <!-- Banner image: upload or link -->
     <div>
-      <label for="bannerUrl" class="form-label">Banner URL <span class="text-[#22c55e]">*</span></label>
-      <input id="bannerUrl" formControlName="bannerUrl" type="url" class="form-input" placeholder="https://example.com/image.jpg" />
+      <label class="form-label">Banner Image <span class="text-[#22c55e]">*</span></label>
+
+      <!-- Tab toggle -->
+      <div class="flex gap-1 p-1 bg-[var(--c-surface2)] rounded-xl mb-3 w-fit">
+        <button type="button" (click)="setBannerTab('upload')"
+                class="px-4 py-1.5 text-xs font-mono rounded-lg transition-colors duration-150 cursor-pointer"
+                [class]="bannerTab() === 'upload'
+                  ? 'bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm'
+                  : 'text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'">
+          Upload Image
+        </button>
+        <button type="button" (click)="setBannerTab('link')"
+                class="px-4 py-1.5 text-xs font-mono rounded-lg transition-colors duration-150 cursor-pointer"
+                [class]="bannerTab() === 'link'
+                  ? 'bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm'
+                  : 'text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'">
+          Paste URL
+        </button>
+      </div>
+
+      <!-- Upload tab -->
+      @if (bannerTab() === 'upload') {
+        <label class="flex flex-col items-center justify-center w-full border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-150 overflow-hidden"
+               [class]="bannerError() ? 'border-red-400/60' : bannerPreview() ? 'border-[#22c55e]/50' : 'border-[var(--c-border)] hover:border-[#22c55e]/40'">
+
+          @if (bannerPreview()) {
+            <img [src]="bannerPreview()" alt="Banner preview"
+                 class="w-full h-40 object-cover" />
+            <span class="py-2 text-[11px] font-mono text-[var(--c-fg-subtle)]">Click to replace</span>
+          } @else if (bannerLoading()) {
+            <div class="py-8 flex flex-col items-center gap-2">
+              <div class="w-5 h-5 border-2 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
+              <span class="text-xs font-mono text-[var(--c-fg-subtle)]">Processing…</span>
+            </div>
+          } @else {
+            <div class="py-8 flex flex-col items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                   class="w-7 h-7 text-[var(--c-fg-subtle)]" aria-hidden="true">
+                <path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 013.25 3h13.5A2.25 2.25 0 0119 5.25v9.5A2.25 2.25 0 0116.75 17H3.25A2.25 2.25 0 011 14.75v-9.5zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 00.75-.75v-2.69l-2.22-2.219a.75.75 0 00-1.06 0l-1.91 1.909.47.47a.75.75 0 11-1.06 1.06L6.53 8.091a.75.75 0 00-1.06 0l-2.97 2.97zM12 7a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-[var(--c-fg-muted)]">Click to choose an image</span>
+              <span class="text-[11px] font-mono text-[var(--c-fg-subtle)]">JPG, PNG, WebP — auto-compressed</span>
+            </div>
+          }
+
+          <input type="file" accept="image/*" class="sr-only" (change)="onBannerFileSelected($event)" />
+        </label>
+        @if (bannerError()) {
+          <p class="mt-2 text-xs text-red-500">{{ bannerError() }}</p>
+        }
+      }
+
+      <!-- Link tab -->
+      @if (bannerTab() === 'link') {
+        <input id="bannerUrl" formControlName="bannerUrl" type="url" class="form-input"
+               placeholder="https://example.com/image.jpg" />
+      }
     </div>
 
     <div>

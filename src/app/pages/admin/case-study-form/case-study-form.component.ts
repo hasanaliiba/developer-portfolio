@@ -1,4 +1,4 @@
-import { Component, inject, input, output, effect } from '@angular/core';
+import { Component, inject, input, output, effect, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CaseStudyService } from '../../../core/services/case-study.service';
 import { CaseStudy } from '../../../shared/models/case-study.model';
@@ -14,11 +14,10 @@ export class CaseStudyFormComponent {
   saved = output<void>();
   cancelled = output<void>();
 
-  private fb = inject(FormBuilder);
+  private fb  = inject(FormBuilder);
   private svc = inject(CaseStudyService);
 
   form = this.fb.group({
-    // Hero
     title:     ['', Validators.required],
     subtitle:  [''],
     slug:      ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+$/)]],
@@ -27,29 +26,81 @@ export class CaseStudyFormComponent {
     tags:      ['', Validators.required],
     metrics:   this.fb.array([]),
 
-    // Challenge
     problem:         ['', Validators.required],
     challengePoints: this.fb.array([]),
 
-    // Solution
     solution:      ['', Validators.required],
     solutionItems: this.fb.array([]),
 
-    // Results
     result:   ['', Validators.required],
     benefits: this.fb.array([]),
 
-    // Sidebar
     technologies: [''],
     client:       [''],
     timeline:     [''],
     role:         [''],
     industry:     [''],
 
-    // Meta
     order:   [0, [Validators.required, Validators.min(0)]],
     visible: [true],
   });
+
+  // ── Banner upload state ───────────────────────────
+  bannerTab     = signal<'upload' | 'link'>('link');
+  bannerPreview = signal<string>('');
+  bannerError   = signal<string>('');
+  bannerLoading = signal(false);
+
+  setBannerTab(tab: 'upload' | 'link'): void {
+    this.bannerTab.set(tab);
+    this.bannerError.set('');
+    // Keep existing bannerUrl value when switching tabs
+  }
+
+  async onBannerFileSelected(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    this.bannerError.set('');
+    this.bannerLoading.set(true);
+
+    try {
+      const compressed = await this.compressImage(file, 1200, 0.75);
+      // Rough size check — base64 is ~33% larger
+      const approxBytes = compressed.length * 0.75;
+      if (approxBytes > 700_000) {
+        this.bannerError.set('Image is too large even after compression. Please use a smaller image or paste a URL instead.');
+        this.bannerLoading.set(false);
+        return;
+      }
+      this.bannerPreview.set(compressed);
+      this.form.patchValue({ bannerUrl: compressed });
+    } catch {
+      this.bannerError.set('Could not process this image. Try a different file.');
+    } finally {
+      this.bannerLoading.set(false);
+    }
+  }
+
+  /** Compress image via canvas. Returns a base64 JPEG data URL. */
+  private compressImage(file: File, maxWidth: number, quality: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const scale  = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement('canvas');
+        canvas.width  = Math.round(img.width  * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  }
 
   // ── Getters ────────────────────────────────────────
   get metricsArr()         { return this.form.get('metrics')         as FormArray; }
@@ -80,6 +131,9 @@ export class CaseStudyFormComponent {
       this.challengePointsArr.clear();
       this.solutionItemsArr.clear();
       this.benefitsArr.clear();
+      this.bannerPreview.set('');
+      this.bannerError.set('');
+
 
       if (!s) return;
 
@@ -102,11 +156,19 @@ export class CaseStudyFormComponent {
         visible:      s.visible,
       });
 
+      // If editing and banner is a data URL, show it in upload preview
+      if (s.bannerUrl?.startsWith('data:')) {
+        this.bannerTab.set('upload');
+        this.bannerPreview.set(s.bannerUrl);
+      } else {
+        this.bannerTab.set('link');
+      }
+
       (s.metrics         ?? []).forEach(m  => this.metricsArr.push(this.fb.group({ value: [m.value], label: [m.label] })));
       (s.challengePoints ?? []).forEach(p  => this.challengePointsArr.push(this.fb.control(p)));
       (s.solutionItems   ?? []).forEach(si => this.solutionItemsArr.push(this.fb.group({ title: [si.title], description: [si.description] })));
       (s.benefits        ?? []).forEach(b  => this.benefitsArr.push(this.fb.group({ title: [b.title], description: [b.description] })));
-    });
+    }, { allowSignalWrites: true });
   }
 
   // ── Save ─────────────────────────────────────────
