@@ -10,7 +10,7 @@ import { ThemeService } from './core/services/theme.service';
   template: `
     <div class="min-h-dvh bg-[var(--c-bg)] transition-colors duration-200">
       <app-top-nav />
-      <main class="pt-16">
+      <main>
         <router-outlet />
       </main>
     </div>
