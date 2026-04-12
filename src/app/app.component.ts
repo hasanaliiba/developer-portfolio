@@ -17,5 +17,6 @@ import { ThemeService } from './core/services/theme.service';
   `,
 })
 export class AppComponent {
+  // Injected here to initialise theme before first paint.
   readonly theme = inject(ThemeService);
 }

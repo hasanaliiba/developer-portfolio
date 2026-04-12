@@ -15,6 +15,12 @@ export class TopNavComponent implements OnInit, OnDestroy {
   private resumeService = inject(ResumeService);
   private router        = inject(Router);
 
+  readonly navLinks = [
+    { id: 'about', label: 'About' },
+    { id: 'work', label: 'Work' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
   readonly menuOpen      = signal(false);
   readonly activeResume  = toSignal(this.resumeService.getActive());
   readonly activeSection = signal<string>('');
@@ -74,7 +80,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
       const blob = new Blob([bytes], { type: mime });
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
-      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      setTimeout(() => URL.revokeObjectURL(url), 300_000);
     } else {
       window.open(fileUrl, '_blank');
     }

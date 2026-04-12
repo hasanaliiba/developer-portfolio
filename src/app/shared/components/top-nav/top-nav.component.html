@@ -19,7 +19,7 @@
       <div class="inline-flex items-center gap-1
                   bg-[var(--c-surface2)] border border-[var(--c-border)]
                   rounded-full px-1.5 py-1">
-        @for (link of [{id:'about',label:'About'},{id:'work',label:'Work'},{id:'contact',label:'Contact'}]; track link.id) {
+        @for (link of navLinks; track link.id) {
           <button (click)="scrollTo(link.id)"
                   [class]="activeSection() === link.id
                     ? 'px-4 py-1.5 rounded-full text-[13px] font-medium bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm transition-all duration-150 cursor-pointer'
@@ -88,6 +88,7 @@
         <button (click)="toggleMenu()"
                 [attr.aria-expanded]="menuOpen()"
                 aria-label="Toggle menu"
+                aria-controls="mobile-menu"
                 class="w-8 h-8 flex items-center justify-center rounded-lg text-[var(--c-fg-subtle)]
                        hover:bg-[var(--c-surface2)] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e]">
           @if (!menuOpen()) {
@@ -105,10 +106,10 @@
 
     <!-- Mobile dropdown -->
     @if (menuOpen()) {
-      <div class="md:hidden mt-2 bg-[var(--c-surface)]/90 backdrop-blur-md
+      <div id="mobile-menu" (keydown.escape)="closeMenu()" class="md:hidden mt-2 bg-[var(--c-surface)]/90 backdrop-blur-md
                   border border-[var(--c-border)] rounded-full px-4 py-3
                   flex flex-col gap-1 shadow-sm">
-        @for (link of [{id:'about',label:'About'},{id:'work',label:'Work'},{id:'contact',label:'Contact'}]; track link.id) {
+        @for (link of navLinks; track link.id) {
           <button (click)="scrollTo(link.id)"
                   class="text-left px-3 py-2.5 rounded-xl text-sm font-medium
                          text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]
@@ -120,7 +121,7 @@
           <button (click)="openResume()"
                   class="text-left px-3 py-2.5 rounded-xl text-sm font-semibold
                          text-[var(--c-fg)] hover:bg-[var(--c-surface2)] transition-all cursor-pointer">
-            Resume ↗
+            Resume <span aria-hidden="true">↗</span>
           </button>
         }
       </div>
