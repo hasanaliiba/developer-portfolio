@@ -7,7 +7,7 @@
     <div class="hidden md:flex items-center justify-between
                 bg-[var(--c-surface)]/80 backdrop-blur-md
                 border border-[var(--c-border)]
-                rounded-2xl px-5 py-3 shadow-sm">
+                rounded-full px-5 py-3 shadow-sm">
 
       <!-- Name -->
       <button (click)="scrollTo('hero')"
@@ -21,8 +21,9 @@
                   rounded-full px-1.5 py-1">
         @for (link of [{id:'about',label:'About'},{id:'work',label:'Work'},{id:'contact',label:'Contact'}]; track link.id) {
           <button (click)="scrollTo(link.id)"
-                  class="px-4 py-1.5 rounded-full text-[13px] font-medium text-[var(--c-fg-muted)]
-                         hover:text-[var(--c-fg)] hover:bg-[var(--c-surface)] transition-all duration-150 cursor-pointer">
+                  [class]="activeSection() === link.id
+                    ? 'px-4 py-1.5 rounded-full text-[13px] font-medium bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm transition-all duration-150 cursor-pointer'
+                    : 'px-4 py-1.5 rounded-full text-[13px] font-medium text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] hover:bg-[var(--c-surface)] transition-all duration-150 cursor-pointer'">
             {{ link.label }}
           </button>
         }
@@ -64,7 +65,7 @@
     <div class="md:hidden flex items-center justify-between
                 bg-[var(--c-surface)]/80 backdrop-blur-md
                 border border-[var(--c-border)]
-                rounded-2xl px-4 py-3 shadow-sm">
+                rounded-full px-4 py-3 shadow-sm">
       <button (click)="scrollTo('hero')"
               class="font-bold text-[var(--c-fg)] text-[15px] tracking-tight cursor-pointer">
         Hasan Ali
@@ -105,7 +106,7 @@
     <!-- Mobile dropdown -->
     @if (menuOpen()) {
       <div class="md:hidden mt-2 bg-[var(--c-surface)]/90 backdrop-blur-md
-                  border border-[var(--c-border)] rounded-2xl px-4 py-3
+                  border border-[var(--c-border)] rounded-full px-4 py-3
                   flex flex-col gap-1 shadow-sm">
         @for (link of [{id:'about',label:'About'},{id:'work',label:'Work'},{id:'contact',label:'Contact'}]; track link.id) {
           <button (click)="scrollTo(link.id)"

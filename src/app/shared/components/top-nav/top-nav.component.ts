@@ -1,5 +1,5 @@
 // src/app/shared/components/top-nav/top-nav.component.ts
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { ResumeService } from '../../../core/services/resume.service';
@@ -10,13 +10,38 @@ import { toSignal } from '@angular/core/rxjs-interop';
   standalone: true,
   templateUrl: './top-nav.component.html',
 })
-export class TopNavComponent {
+export class TopNavComponent implements OnInit, OnDestroy {
   readonly theme        = inject(ThemeService);
   private resumeService = inject(ResumeService);
   private router        = inject(Router);
 
-  readonly menuOpen     = signal(false);
-  readonly activeResume = toSignal(this.resumeService.getActive());
+  readonly menuOpen      = signal(false);
+  readonly activeResume  = toSignal(this.resumeService.getActive());
+  readonly activeSection = signal<string>('');
+  private sectionObserver!: IntersectionObserver;
+
+  ngOnInit(): void {
+    const sections = ['hero', 'about', 'work', 'contact'];
+    this.sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            this.activeSection.set(entry.target.id);
+            break;
+          }
+        }
+      },
+      { threshold: 0.3 }
+    );
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el) this.sectionObserver.observe(el);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.sectionObserver?.disconnect();
+  }
 
   toggleMenu(): void { this.menuOpen.update(v => !v); }
   closeMenu(): void  { this.menuOpen.set(false); }
