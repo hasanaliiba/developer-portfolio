@@ -4,7 +4,7 @@ import {
   OnDestroy, ViewChild, inject, NgZone
 } from '@angular/core';
 
-interface Node {
+interface CanvasNode {
   x: number; y: number;
   vx: number; vy: number;
   r: number;
@@ -19,19 +19,16 @@ interface Node {
 export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  private get isDark(): boolean {
-    return document.documentElement.getAttribute('data-theme') !== 'light';
-  }
+  private darkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+  private themeObserver!: MutationObserver;
 
   private zone = inject(NgZone);
   private mouse = { x: -999, y: -999 };
-  private nodes: Node[] = [];
+  private nodes: CanvasNode[] = [];
   private rafId = 0;
   private resizeObserver!: ResizeObserver;
 
-  private get ctx(): CanvasRenderingContext2D {
-    return this.canvasRef.nativeElement.getContext('2d')!;
-  }
+  private ctx!: CanvasRenderingContext2D;
 
   ngAfterViewInit(): void {
     this.zone.runOutsideAngular(() => {
@@ -41,6 +38,7 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
 
   private init(): void {
     const canvas = this.canvasRef.nativeElement;
+    this.ctx = canvas.getContext('2d')!;
     const parent = canvas.parentElement!;
 
     // Size canvas to parent
@@ -52,6 +50,11 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
 
     this.resizeObserver = new ResizeObserver(resize);
     this.resizeObserver.observe(parent);
+
+    this.themeObserver = new MutationObserver(() => {
+      this.darkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+    });
+    this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     // Seed nodes
     this.nodes = Array.from({ length: 38 }, () => ({
@@ -83,7 +86,7 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     const ctx = this.ctx;
     const MAX_DIST   = 110;
     const MOUSE_DIST = 130;
-    const dotColor   = this.isDark ? 'rgba(34,197,94,0.5)'  : 'rgba(34,197,94,0.3)';
+    const dotColor   = this.darkMode ? 'rgba(34,197,94,0.5)'  : 'rgba(34,197,94,0.3)';
     const lineBase   = 'rgba(34,197,94,';
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -139,6 +142,7 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     cancelAnimationFrame(this.rafId);
     this.resizeObserver?.disconnect();
+    this.themeObserver?.disconnect();
     const parent = this.canvasRef?.nativeElement?.parentElement;
     parent?.removeEventListener('mousemove', this.onMouseMove);
     parent?.removeEventListener('mouseleave', this.onMouseLeave);
