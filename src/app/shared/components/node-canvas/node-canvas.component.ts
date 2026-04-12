@@ -1,6 +1,6 @@
 // src/app/shared/components/node-canvas/node-canvas.component.ts
 import {
-  Component, ElementRef, Input, AfterViewInit,
+  Component, ElementRef, AfterViewInit,
   OnDestroy, ViewChild, inject, NgZone
 } from '@angular/core';
 
@@ -18,8 +18,10 @@ interface Node {
 })
 export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
-  /** Use darker green for dark backgrounds, lighter for light */
-  @Input() dark = true;
+
+  private get isDark(): boolean {
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }
 
   private zone = inject(NgZone);
   private mouse = { x: -999, y: -999 };
@@ -55,8 +57,8 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     this.nodes = Array.from({ length: 38 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
       r: Math.random() * 1.8 + 1,
     }));
 
@@ -81,7 +83,7 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     const ctx = this.ctx;
     const MAX_DIST   = 110;
     const MOUSE_DIST = 130;
-    const dotColor   = this.dark ? 'rgba(34,197,94,0.5)'  : 'rgba(34,197,94,0.3)';
+    const dotColor   = this.isDark ? 'rgba(34,197,94,0.5)'  : 'rgba(34,197,94,0.3)';
     const lineBase   = 'rgba(34,197,94,';
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
