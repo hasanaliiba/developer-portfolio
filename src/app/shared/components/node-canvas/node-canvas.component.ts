@@ -57,7 +57,7 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     // Seed nodes
-    this.nodes = Array.from({ length: 70 }, () => ({
+    this.nodes = Array.from({ length: 400 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 0.8,

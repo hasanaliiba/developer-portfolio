@@ -28,23 +28,22 @@
                 bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.25)]"
          [fadeUp]="0">
       <span class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse flex-shrink-0"></span>
-      <span class="text-[#4ade80] text-xs font-semibold tracking-wide font-mono">Available for work</span>
+      <span class="text-[#4ade80] text-xs font-semibold tracking-wide font-mono">{{ lang.t().hero.badge }}</span>
     </div>
 
     <!-- Headline -->
     <h1 class="font-extrabold text-[var(--c-fg)] leading-[1.08] tracking-tight mb-6"
         style="font-size:clamp(2.6rem,6.5vw,4rem)"
         [fadeUp]="80">
-      Building digital<br/>
-      experiences that<br/>
-      <span class="text-[#22c55e]">make an impact</span>
+      {{ lang.t().hero.h1 }}<br/>
+      {{ lang.t().hero.h2 }}<br/>
+      <span class="text-[#22c55e]">{{ lang.t().hero.accent }}</span>
     </h1>
 
     <!-- Sub-headline -->
     <p class="text-[var(--c-fg-muted)] text-[15px] leading-relaxed mb-10 max-w-xl mx-auto"
        [fadeUp]="160">
-      Front End Developer specialising in Angular &amp; Laravel — crafting fast,
-      accessible, and beautiful web applications from the UK.
+      {{ lang.t().hero.sub }}
     </p>
 
     <!-- CTAs -->
@@ -55,7 +54,7 @@
                      duration-200 cursor-pointer focus:outline-none focus:ring-2
                      focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]
                      shadow-md shadow-green-500/20">
-        See my work
+        {{ lang.t().hero.cta1 }}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
              class="w-4 h-4" aria-hidden="true">
           <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
@@ -67,7 +66,7 @@
                      hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer
                      focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2
                      focus:ring-offset-[var(--c-bg)]">
-        Get in touch
+        {{ lang.t().hero.cta2 }}
       </button>
     </div>
   </div>
@@ -87,45 +86,36 @@
       <!-- Bio -->
       <div>
         <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#a1a1aa] mb-3"
-           [fadeUp]="0">About Me</p>
+           [fadeUp]="0">{{ lang.t().about.eyebrow }}</p>
         <h2 class="font-bold text-[var(--c-fg)] text-2xl md:text-[26px] leading-snug mb-5"
-            [fadeUp]="80">My background</h2>
+            [fadeUp]="80">{{ lang.t().about.heading }}</h2>
         <p class="text-[var(--c-fg-muted)] text-[13px] leading-[1.8] mb-4"
            [fadeUp]="160">
-          I'm a creative, independent developer with a strong focus on building impactful
-          digital experiences — combining clean code with thoughtful UI.
+          {{ lang.t().about.p1 }}
         </p>
         <p class="text-[var(--c-fg-muted)] text-[13px] leading-[1.8] mb-4"
            [fadeUp]="200">
-          Specialising in Angular &amp; Laravel, I turn complex problems into fast, accessible,
-          production-ready web apps — from component architecture to CI/CD deployment.
+          {{ lang.t().about.p2 }}
         </p>
         <p class="text-[var(--c-fg-subtle)] text-[12px] leading-[1.8] mb-6"
            [fadeUp]="240">
-          My journey started with UI design, then evolved into full-stack development. I care
-          deeply about performance, accessibility, and the small details that make a product
-          feel right.
+          {{ lang.t().about.p3 }}
         </p>
         <button onclick="document.getElementById('work')?.scrollIntoView({behavior:'smooth'})"
                 class="inline-flex items-center gap-2 text-[13px] font-semibold
                        text-[var(--c-fg)] cursor-pointer hover:gap-3 transition-all duration-200"
                 [fadeUp]="280">
           <span class="w-6 h-0.5 bg-[var(--c-fg)] inline-block flex-shrink-0"></span>
-          See my work
+          {{ lang.t().about.cta }}
         </button>
       </div>
 
       <!-- Skills card -->
       <div [fadeUp]="120">
         <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-[14px] p-4 md:p-5">
-          <p class="text-[12px] font-semibold text-[var(--c-fg)] mb-4">Skills &amp; Expertise</p>
+          <p class="text-[12px] font-semibold text-[var(--c-fg)] mb-4">{{ lang.t().about.skillsTitle }}</p>
 
-          @for (group of [
-            { label: 'Frontend', tags: ['Angular', 'TypeScript', 'RxJS', 'Tailwind CSS'] },
-            { label: 'Backend',  tags: ['Laravel', 'PHP', 'Firebase', 'MySQL'] },
-            { label: 'Design',   tags: ['Figma', 'UI/UX', 'Responsive'] },
-            { label: 'Tools',    tags: ['Git', 'GitHub Actions', 'Docker', 'Linux'] }
-          ]; track group.label; let last = $last) {
+          @for (group of lang.t().about.groups; track group.label; let last = $last) {
             <div [class]="last ? '' : 'mb-3'">
               <p class="font-mono text-[9px] font-semibold tracking-[0.2em] uppercase
                         text-[#a1a1aa] mb-1.5">{{ group.label }}</p>
@@ -151,9 +141,9 @@
   <div class="max-w-6xl mx-auto px-6 md:px-10">
 
     <div [fadeUp]="0">
-      <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-3">Portfolio</p>
+      <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-3">{{ lang.t().work.eyebrow }}</p>
       <h2 class="font-bold text-[var(--c-fg)] text-2xl md:text-[26px] leading-snug mb-8">
-        Selected Work
+        {{ lang.t().work.heading }}
       </h2>
     </div>
 
@@ -166,7 +156,7 @@
                   : 'bg-[var(--c-surface2)] border border-[var(--c-border)] text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'"
                 class="text-[11px] px-3 py-1.5 rounded-full font-mono
                        transition-all duration-150 cursor-pointer">
-          All
+          {{ lang.t().work.all }}
         </button>
         @for (tag of allTags(); track tag) {
           <button (click)="setTag(tag)"
@@ -188,7 +178,7 @@
       } @empty {
         <div class="col-span-full rounded-2xl border border-dashed border-[var(--c-border)]
                     py-20 text-center">
-          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies yet.</p>
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">{{ lang.t().work.empty }}</p>
         </div>
       }
     </div>
@@ -210,19 +200,18 @@
   <div class="relative z-10 max-w-lg mx-auto px-6 text-center">
 
     <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-4"
-       [fadeUp]="0">Get in touch</p>
+       [fadeUp]="0">{{ lang.t().contact.eyebrow }}</p>
 
     <h2 class="font-extrabold text-[var(--c-fg)] leading-[1.05] tracking-tight mb-5"
         style="font-size:clamp(2rem,5vw,3rem)"
         [fadeUp]="80">
-      Let's build<br/>
-      <span class="text-[#22c55e]">something great</span>
+      {{ lang.t().contact.h1 }}<br/>
+      <span class="text-[#22c55e]">{{ lang.t().contact.accent }}</span>
     </h2>
 
     <p class="text-[var(--c-fg-muted)] text-[15px] leading-relaxed mb-8"
        [fadeUp]="160">
-      Open to freelance, full-time opportunities, or just a good conversation.
-      My inbox is always open.
+      {{ lang.t().contact.sub }}
     </p>
 
     <!-- Email pill -->
@@ -236,7 +225,7 @@
               class="text-[11px] text-[var(--c-fg-subtle)] bg-[var(--c-surface2)] hover:bg-[var(--c-border)]
                      px-2.5 py-1 rounded-md transition-colors cursor-pointer
                      focus:outline-none focus:ring-1 focus:ring-[#22c55e]">
-        {{ copied() ? 'Copied!' : 'copy' }}
+        {{ copied() ? lang.t().contact.copied : lang.t().contact.copy }}
       </button>
     </div>
 
@@ -247,7 +236,7 @@
                 font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-[#16a34a]
                 transition-colors cursor-pointer focus:outline-none focus:ring-2
                 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
-        Send email ↗
+        {{ lang.t().contact.sendEmail }}
       </a>
       <div class="flex gap-3">
         <a href="https://linkedin.com/in/hasanaliiba" target="_blank" rel="noopener noreferrer"
@@ -256,7 +245,7 @@
                   px-6 py-3 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)]
                   transition-all cursor-pointer focus:outline-none focus:ring-2
                   focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
-          LinkedIn ↗
+          {{ lang.t().contact.linkedin }}
         </a>
         <a href="https://github.com/hasanaliiba" target="_blank" rel="noopener noreferrer"
            class="flex-1 inline-flex items-center justify-center gap-2 bg-[var(--c-surface)]
@@ -264,7 +253,7 @@
                   px-6 py-3 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)]
                   transition-all cursor-pointer focus:outline-none focus:ring-2
                   focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
-          GitHub ↗
+          {{ lang.t().contact.github }}
         </a>
       </div>
     </div>
@@ -276,7 +265,7 @@
 ════════════════════════════════════════════════ -->
 <footer class="bg-[var(--c-surface)] border-t border-[var(--c-border)] py-6 text-center transition-colors duration-300">
   <p class="text-[13px] text-[var(--c-fg-subtle)]">
-    © 2026 Hasan Ali · Built with Angular &amp; Tailwind
+    {{ lang.t().footer.text }}
   </p>
 </footer>
 

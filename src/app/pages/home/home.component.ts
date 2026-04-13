@@ -3,6 +3,7 @@ import { Component, inject, signal, computed, OnInit, OnDestroy } from '@angular
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaseStudyService } from '../../core/services/case-study.service';
 import { SettingsService } from '../../core/services/settings.service';
+import { LanguageService } from '../../core/services/language.service';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
 import { NodeCanvasComponent } from '../../shared/components/node-canvas/node-canvas.component';
 import { FadeUpDirective } from '../../shared/directives/fade-up.directive';
@@ -23,6 +24,7 @@ const GRID: Record<number, string> = {
 export class HomeComponent implements OnInit, OnDestroy {
   private caseStudyService = inject(CaseStudyService);
   private settingsService  = inject(SettingsService);
+  readonly lang            = inject(LanguageService);
 
   allStudies = toSignal(this.caseStudyService.getVisible(), { initialValue: [] });
   settings   = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const } });

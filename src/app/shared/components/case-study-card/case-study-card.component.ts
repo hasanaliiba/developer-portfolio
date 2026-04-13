@@ -1,7 +1,8 @@
 // src/app/shared/components/case-study-card/case-study-card.component.ts
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CaseStudy } from '../../models/case-study.model';
+import { LanguageService } from '../../../core/services/language.service';
 
 const MAX_VISIBLE_TAGS = 3;
 
@@ -21,6 +22,7 @@ const GRADIENTS = [
   host: { class: 'flex w-full h-full' },
 })
 export class CaseStudyCardComponent {
+  readonly lang = inject(LanguageService);
   study = input.required<CaseStudy>();
 
   visibleTags = computed(() => (this.study().tags ?? []).slice(0, MAX_VISIBLE_TAGS));

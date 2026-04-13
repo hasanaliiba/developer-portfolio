@@ -19,7 +19,7 @@
       <div class="inline-flex items-center gap-1
                   bg-[var(--c-surface2)] border border-[var(--c-border)]
                   rounded-full px-1.5 py-1">
-        @for (link of navLinks; track link.id) {
+        @for (link of navLinks(); track link.id) {
           <button (click)="scrollTo(link.id)"
                   [class]="activeSection() === link.id
                     ? 'px-4 py-1.5 rounded-full text-[13px] font-medium bg-[var(--c-surface)] text-[var(--c-fg)] shadow-sm transition-all duration-150 cursor-pointer'
@@ -33,7 +33,7 @@
                   class="ml-1 bg-[var(--c-fg)] text-[var(--c-bg)] text-[13px] font-semibold
                          px-4 py-1.5 rounded-full hover:opacity-80 transition-opacity cursor-pointer
                          inline-flex items-center gap-1">
-            Resume
+            {{ lang.t().nav.resume }}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                  class="w-3 h-3 opacity-60" aria-hidden="true">
               <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd"/>
@@ -42,23 +42,56 @@
         }
       </div>
 
-      <!-- Theme toggle -->
-      <button (click)="theme.toggle()"
-              [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
-              class="w-8 h-8 flex items-center justify-center rounded-lg
-                     text-[var(--c-fg-subtle)] hover:text-[var(--c-fg-muted)]
-                     hover:bg-[var(--c-surface2)] transition-all duration-200 cursor-pointer
-                     focus:outline-none focus:ring-2 focus:ring-[#22c55e]">
-        @if (theme.isDark()) {
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
-            <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zM10 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zM10 7a3 3 0 100 6 3 3 0 000-6zM15.657 5.404a.75.75 0 10-1.06-1.06l-1.061 1.06a.75.75 0 001.06 1.06l1.06-1.06zM6.464 14.596a.75.75 0 10-1.06-1.06l-1.06 1.06a.75.75 0 001.06 1.06l1.06-1.06zM18 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zM14.596 15.657a.75.75 0 001.06-1.06l-1.06-1.061a.75.75 0 10-1.06 1.06l1.06 1.061zM5.404 6.464a.75.75 0 001.06-1.06L5.404 4.343a.75.75 0 00-1.06 1.06l1.06 1.061z"/>
-          </svg>
-        } @else {
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
-            <path fill-rule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z" clip-rule="evenodd"/>
-          </svg>
-        }
-      </button>
+      <!-- Right controls -->
+      <div class="flex items-center gap-1">
+        <!-- Theme toggle -->
+        <button (click)="theme.toggle()"
+                [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+                class="w-8 h-8 flex items-center justify-center rounded-lg
+                       text-[var(--c-fg-subtle)] hover:text-[var(--c-fg-muted)]
+                       hover:bg-[var(--c-surface2)] transition-all duration-200 cursor-pointer
+                       focus:outline-none focus:ring-2 focus:ring-[#22c55e]">
+          @if (theme.isDark()) {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+              <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zM10 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zM10 7a3 3 0 100 6 3 3 0 000-6zM15.657 5.404a.75.75 0 10-1.06-1.06l-1.061 1.06a.75.75 0 001.06 1.06l1.06-1.06zM6.464 14.596a.75.75 0 10-1.06-1.06l-1.06 1.06a.75.75 0 001.06 1.06l1.06-1.06zM18 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zM14.596 15.657a.75.75 0 001.06-1.06l-1.06-1.061a.75.75 0 10-1.06 1.06l1.06 1.061zM5.404 6.464a.75.75 0 001.06-1.06L5.404 4.343a.75.75 0 00-1.06 1.06l1.06 1.061z"/>
+            </svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z" clip-rule="evenodd"/>
+            </svg>
+          }
+        </button>
+
+        <!-- Language switcher -->
+        <div class="relative">
+          <button (click)="toggleLangMenu()"
+                  (keydown.escape)="closeLangMenu()"
+                  [attr.aria-expanded]="langMenuOpen()"
+                  aria-label="Change language"
+                  class="w-8 h-8 flex items-center justify-center rounded-lg
+                         text-[var(--c-fg-subtle)] hover:text-[var(--c-fg-muted)]
+                         hover:bg-[var(--c-surface2)] transition-all duration-200 cursor-pointer
+                         focus:outline-none focus:ring-2 focus:ring-[#22c55e] font-mono text-[11px] font-semibold">
+            {{ lang.currentLang().toUpperCase() }}
+          </button>
+          @if (langMenuOpen()) {
+            <div class="absolute right-0 top-10 bg-[var(--c-surface)] border border-[var(--c-border)]
+                        rounded-xl shadow-lg py-1 z-50 min-w-[130px]"
+                 (keydown.escape)="closeLangMenu()">
+              @for (l of supportedLangs; track l.code) {
+                <button (click)="setLang(l.code)"
+                        class="w-full text-left px-3 py-2 text-[13px] flex items-center gap-2
+                               text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]
+                               hover:bg-[var(--c-surface2)] transition-colors cursor-pointer"
+                        [class.font-semibold]="lang.currentLang() === l.code">
+                  <span>{{ l.flag }}</span>
+                  <span>{{ l.label }}</span>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
     </div>
 
     <!-- ── Mobile bar ── -->
@@ -107,9 +140,9 @@
     <!-- Mobile dropdown -->
     @if (menuOpen()) {
       <div id="mobile-menu" (keydown.escape)="closeMenu()" class="md:hidden mt-2 bg-[var(--c-surface)]/90 backdrop-blur-md
-                  border border-[var(--c-border)] rounded-full px-4 py-3
+                  border border-[var(--c-border)] rounded-2xl px-4 py-3
                   flex flex-col gap-1 shadow-sm">
-        @for (link of navLinks; track link.id) {
+        @for (link of navLinks(); track link.id) {
           <button (click)="scrollTo(link.id)"
                   class="text-left px-3 py-2.5 rounded-xl text-sm font-medium
                          text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]
@@ -121,9 +154,23 @@
           <button (click)="openResume()"
                   class="text-left px-3 py-2.5 rounded-xl text-sm font-semibold
                          text-[var(--c-fg)] hover:bg-[var(--c-surface2)] transition-all cursor-pointer">
-            Resume <span aria-hidden="true">↗</span>
+            {{ lang.t().nav.resume }} <span aria-hidden="true">↗</span>
           </button>
         }
+        <!-- Language switcher — mobile -->
+        <div class="border-t border-[var(--c-border)] mt-1 pt-2">
+          <p class="font-mono text-[9px] tracking-[0.2em] uppercase text-[#a1a1aa] px-3 mb-1">Language</p>
+          @for (l of supportedLangs; track l.code) {
+            <button (click)="setLang(l.code); closeMenu()"
+                    class="w-full text-left px-3 py-2 rounded-xl text-sm flex items-center gap-2
+                           text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]
+                           hover:bg-[var(--c-surface2)] transition-all cursor-pointer"
+                    [class.font-semibold]="lang.currentLang() === l.code">
+              <span>{{ l.flag }}</span>
+              <span>{{ l.label }}</span>
+            </button>
+          }
+        </div>
       </div>
     }
   </nav>

@@ -1,8 +1,9 @@
 // src/app/shared/components/top-nav/top-nav.component.ts
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { ResumeService } from '../../../core/services/resume.service';
+import { LanguageService, SUPPORTED_LANGS } from '../../../core/services/language.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -12,16 +13,20 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class TopNavComponent implements OnInit, OnDestroy {
   readonly theme        = inject(ThemeService);
+  readonly lang         = inject(LanguageService);
   private resumeService = inject(ResumeService);
   private router        = inject(Router);
 
-  readonly navLinks = [
-    { id: 'about', label: 'About' },
-    { id: 'work', label: 'Work' },
-    { id: 'contact', label: 'Contact' },
-  ];
+  readonly supportedLangs = SUPPORTED_LANGS;
+
+  readonly navLinks = computed(() => [
+    { id: 'about',   label: this.lang.t().nav.about },
+    { id: 'work',    label: this.lang.t().nav.work },
+    { id: 'contact', label: this.lang.t().nav.contact },
+  ]);
 
   readonly menuOpen      = signal(false);
+  readonly langMenuOpen  = signal(false);
   readonly activeResume  = toSignal(this.resumeService.getActive());
   readonly activeSection = signal<string>('');
   private sectionObserver!: IntersectionObserver;
@@ -51,6 +56,10 @@ export class TopNavComponent implements OnInit, OnDestroy {
 
   toggleMenu(): void { this.menuOpen.update(v => !v); }
   closeMenu(): void  { this.menuOpen.set(false); }
+
+  toggleLangMenu(): void { this.langMenuOpen.update(v => !v); }
+  closeLangMenu(): void  { this.langMenuOpen.set(false); }
+  setLang(code: any): void { this.lang.setLang(code); this.closeLangMenu(); }
 
   scrollTo(sectionId: string): void {
     this.closeMenu();
