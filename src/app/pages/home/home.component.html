@@ -270,3 +270,20 @@
     © 2026 Hasan Ali · Built with Angular &amp; Tailwind
   </p>
 </footer>
+
+<!-- Back to top -->
+@if (showBackToTop()) {
+  <button (click)="scrollToTop()"
+          aria-label="Back to top"
+          class="fixed bottom-6 right-6 z-50 w-10 h-10 flex items-center justify-center
+                 bg-[#22c55e] text-[#09090b] rounded-full shadow-lg shadow-green-500/30
+                 hover:bg-[#16a34a] hover:scale-110 active:scale-95
+                 transition-all duration-200 cursor-pointer
+                 focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2
+                 focus:ring-offset-[var(--c-bg)]">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+         class="w-4 h-4" aria-hidden="true">
+      <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04L10.75 5.612V16.25A.75.75 0 0110 17z" clip-rule="evenodd"/>
+    </svg>
+  </button>
+}

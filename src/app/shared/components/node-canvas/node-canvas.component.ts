@@ -19,7 +19,7 @@ interface CanvasNode {
 export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  private darkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+  private darkMode = document.documentElement.classList.contains('dark');
   private themeObserver!: MutationObserver;
 
   private zone = inject(NgZone);
@@ -52,9 +52,9 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     this.resizeObserver.observe(parent);
 
     this.themeObserver = new MutationObserver(() => {
-      this.darkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+      this.darkMode = document.documentElement.classList.contains('dark');
     });
-    this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     // Seed nodes
     this.nodes = Array.from({ length: 38 }, () => ({

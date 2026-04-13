@@ -1,5 +1,5 @@
 // src/app/pages/home/home.component.ts
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaseStudyService } from '../../core/services/case-study.service';
 import { SettingsService } from '../../core/services/settings.service';
@@ -20,7 +20,7 @@ const GRID: Record<number, string> = {
   imports: [CaseStudyCardComponent, NodeCanvasComponent, FadeUpDirective],
   templateUrl: './home.component.html',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   private caseStudyService = inject(CaseStudyService);
   private settingsService  = inject(SettingsService);
 
@@ -42,6 +42,23 @@ export class HomeComponent {
   setTag(tag: string | null): void { this.activeTag.set(tag); }
 
   readonly copied = signal(false);
+  readonly showBackToTop = signal(false);
+
+  private onScroll = (): void => {
+    this.showBackToTop.set(window.scrollY > 400);
+  };
+
+  ngOnInit(): void {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   copyEmailWithFeedback(): void {
     navigator.clipboard.writeText('hasanaliiba@gmail.com').then(() => {

@@ -23,7 +23,6 @@ export class ThemeService {
   private initTheme(): boolean {
     const stored = localStorage.getItem('portfolio-theme');
     if (stored) return stored === 'dark';
-    // Default to dark; respect system preference as fallback
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return true; // Default to dark mode per design spec
   }
 }

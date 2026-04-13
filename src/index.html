@@ -10,6 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Apply theme before first paint to prevent flash of wrong theme -->
+  <script>
+    (function() {
+      var stored = localStorage.getItem('portfolio-theme');
+      var dark = stored ? stored === 'dark' : true;
+      if (dark) document.documentElement.classList.add('dark');
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
