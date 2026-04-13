@@ -1,6 +1,7 @@
 import { Component, inject, computed } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CaseStudyService } from '../../core/services/case-study.service';
+import { LanguageService } from '../../core/services/language.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
@@ -14,6 +15,7 @@ import { CaseStudyCardComponent } from '../../shared/components/case-study-card/
 export class CaseStudyComponent {
   private route = inject(ActivatedRoute);
   private svc = inject(CaseStudyService);
+  readonly lang = inject(LanguageService);
 
   study = toSignal(
     this.route.params.pipe(switchMap(p => this.svc.getBySlug(p['slug'])))

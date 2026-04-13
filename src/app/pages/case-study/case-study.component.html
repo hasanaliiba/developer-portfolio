@@ -15,11 +15,19 @@
       <!-- Back link -->
       <a routerLink="/work"
          class="inline-flex items-center gap-2 text-[var(--c-fg-muted)] text-sm font-mono hover:text-[#22c55e] transition-colors duration-200 mb-10 cursor-pointer group">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-             class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
-          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
-        </svg>
-        Back to Work
+        @if (!lang.isRtl()) {
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+               class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden="true">
+            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+          </svg>
+        }
+        {{ lang.t().caseStudy.back }}
+        @if (lang.isRtl()) {
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+               class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+          </svg>
+        }
       </a>
 
       <!-- Tags -->
@@ -69,7 +77,7 @@
         <!-- Challenge -->
         @if (s.problem) {
           <section>
-            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[#22c55e] mb-4">The Challenge</h2>
+            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[#22c55e] mb-4">{{ lang.t().caseStudy.challenge }}</h2>
             <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] mb-6">{{ s.problem }}</p>
             @if (s.challengePoints && s.challengePoints.length) {
               <ul class="flex flex-col gap-3">
@@ -87,7 +95,7 @@
         <!-- Solution -->
         @if (s.solution) {
           <section>
-            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">The Solution</h2>
+            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">{{ lang.t().caseStudy.solution }}</h2>
             <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] mb-8">{{ s.solution }}</p>
             @if (s.solutionItems && s.solutionItems.length) {
               <div class="grid sm:grid-cols-2 gap-5">
@@ -105,7 +113,7 @@
         <!-- Results & Benefits -->
         @if (s.result) {
           <section>
-            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">Results & Impact</h2>
+            <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">{{ lang.t().caseStudy.results }}</h2>
             <p class="text-[var(--c-fg-muted)] leading-relaxed text-[15px] mb-8">{{ s.result }}</p>
             @if (s.benefits && s.benefits.length) {
               <div class="flex flex-col gap-4">
@@ -136,7 +144,7 @@
           <!-- Technologies Used -->
           @if (s.technologies && s.technologies.length) {
             <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6">
-              <h3 class="text-[10px] font-semibold tracking-[0.2em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">Technologies Used</h3>
+              <h3 class="text-[10px] font-semibold tracking-[0.2em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">{{ lang.t().caseStudy.technologies }}</h3>
               <div class="flex flex-wrap gap-2">
                 @for (tech of s.technologies; track tech) {
                   <span class="bg-[var(--c-surface2)] border border-[var(--c-border)] text-[var(--c-fg-muted)] text-xs font-mono px-3 py-1.5 rounded-lg">{{ tech }}</span>
@@ -147,29 +155,29 @@
 
           <!-- Project Details -->
           <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6">
-            <h3 class="text-[10px] font-semibold tracking-[0.2em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">Project Details</h3>
+            <h3 class="text-[10px] font-semibold tracking-[0.2em] uppercase font-mono text-[var(--c-fg-subtle)] mb-4">{{ lang.t().caseStudy.details }}</h3>
             <dl class="flex flex-col gap-4">
               @if (s.client) {
                 <div>
-                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">Client</dt>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">{{ lang.t().caseStudy.client }}</dt>
                   <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.client }}</dd>
                 </div>
               }
               @if (s.industry) {
                 <div>
-                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">Industry</dt>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">{{ lang.t().caseStudy.industry }}</dt>
                   <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.industry }}</dd>
                 </div>
               }
               @if (s.timeline) {
                 <div>
-                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">Timeline</dt>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">{{ lang.t().caseStudy.timeline }}</dt>
                   <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.timeline }}</dd>
                 </div>
               }
               @if (s.role) {
                 <div>
-                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">My Role</dt>
+                  <dt class="text-[11px] text-[var(--c-fg-subtle)] font-mono uppercase tracking-widest mb-0.5">{{ lang.t().caseStudy.role }}</dt>
                   <dd class="text-[var(--c-fg)] text-sm font-medium">{{ s.role }}</dd>
                 </div>
               }
@@ -184,7 +192,7 @@
                 <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"/>
                 <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd"/>
               </svg>
-              View Live Project
+              {{ lang.t().caseStudy.viewLive }}
             </a>
           }
 
@@ -198,7 +206,7 @@
   @if (related().length) {
     <div class="border-t border-[var(--c-border)] bg-[var(--c-surface)]">
       <div class="max-w-6xl mx-auto px-6 md:px-10 py-16">
-        <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-8">Related Case Studies</h2>
+        <h2 class="text-[10px] font-semibold tracking-[0.25em] uppercase font-mono text-[var(--c-fg-subtle)] mb-8">{{ lang.t().caseStudy.related }}</h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (r of related(); track r.id) {
             <app-case-study-card [study]="r" />
@@ -211,10 +219,10 @@
 } @else {
   <div class="max-w-3xl mx-auto px-6 py-24 text-center">
     <div class="rounded-2xl border border-dashed border-[var(--c-border)] py-16">
-      <p class="text-[var(--c-fg-muted)] font-mono text-sm">Case study not found.</p>
+      <p class="text-[var(--c-fg-muted)] font-mono text-sm">{{ lang.t().caseStudy.notFound }}</p>
       <a routerLink="/work"
          class="inline-flex items-center gap-2 mt-6 text-[#22c55e] text-sm font-mono hover:underline cursor-pointer">
-        ← Back to Work
+        {{ lang.t().caseStudy.notFoundBack }}
       </a>
     </div>
   </div>

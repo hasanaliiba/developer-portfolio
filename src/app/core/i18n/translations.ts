@@ -1,6 +1,6 @@
 // src/app/core/i18n/translations.ts
 
-export type LangCode = 'en' | 'fr' | 'es';
+export type LangCode = 'en' | 'fr' | 'es' | 'ar';
 
 export interface T {
   nav:     { about: string; work: string; contact: string; resume: string };
@@ -12,6 +12,12 @@ export interface T {
              copy: string; copied: string; sendEmail: string; linkedin: string; github: string };
   footer:  { text: string };
   card:    { eyebrow: string; cta: string };
+  caseStudy: {
+    back: string; challenge: string; solution: string; results: string;
+    technologies: string; details: string; client: string; industry: string;
+    timeline: string; role: string; viewLive: string; related: string;
+    notFound: string; notFoundBack: string;
+  };
 }
 
 export const translations: Record<LangCode, T> = {
@@ -52,6 +58,22 @@ export const translations: Record<LangCode, T> = {
     },
     footer: { text: '© 2026 Hasan Ali · Built with Angular & Tailwind' },
     card:   { eyebrow: 'Case Study', cta: 'View case study' },
+    caseStudy: {
+      back:         'Back to Work',
+      challenge:    'The Challenge',
+      solution:     'The Solution',
+      results:      'Results & Impact',
+      technologies: 'Technologies Used',
+      details:      'Project Details',
+      client:       'Client',
+      industry:     'Industry',
+      timeline:     'Timeline',
+      role:         'My Role',
+      viewLive:     'View Live Project',
+      related:      'Related Case Studies',
+      notFound:     'Case study not found.',
+      notFoundBack: '← Back to Work',
+    },
   },
 
   fr: {
@@ -91,6 +113,22 @@ export const translations: Record<LangCode, T> = {
     },
     footer: { text: '© 2026 Hasan Ali · Développé avec Angular & Tailwind' },
     card:   { eyebrow: 'Étude de cas', cta: 'Voir le projet' },
+    caseStudy: {
+      back:         '← Retour aux projets',
+      challenge:    'Le Défi',
+      solution:     'La Solution',
+      results:      'Résultats & Impact',
+      technologies: 'Technologies utilisées',
+      details:      'Détails du projet',
+      client:       'Client',
+      industry:     'Secteur',
+      timeline:     'Durée',
+      role:         'Mon rôle',
+      viewLive:     'Voir le projet en ligne ↗',
+      related:      'Études de cas associées',
+      notFound:     'Étude de cas introuvable.',
+      notFoundBack: '← Retour aux projets',
+    },
   },
 
   es: {
@@ -130,5 +168,76 @@ export const translations: Record<LangCode, T> = {
     },
     footer: { text: '© 2026 Hasan Ali · Desarrollado con Angular & Tailwind' },
     card:   { eyebrow: 'Caso de estudio', cta: 'Ver proyecto' },
+    caseStudy: {
+      back:         '← Volver a proyectos',
+      challenge:    'El Desafío',
+      solution:     'La Solución',
+      results:      'Resultados e Impacto',
+      technologies: 'Tecnologías utilizadas',
+      details:      'Detalles del proyecto',
+      client:       'Cliente',
+      industry:     'Industria',
+      timeline:     'Duración',
+      role:         'Mi rol',
+      viewLive:     'Ver proyecto en vivo ↗',
+      related:      'Proyectos relacionados',
+      notFound:     'Proyecto no encontrado.',
+      notFoundBack: '← Volver a proyectos',
+    },
+  },
+
+  ar: {
+    nav: { about: 'عني', work: 'أعمالي', contact: 'تواصل', resume: 'السيرة الذاتية' },
+    hero: {
+      badge:  'متاح للعمل',
+      h1:     'أبني تجارب',
+      h2:     'رقمية',
+      accent: 'تصنع الفارق',
+      sub:    'مطوّر واجهات أمامية متخصص في Angular و Laravel — أصنع تطبيقات ويب سريعة وسهلة الوصول وجميلة من المملكة المتحدة.',
+      cta1:   'اكتشف أعمالي',
+      cta2:   'تواصل معي',
+    },
+    about: {
+      eyebrow: 'عني',
+      heading: 'خلفيتي',
+      p1: 'أنا مطوّر مستقل ومبدع أركّز على بناء تجارب رقمية مؤثرة — أجمع بين الكود النظيف وواجهة المستخدم المدروسة.',
+      p2: 'متخصص في Angular و Laravel، أحوّل المشاكل المعقدة إلى تطبيقات ويب سريعة وسهلة الوصول وجاهزة للإنتاج.',
+      p3: 'بدأت رحلتي بتصميم واجهات المستخدم، ثم تطورت نحو التطوير الشامل. أهتم بعمق بالأداء وإمكانية الوصول والتفاصيل الصغيرة التي تجعل المنتج مميزًا.',
+      cta: 'اكتشف أعمالي',
+      skillsTitle: 'المهارات والخبرات',
+      groups: [
+        { label: 'الواجهة الأمامية', tags: ['Angular', 'TypeScript', 'RxJS', 'Tailwind CSS'] },
+        { label: 'الخلفية',          tags: ['Laravel', 'PHP', 'Firebase', 'MySQL'] },
+        { label: 'التصميم',          tags: ['Figma', 'UI/UX', 'Responsive'] },
+        { label: 'الأدوات',          tags: ['Git', 'GitHub Actions', 'Docker', 'Linux'] },
+      ],
+    },
+    work:    { eyebrow: 'المعرض', heading: 'أعمال مختارة', all: 'الكل', empty: 'لا توجد دراسات حالة بعد.' },
+    contact: {
+      eyebrow: 'تواصل معي',
+      h1:      'لنبني',
+      accent:  'شيئًا رائعًا',
+      sub:     'متاح للعمل الحر وفرص العمل الكامل أو مجرد محادثة جيدة. بريدي الإلكتروني مفتوح دائمًا.',
+      copy:    'نسخ', copied: 'تم النسخ!',
+      sendEmail: 'إرسال بريد ↗', linkedin: 'لينكدإن ↗', github: 'جيتهاب ↗',
+    },
+    footer: { text: '© 2026 حسن علي · مبني بـ Angular و Tailwind' },
+    card:   { eyebrow: 'دراسة حالة', cta: 'عرض دراسة الحالة' },
+    caseStudy: {
+      back:         '→ العودة إلى الأعمال',
+      challenge:    'التحدي',
+      solution:     'الحل',
+      results:      'النتائج والأثر',
+      technologies: 'التقنيات المستخدمة',
+      details:      'تفاصيل المشروع',
+      client:       'العميل',
+      industry:     'القطاع',
+      timeline:     'المدة الزمنية',
+      role:         'دوري',
+      viewLive:     'عرض المشروع المباشر ↗',
+      related:      'دراسات حالة ذات صلة',
+      notFound:     'دراسة الحالة غير موجودة.',
+      notFoundBack: '→ العودة إلى الأعمال',
+    },
   },
 };
