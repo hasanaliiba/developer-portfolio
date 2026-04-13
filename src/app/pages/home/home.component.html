@@ -2,7 +2,7 @@
      HERO
 ════════════════════════════════════════════════ -->
 <section id="hero"
-         class="relative min-h-dvh bg-[#09090b] flex items-center overflow-hidden">
+         class="relative min-h-dvh bg-[var(--c-bg)] flex items-center overflow-hidden transition-colors duration-300">
 
   <!-- Node canvas background -->
   <app-node-canvas />
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Headline -->
-    <h1 class="font-extrabold text-[#fafafa] leading-[1.05] tracking-tight mb-6"
+    <h1 class="font-extrabold text-[var(--c-fg)] leading-[1.05] tracking-tight mb-6"
         style="font-size:clamp(2.4rem,6vw,3.5rem)"
         [fadeUp]="80">
       Building digital<br/>
@@ -36,7 +36,7 @@
     </h1>
 
     <!-- Sub-headline -->
-    <p class="text-[#71717a] text-[15px] leading-relaxed mb-10 max-w-lg"
+    <p class="text-[var(--c-fg-muted)] text-[15px] leading-relaxed mb-10 max-w-lg"
        [fadeUp]="160">
       Front End Developer specialising in Angular &amp; Laravel — crafting fast,
       accessible, and beautiful web applications from the UK.
@@ -48,7 +48,7 @@
               class="inline-flex items-center gap-2 bg-[#22c55e] text-[#09090b] font-bold
                      text-sm px-7 py-3.5 rounded-xl hover:bg-[#16a34a] transition-colors
                      duration-200 cursor-pointer focus:outline-none focus:ring-2
-                     focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]
+                     focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]
                      shadow-md shadow-green-500/20">
         See my work
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -57,11 +57,11 @@
         </svg>
       </button>
       <button onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})"
-              class="inline-flex items-center gap-2 bg-transparent text-[#fafafa] font-semibold
-                     text-sm px-7 py-3.5 rounded-xl border border-[#3f3f46]
-                     hover:border-[#52525b] transition-colors duration-200 cursor-pointer
+              class="inline-flex items-center gap-2 bg-transparent text-[var(--c-fg)] font-semibold
+                     text-sm px-7 py-3.5 rounded-xl border border-[var(--c-border)]
+                     hover:border-[var(--c-border2)] transition-colors duration-200 cursor-pointer
                      focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2
-                     focus:ring-offset-[#09090b]">
+                     focus:ring-offset-[var(--c-bg)]">
         Get in touch
       </button>
     </div>
@@ -189,7 +189,7 @@
 <!-- ═══════════════════════════════════════════════
      CONTACT
 ════════════════════════════════════════════════ -->
-<section id="contact" class="relative bg-[#09090b] py-24 overflow-hidden">
+<section id="contact" class="relative bg-[var(--c-bg)] py-24 overflow-hidden transition-colors duration-300">
 
   <!-- Glow -->
   <div class="absolute inset-0 pointer-events-none flex items-center justify-center"
@@ -203,28 +203,28 @@
     <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-4"
        [fadeUp]="0">Get in touch</p>
 
-    <h2 class="font-extrabold text-[#fafafa] leading-[1.05] tracking-tight mb-5"
+    <h2 class="font-extrabold text-[var(--c-fg)] leading-[1.05] tracking-tight mb-5"
         style="font-size:clamp(2rem,5vw,3rem)"
         [fadeUp]="80">
       Let's build<br/>
       <span class="text-[#22c55e]">something great</span>
     </h2>
 
-    <p class="text-[#71717a] text-[15px] leading-relaxed mb-8"
+    <p class="text-[var(--c-fg-muted)] text-[15px] leading-relaxed mb-8"
        [fadeUp]="160">
       Open to freelance, full-time opportunities, or just a good conversation.
       My inbox is always open.
     </p>
 
     <!-- Email pill -->
-    <div class="inline-flex items-center gap-3 bg-[#18181b] border border-[#27272a]
+    <div class="inline-flex items-center gap-3 bg-[var(--c-surface)] border border-[var(--c-border)]
                 rounded-2xl px-5 py-3.5 mb-6"
          [fadeUp]="200">
-      <span class="font-mono text-[14px] font-semibold text-[#fafafa]">
+      <span class="font-mono text-[14px] font-semibold text-[var(--c-fg)]">
         hasanaliiba&#64;gmail.com
       </span>
       <button (click)="copyEmailWithFeedback()"
-              class="text-[11px] text-[#52525b] bg-[#27272a] hover:bg-[#3f3f46]
+              class="text-[11px] text-[var(--c-fg-subtle)] bg-[var(--c-surface2)] hover:bg-[var(--c-border)]
                      px-2.5 py-1 rounded-md transition-colors cursor-pointer
                      focus:outline-none focus:ring-1 focus:ring-[#22c55e]">
         {{ copied() ? 'Copied!' : 'copy' }}
@@ -237,24 +237,24 @@
          class="inline-flex items-center justify-center gap-2 bg-[#22c55e] text-[#09090b]
                 font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-[#16a34a]
                 transition-colors cursor-pointer focus:outline-none focus:ring-2
-                focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]">
+                focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
         Send email ↗
       </a>
       <div class="flex gap-3">
         <a href="https://linkedin.com/in/hasanaliiba" target="_blank" rel="noopener noreferrer"
-           class="flex-1 inline-flex items-center justify-center gap-2 bg-[#18181b]
-                  border border-[#27272a] text-[#a1a1aa] font-semibold text-[13px]
-                  px-6 py-3 rounded-xl hover:border-[#3f3f46] hover:text-[#fafafa]
+           class="flex-1 inline-flex items-center justify-center gap-2 bg-[var(--c-surface)]
+                  border border-[var(--c-border)] text-[var(--c-fg-muted)] font-semibold text-[13px]
+                  px-6 py-3 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)]
                   transition-all cursor-pointer focus:outline-none focus:ring-2
-                  focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]">
+                  focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
           LinkedIn ↗
         </a>
         <a href="https://github.com/hasanaliiba" target="_blank" rel="noopener noreferrer"
-           class="flex-1 inline-flex items-center justify-center gap-2 bg-[#18181b]
-                  border border-[#27272a] text-[#a1a1aa] font-semibold text-[13px]
-                  px-6 py-3 rounded-xl hover:border-[#3f3f46] hover:text-[#fafafa]
+           class="flex-1 inline-flex items-center justify-center gap-2 bg-[var(--c-surface)]
+                  border border-[var(--c-border)] text-[var(--c-fg-muted)] font-semibold text-[13px]
+                  px-6 py-3 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)]
                   transition-all cursor-pointer focus:outline-none focus:ring-2
-                  focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]">
+                  focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)]">
           GitHub ↗
         </a>
       </div>
@@ -265,8 +265,8 @@
 <!-- ═══════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════════ -->
-<footer class="bg-[#09090b] border-t border-[#1f1f23] py-6 text-center">
-  <p class="text-[13px] text-[#3f3f46]">
+<footer class="bg-[var(--c-surface)] border-t border-[var(--c-border)] py-6 text-center transition-colors duration-300">
+  <p class="text-[13px] text-[var(--c-fg-subtle)]">
     © 2026 Hasan Ali · Built with Angular &amp; Tailwind
   </p>
 </footer>
