@@ -8,14 +8,14 @@
 
   <!-- Dark image header — 160px, tags overlaid bottom-left -->
   <div class="relative h-40 flex-shrink-0 overflow-hidden"
-       [style.background]="study().bannerUrl ? '' : headerGradient()">
+       [style.background]="hasBanner() ? '' : headerGradient()">
 
     <!-- Green glow -->
     <div class="absolute top-0 right-0 w-32 h-32 rounded-full pointer-events-none"
          style="background:radial-gradient(circle,rgba(34,197,94,0.15),transparent 70%)"></div>
 
     <!-- Real banner image (when available) -->
-    @if (study().bannerUrl) {
+    @if (hasBanner()) {
       <img [src]="study().bannerUrl"
            [alt]="study().title"
            loading="lazy"

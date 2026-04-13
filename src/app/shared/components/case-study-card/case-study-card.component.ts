@@ -27,7 +27,10 @@ export class CaseStudyCardComponent {
   overflowCount = computed(() => Math.max(0, (this.study().tags ?? []).length - MAX_VISIBLE_TAGS));
 
   headerGradient = computed(() => {
-    const hash = this.study().title.charCodeAt(0) % GRADIENTS.length;
+    const code = this.study().title.charCodeAt(0);
+    const hash = Number.isNaN(code) ? 0 : code % GRADIENTS.length;
     return GRADIENTS[hash];
   });
+
+  hasBanner = computed(() => !!this.study().bannerUrl?.trim());
 }
