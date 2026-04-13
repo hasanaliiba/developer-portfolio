@@ -1,142 +1,272 @@
-<!-- ─── Hero ──────────────────────────────────────── -->
-<section class="relative min-h-[calc(100dvh-4rem)] flex items-center overflow-hidden">
+<!-- ═══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section id="hero"
+         class="relative min-h-dvh bg-[#09090b] flex items-center overflow-hidden">
 
-  <!-- Gradient blobs -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    <div class="absolute -top-32 -left-32 w-[560px] h-[560px] rounded-full"
-         style="background:radial-gradient(circle,var(--c-blob-1) 0%,transparent 70%);filter:blur(48px)"></div>
-    <div class="absolute -top-16 right-0 w-[480px] h-[480px] rounded-full"
-         style="background:radial-gradient(circle,var(--c-blob-2) 0%,transparent 70%);filter:blur(64px)"></div>
-    <div class="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full"
-         style="background:radial-gradient(circle,var(--c-blob-3) 0%,transparent 70%);filter:blur(72px)"></div>
+  <!-- Node canvas background -->
+  <app-node-canvas />
+
+  <!-- Green glow radials -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute -top-24 right-0 w-96 h-96 rounded-full opacity-60"
+         style="background:radial-gradient(circle,rgba(34,197,94,0.12),transparent 65%);filter:blur(40px)"></div>
+    <div class="absolute bottom-0 left-1/4 w-72 h-72 rounded-full opacity-40"
+         style="background:radial-gradient(circle,rgba(34,197,94,0.08),transparent 65%);filter:blur(40px)"></div>
   </div>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10 w-full py-20 grid md:grid-cols-2 gap-16 items-center">
+  <!-- Content -->
+  <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10 w-full pt-28 pb-20">
 
-    <!-- Left: text -->
-    <div>
-      <!-- Status badge -->
-      <div class="inline-flex items-center gap-2 bg-[var(--c-surface)] border border-[var(--c-border)] rounded-full px-4 py-1.5 mb-8 shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse flex-shrink-0"></span>
-        <span class="text-[var(--c-fg-muted)] text-xs font-medium tracking-wide">Available for work</span>
-      </div>
-
-      <!-- Headline -->
-      <h1 class="font-bold text-[var(--c-fg)] leading-[1.06] tracking-tight mb-6"
-          style="font-size:clamp(2.6rem,6vw,4.5rem)">
-        Building digital<br/>
-        experiences that<br/>
-        <span class="text-[#22c55e]">make an impact</span>
-      </h1>
-
-      <!-- Subtitle -->
-      <p class="text-[var(--c-fg-muted)] text-lg leading-relaxed mb-10 max-w-md">
-        Front End Developer specialising in Angular &amp; Laravel — crafting fast, accessible, and
-        beautiful web applications.
-      </p>
-
-      <!-- Typewriter -->
-      <p class="font-mono text-[var(--c-fg-subtle)] text-sm mb-10 min-h-[1.4rem]">
-        <app-typewriter text="Building performant, beautiful web interfaces." />
-      </p>
-
-      <!-- CTAs -->
-      <div class="flex flex-wrap gap-4">
-        <a routerLink="/work"
-           class="inline-flex items-center gap-2 bg-[#22c55e] text-black font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-[#16a34a] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)] shadow-md shadow-green-500/20">
-          View Work
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
-            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
-          </svg>
-        </a>
-        <a routerLink="/contact"
-           class="inline-flex items-center gap-2 bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-fg-muted)] font-medium text-sm px-7 py-3.5 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[var(--c-bg)] shadow-sm">
-          Contact
-        </a>
-      </div>
+    <!-- Available badge -->
+    <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-8
+                bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.25)]"
+         [fadeUp]="0">
+      <span class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse flex-shrink-0"></span>
+      <span class="text-[#4ade80] text-xs font-semibold tracking-wide font-mono">Available for work</span>
     </div>
 
-    <!-- Right: profile photo area -->
-    <div class="hidden md:flex items-center justify-center">
-      <div class="relative">
-        <!-- Glow ring -->
-        <div class="absolute inset-0 rounded-[2.5rem] rotate-6 opacity-40"
-             style="background:linear-gradient(135deg,var(--c-blob-1),var(--c-blob-2));filter:blur(24px)"></div>
+    <!-- Headline -->
+    <h1 class="font-extrabold text-[#fafafa] leading-[1.05] tracking-tight mb-6"
+        style="font-size:clamp(2.4rem,6vw,3.5rem)"
+        [fadeUp]="80">
+      Building digital<br/>
+      experiences that<br/>
+      <span class="text-[#22c55e]">make an impact</span>
+    </h1>
 
-        <!-- Photo container — replace the inner div with <img> when you have a photo -->
-        <div class="relative w-72 h-80 rounded-[2.5rem] overflow-hidden border border-[var(--c-border)] shadow-2xl bg-[var(--c-surface2)]">
-          <!-- Placeholder — swap this <div> for <img src="assets/photo.jpg" alt="Hasan Ali" class="w-full h-full object-cover"> -->
-          <div class="w-full h-full flex flex-col items-center justify-center gap-3"
-               style="background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(168,85,247,0.08))">
-            <div class="w-20 h-20 rounded-full bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-center shadow-inner">
-              <span class="font-mono text-[#22c55e] text-xl font-bold">HA</span>
+    <!-- Sub-headline -->
+    <p class="text-[#71717a] text-base md:text-lg leading-relaxed mb-10 max-w-lg"
+       [fadeUp]="160">
+      Front End Developer specialising in Angular &amp; Laravel — crafting fast,
+      accessible, and beautiful web applications from the UK.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap gap-4" [fadeUp]="240">
+      <button onclick="document.getElementById('work')?.scrollIntoView({behavior:'smooth'})"
+              class="inline-flex items-center gap-2 bg-[#22c55e] text-[#09090b] font-bold
+                     text-sm px-7 py-3.5 rounded-xl hover:bg-[#16a34a] transition-colors
+                     duration-200 cursor-pointer focus:outline-none focus:ring-2
+                     focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]
+                     shadow-md shadow-green-500/20">
+        See my work
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+             class="w-4 h-4" aria-hidden="true">
+          <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <button onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})"
+              class="inline-flex items-center gap-2 bg-transparent text-[#fafafa] font-semibold
+                     text-sm px-7 py-3.5 rounded-xl border border-[#3f3f46]
+                     hover:border-[#52525b] transition-colors duration-200 cursor-pointer
+                     focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2
+                     focus:ring-offset-[#09090b]">
+        Get in touch
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ABOUT + SKILLS
+════════════════════════════════════════════════ -->
+<section id="about" class="bg-[var(--c-bg)] py-24">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+    <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
+
+      <!-- Bio -->
+      <div>
+        <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#a1a1aa] mb-3"
+           [fadeUp]="0">About Me</p>
+        <h2 class="font-bold text-[var(--c-fg)] text-2xl md:text-[26px] leading-snug mb-5"
+            [fadeUp]="80">My background</h2>
+        <p class="text-[var(--c-fg-muted)] text-[13px] leading-[1.8] mb-4"
+           [fadeUp]="160">
+          I'm a creative, independent developer with a strong focus on building impactful
+          digital experiences — combining clean code with thoughtful UI.
+        </p>
+        <p class="text-[var(--c-fg-muted)] text-[13px] leading-[1.8] mb-4"
+           [fadeUp]="200">
+          Specialising in Angular &amp; Laravel, I turn complex problems into fast, accessible,
+          production-ready web apps — from component architecture to CI/CD deployment.
+        </p>
+        <p class="text-[var(--c-fg-subtle)] text-[12px] leading-[1.8] mb-6"
+           [fadeUp]="240">
+          My journey started with UI design, then evolved into full-stack development. I care
+          deeply about performance, accessibility, and the small details that make a product
+          feel right.
+        </p>
+        <button onclick="document.getElementById('work')?.scrollIntoView({behavior:'smooth'})"
+                class="inline-flex items-center gap-2 text-[13px] font-semibold
+                       text-[var(--c-fg)] cursor-pointer hover:gap-3 transition-all duration-200"
+                [fadeUp]="280">
+          <span class="w-6 h-0.5 bg-[var(--c-fg)] inline-block flex-shrink-0"></span>
+          See my work
+        </button>
+      </div>
+
+      <!-- Skills card -->
+      <div [fadeUp]="120">
+        <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-4 md:p-5">
+          <p class="text-[12px] font-semibold text-[var(--c-fg)] mb-4">Skills &amp; Expertise</p>
+
+          @for (group of [
+            { label: 'Frontend', tags: ['Angular', 'TypeScript', 'RxJS', 'Tailwind CSS'] },
+            { label: 'Backend',  tags: ['Laravel', 'PHP', 'Firebase', 'MySQL'] },
+            { label: 'Design',   tags: ['Figma', 'UI/UX', 'Responsive'] },
+            { label: 'Tools',    tags: ['Git', 'GitHub Actions', 'Docker', 'Linux'] }
+          ]; track group.label; let last = $last) {
+            <div [class]="last ? '' : 'mb-3'">
+              <p class="font-mono text-[9px] font-semibold tracking-[0.2em] uppercase
+                        text-[#a1a1aa] mb-1.5">{{ group.label }}</p>
+              <div class="flex flex-wrap gap-1.5">
+                @for (tag of group.tags; track tag) {
+                  <span class="bg-[var(--c-surface2)] border border-[var(--c-border)]
+                               text-[var(--c-fg-muted)] text-[11px] font-medium
+                               px-2.5 py-0.5 rounded-md">{{ tag }}</span>
+                }
+              </div>
             </div>
-            <span class="text-[var(--c-fg-subtle)] text-xs font-mono tracking-widest uppercase">Your photo here</span>
-          </div>
+          }
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── About strip ───────────────────────────────── -->
-<section class="border-t border-[var(--c-border)] bg-[var(--c-surface)]">
-  <div class="max-w-6xl mx-auto px-6 md:px-10 py-16">
-    <p class="text-xs font-mono tracking-[0.25em] uppercase text-[#22c55e] mb-3">Background</p>
-    <h2 class="text-[var(--c-fg)] font-bold text-2xl md:text-3xl mb-6 max-w-xl leading-snug">
-      A developer who cares about the details
-    </h2>
-    <div class="grid md:grid-cols-2 gap-8 text-[var(--c-fg-muted)] leading-relaxed">
-      <p>
-        I build fast, maintainable web applications with a strong focus on user experience and code quality.
-        My stack centres on <span class="text-[var(--c-fg)] font-medium">Angular</span> and <span class="text-[var(--c-fg)] font-medium">Laravel</span>,
-        backed by Firebase, Tailwind CSS, and TypeScript.
-      </p>
-      <p>
-        Whether it's a complex SPA or a data-driven dashboard, I enjoy turning designs into polished,
-        production-ready products — from component architecture all the way to CI/CD deployment.
-      </p>
+<!-- ═══════════════════════════════════════════════
+     WORK
+════════════════════════════════════════════════ -->
+<section id="work" class="bg-[var(--c-surface)] py-24 border-t border-[var(--c-border)]">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+
+    <div [fadeUp]="0">
+      <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-3">Portfolio</p>
+      <h2 class="font-bold text-[var(--c-fg)] text-2xl md:text-[26px] leading-snug mb-8">
+        Selected Work
+      </h2>
     </div>
 
-    <!-- Tech pills -->
-    <div class="flex flex-wrap gap-2 mt-10">
-      @for (tech of ['Angular', 'TypeScript', 'Laravel', 'RxJS', 'Tailwind CSS', 'Firebase', 'PHP', 'Git']; track tech) {
-        <span class="bg-[var(--c-surface2)] border border-[var(--c-border)] text-[var(--c-fg-muted)] font-mono text-[11px] tracking-widest uppercase px-3 py-1.5 rounded-full">{{ tech }}</span>
+    <!-- Tag filter -->
+    @if (allTags().length > 0) {
+      <div class="flex flex-wrap gap-2 mb-8" [fadeUp]="80">
+        <button (click)="setTag(null)"
+                [class]="activeTag() === null
+                  ? 'bg-[#22c55e] text-[#09090b] font-semibold'
+                  : 'bg-[var(--c-surface2)] border border-[var(--c-border)] text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'"
+                class="text-[11px] px-3 py-1.5 rounded-full font-mono
+                       transition-all duration-150 cursor-pointer">
+          All
+        </button>
+        @for (tag of allTags(); track tag) {
+          <button (click)="setTag(tag)"
+                  [class]="activeTag() === tag
+                    ? 'bg-[#22c55e] text-[#09090b] font-semibold'
+                    : 'bg-[var(--c-surface2)] border border-[var(--c-border)] text-[var(--c-fg-muted)] hover:text-[var(--c-fg)]'"
+                  class="text-[11px] px-3 py-1.5 rounded-full font-mono
+                         transition-all duration-150 cursor-pointer">
+            {{ tag }}
+          </button>
+        }
+      </div>
+    }
+
+    <!-- Card grid -->
+    <div class="grid gap-5" [class]="gridClass()" [fadeUp]="120">
+      @for (study of filtered(); track study.id) {
+        <app-case-study-card [study]="study" />
+      } @empty {
+        <div class="col-span-full rounded-2xl border border-dashed border-[var(--c-border)]
+                    py-20 text-center">
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No case studies yet.</p>
+        </div>
       }
     </div>
   </div>
 </section>
 
-<!-- ─── Work teaser ───────────────────────────────── -->
-<section class="max-w-6xl mx-auto px-6 md:px-10 py-20">
-  <div class="flex items-end justify-between mb-12">
-    <div>
-      <p class="text-xs font-mono tracking-[0.25em] uppercase text-[#22c55e] mb-3">Portfolio</p>
-      <h2 class="text-[var(--c-fg)] font-bold text-2xl md:text-3xl leading-tight">Selected Work</h2>
+<!-- ═══════════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════════════ -->
+<section id="contact" class="relative bg-[#09090b] py-24 overflow-hidden">
+
+  <!-- Glow -->
+  <div class="absolute inset-0 pointer-events-none flex items-center justify-center"
+       aria-hidden="true">
+    <div class="w-[500px] h-72 rounded-full opacity-60"
+         style="background:radial-gradient(ellipse,rgba(34,197,94,0.1),transparent 65%);filter:blur(40px)"></div>
+  </div>
+
+  <div class="relative z-10 max-w-lg mx-auto px-6 text-center">
+
+    <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-4"
+       [fadeUp]="0">Get in touch</p>
+
+    <h2 class="font-extrabold text-[#fafafa] leading-[1.05] tracking-tight mb-5"
+        style="font-size:clamp(2rem,5vw,3rem)"
+        [fadeUp]="80">
+      Let's build<br/>
+      <span class="text-[#22c55e]">something great</span>
+    </h2>
+
+    <p class="text-[#71717a] text-[15px] leading-relaxed mb-8"
+       [fadeUp]="160">
+      Open to freelance, full-time opportunities, or just a good conversation.
+      My inbox is always open.
+    </p>
+
+    <!-- Email pill -->
+    <div class="inline-flex items-center gap-3 bg-[#18181b] border border-[#27272a]
+                rounded-2xl px-5 py-3.5 mb-6"
+         [fadeUp]="200">
+      <span class="font-mono text-[14px] font-semibold text-[#fafafa]">
+        hasanaliiba&#64;gmail.com
+      </span>
+      <button (click)="copyEmailWithFeedback()"
+              class="text-[11px] text-[#52525b] bg-[#27272a] hover:bg-[#3f3f46]
+                     px-2.5 py-1 rounded-md transition-colors cursor-pointer
+                     focus:outline-none focus:ring-1 focus:ring-[#22c55e]">
+        {{ copied() ? 'Copied!' : 'copy' }}
+      </button>
     </div>
-    <a routerLink="/work"
-       class="hidden md:inline-flex items-center gap-1.5 text-sm text-[var(--c-fg-muted)] hover:text-[var(--c-fg)] transition-colors duration-200 cursor-pointer font-medium group">
-      View all
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">
-        <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
-      </svg>
-    </a>
-  </div>
 
-  <div class="grid md:grid-cols-2 gap-5">
-    @for (study of filtered().slice(0, 4); track study.id) {
-      <app-case-study-card [study]="study" />
-    } @empty {
-      <div class="col-span-2 rounded-2xl border border-dashed border-[var(--c-border)] py-20 text-center">
-        <p class="text-[var(--c-fg-muted)] font-mono text-sm">Case studies coming soon.</p>
+    <!-- Buttons -->
+    <div class="flex flex-col gap-3" [fadeUp]="240">
+      <a href="mailto:hasanaliiba@gmail.com"
+         class="inline-flex items-center justify-center gap-2 bg-[#22c55e] text-[#09090b]
+                font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-[#16a34a]
+                transition-colors cursor-pointer focus:outline-none focus:ring-2
+                focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]">
+        Send email ↗
+      </a>
+      <div class="flex gap-3">
+        <a href="https://linkedin.com/in/hasanaliiba" target="_blank" rel="noopener noreferrer"
+           class="flex-1 inline-flex items-center justify-center gap-2 bg-[#18181b]
+                  border border-[#27272a] text-[#a1a1aa] font-semibold text-[13px]
+                  px-6 py-3 rounded-xl hover:border-[#3f3f46] hover:text-[#fafafa]
+                  transition-all cursor-pointer focus:outline-none focus:ring-2
+                  focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]">
+          LinkedIn ↗
+        </a>
+        <a href="https://github.com/hasanaliiba" target="_blank" rel="noopener noreferrer"
+           class="flex-1 inline-flex items-center justify-center gap-2 bg-[#18181b]
+                  border border-[#27272a] text-[#a1a1aa] font-semibold text-[13px]
+                  px-6 py-3 rounded-xl hover:border-[#3f3f46] hover:text-[#fafafa]
+                  transition-all cursor-pointer focus:outline-none focus:ring-2
+                  focus:ring-[#22c55e] focus:ring-offset-2 focus:ring-offset-[#09090b]">
+          GitHub ↗
+        </a>
       </div>
-    }
-  </div>
-
-  <div class="flex justify-center mt-10 md:hidden">
-    <a routerLink="/work"
-       class="inline-flex items-center gap-2 border border-[var(--c-border)] text-[var(--c-fg-muted)] font-medium text-sm px-6 py-3 rounded-xl hover:border-[var(--c-border2)] hover:text-[var(--c-fg)] transition-all duration-200 cursor-pointer">
-      View all work
-    </a>
+    </div>
   </div>
 </section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer class="bg-[#09090b] border-t border-[#1f1f23] py-6 text-center">
+  <p class="text-[13px] text-[#3f3f46]">
+    © 2026 Hasan Ali · Built with Angular &amp; Tailwind
+  </p>
+</footer>

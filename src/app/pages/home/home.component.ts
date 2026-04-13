@@ -1,12 +1,10 @@
 // src/app/pages/home/home.component.ts
 import { Component, inject, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
 import { CaseStudyService } from '../../core/services/case-study.service';
 import { SettingsService } from '../../core/services/settings.service';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
 import { NodeCanvasComponent } from '../../shared/components/node-canvas/node-canvas.component';
-import { TypewriterComponent } from '../../shared/components/typewriter/typewriter.component';
 import { FadeUpDirective } from '../../shared/directives/fade-up.directive';
 
 const GRID: Record<number, string> = {
@@ -19,7 +17,7 @@ const GRID: Record<number, string> = {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CaseStudyCardComponent, NodeCanvasComponent, TypewriterComponent, FadeUpDirective],
+  imports: [CaseStudyCardComponent, NodeCanvasComponent, FadeUpDirective],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
