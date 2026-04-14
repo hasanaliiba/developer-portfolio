@@ -28,30 +28,34 @@ export class TopNavComponent implements OnInit, OnDestroy {
   readonly menuOpen      = signal(false);
   readonly langMenuOpen  = signal(false);
   readonly activeResume  = toSignal(this.resumeService.getActive());
-  readonly activeSection = signal<string>('');
-  private sectionObserver!: IntersectionObserver;
+  readonly activeSection = signal<string>('hero');
+
+  private readonly SECTIONS = ['hero', 'about', 'work', 'contact'];
+  private readonly NAV_OFFSET = 100; // px below nav to trigger
+
+  private onScroll = (): void => {
+    // If scrolled to (or near) the bottom, activate the last section
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 80) {
+      this.activeSection.set(this.SECTIONS[this.SECTIONS.length - 1]);
+      return;
+    }
+
+    let current = 'hero';
+    for (const id of this.SECTIONS) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= this.NAV_OFFSET) {
+        current = id;
+      }
+    }
+    this.activeSection.set(current);
+  };
 
   ngOnInit(): void {
-    const sections = ['hero', 'about', 'work', 'contact'];
-    this.sectionObserver = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            this.activeSection.set(entry.target.id);
-            break;
-          }
-        }
-      },
-      { threshold: 0.3 }
-    );
-    for (const id of sections) {
-      const el = document.getElementById(id);
-      if (el) this.sectionObserver.observe(el);
-    }
+    window.addEventListener('scroll', this.onScroll, { passive: true });
   }
 
   ngOnDestroy(): void {
-    this.sectionObserver?.disconnect();
+    window.removeEventListener('scroll', this.onScroll);
   }
 
   toggleMenu(): void { this.menuOpen.update(v => !v); }

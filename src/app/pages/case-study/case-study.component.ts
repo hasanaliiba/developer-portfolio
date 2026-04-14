@@ -2,6 +2,7 @@ import { Component, inject, computed } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CaseStudyService } from '../../core/services/case-study.service';
 import { LanguageService } from '../../core/services/language.service';
+import { localize } from '../../shared/models/case-study.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
@@ -20,6 +21,11 @@ export class CaseStudyComponent {
   study = toSignal(
     this.route.params.pipe(switchMap(p => this.svc.getBySlug(p['slug'])))
   );
+
+  localized = computed(() => {
+    const s = this.study();
+    return s ? localize(s, this.lang.currentLang()) : undefined;
+  });
 
   allVisible = toSignal(this.svc.getVisible(), { initialValue: [] });
 

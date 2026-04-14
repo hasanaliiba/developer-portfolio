@@ -1,7 +1,7 @@
 // src/app/shared/components/case-study-card/case-study-card.component.ts
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CaseStudy } from '../../models/case-study.model';
+import { CaseStudy, localize } from '../../models/case-study.model';
 import { LanguageService } from '../../../core/services/language.service';
 
 const MAX_VISIBLE_TAGS = 3;
@@ -24,6 +24,8 @@ const GRADIENTS = [
 export class CaseStudyCardComponent {
   readonly lang = inject(LanguageService);
   study = input.required<CaseStudy>();
+
+  localized = computed(() => localize(this.study(), this.lang.currentLang()));
 
   visibleTags = computed(() => (this.study().tags ?? []).slice(0, MAX_VISIBLE_TAGS));
   overflowCount = computed(() => Math.max(0, (this.study().tags ?? []).length - MAX_VISIBLE_TAGS));

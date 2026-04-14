@@ -3,6 +3,8 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule
 import { CaseStudyService } from '../../../core/services/case-study.service';
 import { CaseStudy } from '../../../shared/models/case-study.model';
 
+type TransLang = 'fr' | 'es' | 'ar';
+
 @Component({
   selector: 'app-case-study-form',
   standalone: true,
@@ -16,6 +18,13 @@ export class CaseStudyFormComponent {
 
   private fb  = inject(FormBuilder);
   private svc = inject(CaseStudyService);
+
+  readonly transLangs: { code: TransLang; label: string; flag: string }[] = [
+    { code: 'fr', label: 'Français', flag: '🇫🇷' },
+    { code: 'es', label: 'Español',  flag: '🇪🇸' },
+    { code: 'ar', label: 'العربية',  flag: '🇸🇦' },
+  ];
+  translationTab = signal<TransLang>('ar');
 
   form = this.fb.group({
     title:     ['', Validators.required],
@@ -43,6 +52,12 @@ export class CaseStudyFormComponent {
 
     order:   [0, [Validators.required, Validators.min(0)]],
     visible: [true],
+
+    i18n: this.fb.group({
+      fr: this.createTransGroup(),
+      es: this.createTransGroup(),
+      ar: this.createTransGroup(),
+    }),
   });
 
   // ── Banner upload state ───────────────────────────
@@ -54,7 +69,6 @@ export class CaseStudyFormComponent {
   setBannerTab(tab: 'upload' | 'link'): void {
     this.bannerTab.set(tab);
     this.bannerError.set('');
-    // Keep existing bannerUrl value when switching tabs
   }
 
   async onBannerFileSelected(event: Event): Promise<void> {
@@ -66,7 +80,6 @@ export class CaseStudyFormComponent {
 
     try {
       const compressed = await this.compressImage(file, 1200, 0.75);
-      // Rough size check — base64 is ~33% larger
       const approxBytes = compressed.length * 0.75;
       if (approxBytes > 700_000) {
         this.bannerError.set('Image is too large even after compression. Please use a smaller image or paste a URL instead.');
@@ -82,7 +95,6 @@ export class CaseStudyFormComponent {
     }
   }
 
-  /** Compress image via canvas. Returns a base64 JPEG data URL. */
   private compressImage(file: File, maxWidth: number, quality: number): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -102,7 +114,7 @@ export class CaseStudyFormComponent {
     });
   }
 
-  // ── Getters ────────────────────────────────────────
+  // ── English FormArray getters ─────────────────────
   get metricsArr()         { return this.form.get('metrics')         as FormArray; }
   get challengePointsArr() { return this.form.get('challengePoints') as FormArray; }
   get solutionItemsArr()   { return this.form.get('solutionItems')   as FormArray; }
@@ -110,7 +122,6 @@ export class CaseStudyFormComponent {
 
   asGroup(ctrl: AbstractControl): FormGroup { return ctrl as FormGroup; }
 
-  // ── Add / remove helpers ──────────────────────────
   addMetric()               { this.metricsArr.push(this.fb.group({ value: [''], label: [''] })); }
   removeMetric(i: number)   { this.metricsArr.removeAt(i); }
 
@@ -123,17 +134,53 @@ export class CaseStudyFormComponent {
   addBenefit()              { this.benefitsArr.push(this.fb.group({ title: [''], description: [''] })); }
   removeBenefit(i: number)  { this.benefitsArr.removeAt(i); }
 
+  // ── Translation FormGroup/Array helpers ──────────
+  private createTransGroup(): FormGroup {
+    return this.fb.group({
+      title:           [''],
+      subtitle:        [''],
+      problem:         [''],
+      challengePoints: this.fb.array([]),
+      solution:        [''],
+      solutionItems:   this.fb.array([]),
+      result:          [''],
+      benefits:        this.fb.array([]),
+    });
+  }
+
+  transGroup(code: TransLang): FormGroup {
+    return (this.form.get('i18n') as FormGroup).get(code) as FormGroup;
+  }
+  transPoints(code: TransLang):   FormArray { return this.transGroup(code).get('challengePoints') as FormArray; }
+  transSolution(code: TransLang): FormArray { return this.transGroup(code).get('solutionItems')   as FormArray; }
+  transBenefits(code: TransLang): FormArray { return this.transGroup(code).get('benefits')         as FormArray; }
+
+  addTransPoint(code: TransLang)                { this.transPoints(code).push(this.fb.control('')); }
+  removeTransPoint(code: TransLang, i: number)  { this.transPoints(code).removeAt(i); }
+
+  addTransSolution(code: TransLang)             { this.transSolution(code).push(this.fb.group({ title: [''], description: [''] })); }
+  removeTransSolution(code: TransLang, i: number) { this.transSolution(code).removeAt(i); }
+
+  addTransBenefit(code: TransLang)              { this.transBenefits(code).push(this.fb.group({ title: [''], description: [''] })); }
+  removeTransBenefit(code: TransLang, i: number) { this.transBenefits(code).removeAt(i); }
+
   // ── Patch form when editing ───────────────────────
   constructor() {
     effect(() => {
       const s = this.study();
+
+      // Clear all arrays
       this.metricsArr.clear();
       this.challengePointsArr.clear();
       this.solutionItemsArr.clear();
       this.benefitsArr.clear();
+      for (const l of this.transLangs) {
+        this.transPoints(l.code).clear();
+        this.transSolution(l.code).clear();
+        this.transBenefits(l.code).clear();
+      }
       this.bannerPreview.set('');
       this.bannerError.set('');
-
 
       if (!s) return;
 
@@ -156,7 +203,6 @@ export class CaseStudyFormComponent {
         visible:      s.visible,
       });
 
-      // If editing and banner is a data URL, show it in upload preview
       if (s.bannerUrl?.startsWith('data:')) {
         this.bannerTab.set('upload');
         this.bannerPreview.set(s.bannerUrl);
@@ -168,6 +214,22 @@ export class CaseStudyFormComponent {
       (s.challengePoints ?? []).forEach(p  => this.challengePointsArr.push(this.fb.control(p)));
       (s.solutionItems   ?? []).forEach(si => this.solutionItemsArr.push(this.fb.group({ title: [si.title], description: [si.description] })));
       (s.benefits        ?? []).forEach(b  => this.benefitsArr.push(this.fb.group({ title: [b.title], description: [b.description] })));
+
+      // Patch translations
+      for (const { code } of this.transLangs) {
+        const tr = s.i18n?.[code];
+        if (!tr) continue;
+        this.transGroup(code).patchValue({
+          title:    tr.title    ?? '',
+          subtitle: tr.subtitle ?? '',
+          problem:  tr.problem  ?? '',
+          solution: tr.solution ?? '',
+          result:   tr.result   ?? '',
+        });
+        (tr.challengePoints ?? []).forEach(p  => this.transPoints(code).push(this.fb.control(p)));
+        (tr.solutionItems   ?? []).forEach(si => this.transSolution(code).push(this.fb.group({ title: [si.title], description: [si.description] })));
+        (tr.benefits        ?? []).forEach(b  => this.transBenefits(code).push(this.fb.group({ title: [b.title], description: [b.description] })));
+      }
     }, { allowSignalWrites: true });
   }
 
@@ -177,6 +239,24 @@ export class CaseStudyFormComponent {
     const v = this.form.getRawValue();
 
     const csv = (s: string | null) => (s ?? '').split(',').map(t => t.trim()).filter(Boolean);
+
+    // Build i18n — only include languages that have at least a title
+    const i18n: Record<string, any> = {};
+    for (const { code } of this.transLangs) {
+      const tg = (v as any).i18n?.[code];
+      const hasContent = tg?.title || tg?.problem || tg?.solution || tg?.result;
+      if (!hasContent) continue;
+      i18n[code] = {
+        ...(tg.title    ? { title:    tg.title }    : {}),
+        ...(tg.subtitle ? { subtitle: tg.subtitle }  : {}),
+        ...(tg.problem  ? { problem:  tg.problem }   : {}),
+        ...(tg.solution ? { solution: tg.solution }  : {}),
+        ...(tg.result   ? { result:   tg.result }    : {}),
+        ...((tg.challengePoints as string[]).filter(Boolean).length ? { challengePoints: (tg.challengePoints as string[]).filter(Boolean) } : {}),
+        ...((tg.solutionItems as any[]).length ? { solutionItems: tg.solutionItems } : {}),
+        ...((tg.benefits as any[]).length ? { benefits: tg.benefits } : {}),
+      };
+    }
 
     const data = {
       title:           v.title!,
@@ -199,6 +279,7 @@ export class CaseStudyFormComponent {
       industry:        v.industry   ?? '',
       order:           v.order      ?? 0,
       visible:         v.visible    ?? true,
+      i18n,
     };
 
     const s = this.study();
