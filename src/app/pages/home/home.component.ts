@@ -4,6 +4,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CaseStudyService } from '../../core/services/case-study.service';
 import { SettingsService } from '../../core/services/settings.service';
 import { LanguageService } from '../../core/services/language.service';
+import { SkillsService } from '../../core/services/skills.service';
+import { getSkillIcon } from '../../core/data/skill-icons';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
 import { NodeCanvasComponent } from '../../shared/components/node-canvas/node-canvas.component';
 import { FadeUpDirective } from '../../shared/directives/fade-up.directive';
@@ -24,10 +26,12 @@ const GRID: Record<number, string> = {
 export class HomeComponent implements OnInit, OnDestroy {
   private caseStudyService = inject(CaseStudyService);
   private settingsService  = inject(SettingsService);
+  private skillsService    = inject(SkillsService);
   readonly lang            = inject(LanguageService);
 
   allStudies = toSignal(this.caseStudyService.getVisible(), { initialValue: [] });
   settings   = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const } });
+  skillGroups = toSignal(this.skillsService.get(), { initialValue: this.skillsService.getCached() });
   activeTag  = signal<string | null>(null);
 
   allTags = computed(() =>
@@ -42,6 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   gridClass = computed(() => GRID[this.settings().columnsPerRow] ?? GRID[2]);
 
   setTag(tag: string | null): void { this.activeTag.set(tag); }
+
+  skillIcon(name: string): { url: string; darkInvert: boolean } | null {
+    return getSkillIcon(name);
+  }
 
   readonly copied = signal(false);
   readonly showBackToTop = signal(false);

@@ -5,13 +5,25 @@ import {
   where, orderBy, serverTimestamp, CollectionReference, getDocs, writeBatch,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Resume, ResumeCreate } from '../../shared/models/resume.model';
+
+const RESUME_CACHE_KEY = 'portfolio-active-resume';
 
 @Injectable({ providedIn: 'root' })
 export class ResumeService {
   private firestore = inject(Firestore);
   private col = collection(this.firestore, 'resumes') as CollectionReference<Resume>;
+
+  /** Read cached active resume synchronously — used as initialValue to avoid Firestore flicker. */
+  getCachedActive(): Resume | undefined {
+    try {
+      const raw = localStorage.getItem(RESUME_CACHE_KEY);
+      return raw ? JSON.parse(raw) : undefined;
+    } catch {
+      return undefined;
+    }
+  }
 
   getAll(): Observable<Resume[]> {
     return collectionData(query(this.col, orderBy('createdAt', 'desc')), { idField: 'id' }) as Observable<Resume[]>;
@@ -21,7 +33,15 @@ export class ResumeService {
     return (collectionData(
       query(this.col, where('visible', '==', true)),
       { idField: 'id' }
-    ) as Observable<Resume[]>).pipe(map(r => r[0]));
+    ) as Observable<Resume[]>).pipe(
+      map(r => r[0]),
+      tap(r => {
+        try {
+          if (r) localStorage.setItem(RESUME_CACHE_KEY, JSON.stringify(r));
+          else   localStorage.removeItem(RESUME_CACHE_KEY);
+        } catch {}
+      }),
+    );
   }
 
   add(data: ResumeCreate): Promise<void> {

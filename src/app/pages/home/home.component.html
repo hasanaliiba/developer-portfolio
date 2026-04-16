@@ -107,18 +107,37 @@
 
       <!-- Skills card -->
       <div [fadeUp]="120">
-        <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-[14px] p-4 md:p-5">
-          <p class="text-[12px] font-semibold text-[var(--c-fg)] mb-4">{{ lang.t().about.skillsTitle }}</p>
+        <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-5 md:p-6">
+          <p class="text-[11px] font-semibold text-[var(--c-fg)] mb-5 tracking-wide">
+            {{ lang.t().about.skillsTitle }}
+          </p>
 
-          @for (group of lang.t().about.groups; track group.label; let last = $last) {
-            <div [class]="last ? '' : 'mb-3'">
-              <p class="font-mono text-[9px] font-semibold tracking-[0.2em] uppercase
-                        text-[#a1a1aa] mb-1.5">{{ group.label }}</p>
-              <div class="flex flex-wrap gap-1.5">
-                @for (tag of group.tags; track tag) {
-                  <span class="bg-[var(--c-surface2)] border border-[var(--c-border)]
+          @for (group of skillGroups(); track group.label; let last = $last) {
+            <div [class]="last ? '' : 'mb-5'">
+              <!-- Group label with accent line -->
+              <div class="flex items-center gap-2 mb-2.5">
+                <span class="w-1 h-3.5 rounded-full bg-[#22c55e] flex-shrink-0"></span>
+                <p class="font-mono text-[9px] font-semibold tracking-[0.22em] uppercase
+                          text-[var(--c-fg-subtle)]">{{ group.label }}</p>
+              </div>
+
+              <!-- Skill chips -->
+              <div class="flex flex-wrap gap-2">
+                @for (skill of group.skills; track skill) {
+                  <span class="inline-flex items-center gap-1.5
+                               bg-[var(--c-surface2)] border border-[var(--c-border)]
                                text-[var(--c-fg-muted)] text-[11px] font-medium
-                               px-2.5 py-0.5 rounded-md">{{ tag }}</span>
+                               px-2.5 py-1.5 rounded-lg
+                               hover:border-[#22c55e]/40 hover:text-[var(--c-fg)]
+                               transition-colors duration-150">
+                    @if (skillIcon(skill); as icon) {
+                      <img [src]="icon.url" [alt]="skill" width="14" height="14"
+                           loading="lazy"
+                           class="w-3.5 h-3.5 object-contain flex-shrink-0"
+                           [class]="icon.darkInvert ? 'dark:invert dark:brightness-200' : ''" />
+                    }
+                    {{ skill }}
+                  </span>
                 }
               </div>
             </div>

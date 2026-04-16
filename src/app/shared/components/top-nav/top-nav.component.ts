@@ -27,13 +27,16 @@ export class TopNavComponent implements OnInit, OnDestroy {
 
   readonly menuOpen      = signal(false);
   readonly langMenuOpen  = signal(false);
-  readonly activeResume  = toSignal(this.resumeService.getActive());
+  readonly activeResume  = toSignal(this.resumeService.getActive(), { initialValue: this.resumeService.getCachedActive() });
   readonly activeSection = signal<string>('hero');
+  readonly scrolled      = signal(false);
 
   private readonly SECTIONS = ['hero', 'about', 'work', 'contact'];
   private readonly NAV_OFFSET = 100; // px below nav to trigger
 
   private onScroll = (): void => {
+    this.scrolled.set(window.scrollY > 30);
+
     // If scrolled to (or near) the bottom, activate the last section
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 80) {
       this.activeSection.set(this.SECTIONS[this.SECTIONS.length - 1]);
