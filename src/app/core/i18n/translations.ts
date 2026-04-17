@@ -3,8 +3,9 @@
 export type LangCode = 'en' | 'fr' | 'es' | 'ar';
 
 export interface T {
-  nav:     { about: string; work: string; contact: string; resume: string };
-  hero:    { badge: string; h1: string; h2: string; accent: string; sub: string; cta1: string; cta2: string };
+  nav:     { about: string; work: string; experience: string; contact: string; resume: string };
+  experience: { eyebrow: string; heading: string; sub: string; present: string };
+  hero:    { eyebrow: string; badge: string; h1: string; h2: string; sub: string; cta1: string; cta2: string };
   about:   { eyebrow: string; heading: string; p1: string; p2: string; p3: string; cta: string;
              skillsTitle: string; groups: { label: string; tags: string[] }[] };
   work:    { eyebrow: string; heading: string; all: string; empty: string };
@@ -22,15 +23,16 @@ export interface T {
 
 export const translations: Record<LangCode, T> = {
   en: {
-    nav: { about: 'About', work: 'Work', contact: 'Contact', resume: 'Resume' },
+    nav: { about: 'About', work: 'Work', experience: 'Experience', contact: 'Contact', resume: 'Resume' },
+    experience: { eyebrow: 'Career', heading: 'Experience', sub: 'My professional journey', present: 'Present' },
     hero: {
-      badge:  'Available for work',
-      h1:     'Building digital',
-      h2:     'experiences that',
-      accent: 'make an impact',
-      sub:    'Front End Developer specialising in Angular & Laravel — crafting fast, accessible, and beautiful web applications from the UK.',
-      cta1:   'See my work',
-      cta2:   'Get in touch',
+      eyebrow: "Hey, I'm",
+      badge:   'Front-End Developer',
+      h1:      'Code that feels designed.',
+      h2:      'Engineering that actually ships.',
+      sub:     'Angular & Laravel specialist — building fast, polished web apps from the UK.',
+      cta1:    'See my work',
+      cta2:    'Get in touch',
     },
     about: {
       eyebrow: 'About Me',
@@ -77,15 +79,16 @@ export const translations: Record<LangCode, T> = {
   },
 
   fr: {
-    nav: { about: 'À propos', work: 'Projets', contact: 'Contact', resume: 'CV' },
+    nav: { about: 'À propos', work: 'Projets', experience: 'Expérience', contact: 'Contact', resume: 'CV' },
+    experience: { eyebrow: 'Carrière', heading: 'Expérience', sub: 'Mon parcours professionnel', present: 'Présent' },
     hero: {
-      badge:  'Disponible pour travailler',
-      h1:     'Créer des expériences',
-      h2:     'numériques qui',
-      accent: 'font la différence',
-      sub:    'Développeur Front End spécialisé en Angular & Laravel — créant des applications web rapides, accessibles et soignées depuis le Royaume-Uni.',
-      cta1:   'Voir mes projets',
-      cta2:   'Me contacter',
+      eyebrow: 'Bonjour, je suis',
+      badge:   'Développeur Front-End',
+      h1:      'Du code qui paraît designé.',
+      h2:      "De l'ingénierie qui livre vraiment.",
+      sub:     'Spécialiste Angular & Laravel — apps web rapides et soignées depuis le Royaume-Uni.',
+      cta1:    'Voir mes projets',
+      cta2:    'Me contacter',
     },
     about: {
       eyebrow: 'À propos de moi',
@@ -132,15 +135,16 @@ export const translations: Record<LangCode, T> = {
   },
 
   es: {
-    nav: { about: 'Sobre mí', work: 'Proyectos', contact: 'Contacto', resume: 'CV' },
+    nav: { about: 'Sobre mí', work: 'Proyectos', experience: 'Experiencia', contact: 'Contacto', resume: 'CV' },
+    experience: { eyebrow: 'Carrera', heading: 'Experiencia', sub: 'Mi trayectoria profesional', present: 'Presente' },
     hero: {
-      badge:  'Disponible para trabajar',
-      h1:     'Creando experiencias',
-      h2:     'digitales que',
-      accent: 'generan impacto',
-      sub:    'Desarrollador Front End especializado en Angular & Laravel — creando aplicaciones web rápidas, accesibles y hermosas desde el Reino Unido.',
-      cta1:   'Ver mis proyectos',
-      cta2:   'Contactarme',
+      eyebrow: 'Hola, soy',
+      badge:   'Desarrollador Front-End',
+      h1:      'Código que parece diseñado.',
+      h2:      'Ingeniería que realmente entrega.',
+      sub:     'Especialista Angular & Laravel — apps web rápidas y pulidas desde el Reino Unido.',
+      cta1:    'Ver mis proyectos',
+      cta2:    'Contactarme',
     },
     about: {
       eyebrow: 'Sobre mí',
@@ -187,15 +191,16 @@ export const translations: Record<LangCode, T> = {
   },
 
   ar: {
-    nav: { about: 'عني', work: 'أعمالي', contact: 'تواصل', resume: 'السيرة الذاتية' },
+    nav: { about: 'عني', work: 'أعمالي', experience: 'الخبرة', contact: 'تواصل', resume: 'السيرة الذاتية' },
+    experience: { eyebrow: 'المسيرة المهنية', heading: 'الخبرة', sub: 'مسيرتي المهنية', present: 'حتى الآن' },
     hero: {
-      badge:  'متاح للعمل',
-      h1:     'أبني تجارب',
-      h2:     'رقمية',
-      accent: 'تصنع الفارق',
-      sub:    'مطوّر واجهات أمامية متخصص في Angular و Laravel — أصنع تطبيقات ويب سريعة وسهلة الوصول وجميلة من المملكة المتحدة.',
-      cta1:   'اكتشف أعمالي',
-      cta2:   'تواصل معي',
+      eyebrow: 'مرحباً، أنا',
+      badge:   'مطوّر واجهات أمامية',
+      h1:      'كود يبدو مصمَّماً.',
+      h2:      'هندسة برمجية تُسلَّم فعلاً.',
+      sub:     'متخصص في Angular و Laravel — أبني تطبيقات ويب سريعة ومصقولة من المملكة المتحدة.',
+      cta1:    'اكتشف أعمالي',
+      cta2:    'تواصل معي',
     },
     about: {
       eyebrow: 'عني',

@@ -6,9 +6,11 @@ import { CaseStudyService } from '../../core/services/case-study.service';
 import { ResumeService } from '../../core/services/resume.service';
 import { SettingsService } from '../../core/services/settings.service';
 import { SkillsService } from '../../core/services/skills.service';
+import { ExperienceService } from '../../core/services/experience.service';
 import { AuthService } from '../../core/services/auth.service';
 import { CaseStudy } from '../../shared/models/case-study.model';
 import { SkillGroup } from '../../shared/models/skill.model';
+import { ExperienceItem } from '../../shared/models/experience.model';
 import { CaseStudyFormComponent } from './case-study-form/case-study-form.component';
 import { KNOWN_SKILLS, getSkillIcon } from '../../core/data/skill-icons';
 
@@ -19,12 +21,13 @@ import { KNOWN_SKILLS, getSkillIcon } from '../../core/data/skill-icons';
   templateUrl: './admin.component.html',
 })
 export class AdminComponent {
-  private caseStudyService = inject(CaseStudyService);
-  private resumeService    = inject(ResumeService);
-  private settingsService  = inject(SettingsService);
-  private skillsService    = inject(SkillsService);
-  private authService      = inject(AuthService);
-  private router           = inject(Router);
+  private caseStudyService   = inject(CaseStudyService);
+  private resumeService      = inject(ResumeService);
+  private settingsService    = inject(SettingsService);
+  private skillsService      = inject(SkillsService);
+  private experienceService  = inject(ExperienceService);
+  private authService        = inject(AuthService);
+  private router             = inject(Router);
 
   // ── Display Settings ─────────────────────────────────────────
   settings    = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const, i18nEnabled: true } });
@@ -141,12 +144,6 @@ export class AdminComponent {
 
   readonly knownSkills = KNOWN_SKILLS;
 
-  constructor() {
-    // When Firestore data arrives, sync to working copy if not dirty.
-    // We use an effect-like pattern via toSignal subscription manually.
-    // Simpler: just initialise once on first non-empty load.
-    this.resetSkillsFromServer();
-  }
 
   private resetSkillsFromServer(): void {
     const groups = this._savedGroups();
@@ -273,6 +270,161 @@ export class AdminComponent {
   getSkillIcon(name: string): { url: string; darkInvert: boolean } | null {
     return getSkillIcon(name);
   }
+
+  // ── Experience Management ─────────────────────────────────────
+  private _savedExp = toSignal(this.experienceService.get(), { initialValue: this.experienceService.getCached() });
+
+  expItems    = signal<ExperienceItem[]>([]);
+  expDirty    = signal(false);
+  expSaving   = signal(false);
+  expExpanded = signal<number | null>(0);
+
+  /** Per-entry tag input */
+  expTagInputs = signal<string[]>([]);
+
+  /** Per-entry new bullet text */
+  expBulletInputs = signal<string[]>([]);
+
+  readonly employmentTypes = ['Full-time', 'Freelance', 'Contract', 'Part-time', 'Internship'];
+
+  constructor() {
+    this.resetSkillsFromServer();
+    this.resetExpFromServer();
+  }
+
+  private resetExpFromServer(): void {
+    const items = this._savedExp();
+    this.expItems.set(items.map(e => ({
+      ...e,
+      bullets: [...e.bullets],
+      tags:    [...e.tags],
+    })));
+    this.expTagInputs.set(items.map(() => ''));
+    this.expBulletInputs.set(items.map(() => ''));
+    this.expExpanded.set(items.length > 0 ? 0 : null);
+    this.expDirty.set(false);
+  }
+
+  toggleExpEntry(idx: number): void {
+    this.expExpanded.set(this.expExpanded() === idx ? null : idx);
+  }
+
+  addExpEntry(): void {
+    const newEntry: ExperienceItem = {
+      role: 'New Role', company: '', type: 'Full-time',
+      period: '', current: false, bullets: [], tags: [],
+    };
+    this.expItems.set([...this.expItems(), newEntry]);
+    this.expTagInputs.set([...this.expTagInputs(), '']);
+    this.expBulletInputs.set([...this.expBulletInputs(), '']);
+    this.expExpanded.set(this.expItems().length - 1);
+    this.expDirty.set(true);
+  }
+
+  removeExpEntry(idx: number): void {
+    if (!confirm('Remove this experience entry?')) return;
+    this.expItems.set(this.expItems().filter((_, i) => i !== idx));
+    this.expTagInputs.set(this.expTagInputs().filter((_, i) => i !== idx));
+    this.expBulletInputs.set(this.expBulletInputs().filter((_, i) => i !== idx));
+    if (this.expExpanded() === idx) this.expExpanded.set(null);
+    this.expDirty.set(true);
+  }
+
+  moveExpEntry(idx: number, dir: -1 | 1): void {
+    const items   = [...this.expItems()];
+    const tinputs = [...this.expTagInputs()];
+    const binputs = [...this.expBulletInputs()];
+    const target  = idx + dir;
+    if (target < 0 || target >= items.length) return;
+    [items[idx], items[target]]   = [items[target], items[idx]];
+    [tinputs[idx], tinputs[target]] = [tinputs[target], tinputs[idx]];
+    [binputs[idx], binputs[target]] = [binputs[target], binputs[idx]];
+    this.expItems.set(items);
+    this.expTagInputs.set(tinputs);
+    this.expBulletInputs.set(binputs);
+    this.expExpanded.set(target);
+    this.expDirty.set(true);
+  }
+
+  updateExpField<K extends keyof ExperienceItem>(idx: number, field: K, value: ExperienceItem[K]): void {
+    this.expItems.set(this.expItems().map((e, i) => i === idx ? { ...e, [field]: value } : e));
+    this.expDirty.set(true);
+  }
+
+  // Bullets
+  addExpBullet(idx: number): void {
+    const text = this.expBulletInputs()[idx]?.trim();
+    if (!text) return;
+    const items = this.expItems().map((e, i) =>
+      i === idx ? { ...e, bullets: [...e.bullets, text] } : e
+    );
+    this.expItems.set(items);
+    const bi = [...this.expBulletInputs()]; bi[idx] = '';
+    this.expBulletInputs.set(bi);
+    this.expDirty.set(true);
+  }
+
+  updateExpBullet(entryIdx: number, bulletIdx: number, value: string): void {
+    const items = this.expItems().map((e, i) => {
+      if (i !== entryIdx) return e;
+      const bullets = e.bullets.map((b, bi) => bi === bulletIdx ? value : b);
+      return { ...e, bullets };
+    });
+    this.expItems.set(items);
+    this.expDirty.set(true);
+  }
+
+  removeExpBullet(entryIdx: number, bulletIdx: number): void {
+    const items = this.expItems().map((e, i) =>
+      i === entryIdx ? { ...e, bullets: e.bullets.filter((_, bi) => bi !== bulletIdx) } : e
+    );
+    this.expItems.set(items);
+    this.expDirty.set(true);
+  }
+
+  onExpBulletInput(idx: number, value: string): void {
+    const bi = [...this.expBulletInputs()]; bi[idx] = value;
+    this.expBulletInputs.set(bi);
+  }
+
+  // Tags
+  addExpTag(idx: number): void {
+    const tag = this.expTagInputs()[idx]?.trim();
+    if (!tag) return;
+    if (this.expItems()[idx]?.tags.includes(tag)) return;
+    const items = this.expItems().map((e, i) =>
+      i === idx ? { ...e, tags: [...e.tags, tag] } : e
+    );
+    this.expItems.set(items);
+    const ti = [...this.expTagInputs()]; ti[idx] = '';
+    this.expTagInputs.set(ti);
+    this.expDirty.set(true);
+  }
+
+  removeExpTag(entryIdx: number, tagIdx: number): void {
+    const items = this.expItems().map((e, i) =>
+      i === entryIdx ? { ...e, tags: e.tags.filter((_, ti) => ti !== tagIdx) } : e
+    );
+    this.expItems.set(items);
+    this.expDirty.set(true);
+  }
+
+  onExpTagInput(idx: number, value: string): void {
+    const ti = [...this.expTagInputs()]; ti[idx] = value;
+    this.expTagInputs.set(ti);
+  }
+
+  async saveExperience(): Promise<void> {
+    this.expSaving.set(true);
+    try {
+      await this.experienceService.save(this.expItems());
+      this.expDirty.set(false);
+    } finally {
+      this.expSaving.set(false);
+    }
+  }
+
+  discardExperience(): void { this.resetExpFromServer(); }
 
   // ── Auth ─────────────────────────────────────────────────────
   signOut(): void { this.authService.signOut().then(() => this.router.navigate(['/admin/login'])); }

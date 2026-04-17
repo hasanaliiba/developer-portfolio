@@ -6,6 +6,7 @@ import { localize } from '../../shared/models/case-study.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
+import { getSkillIcon } from '../../core/data/skill-icons';
 
 @Component({
   selector: 'app-case-study',
@@ -34,4 +35,6 @@ export class CaseStudyComponent {
     if (!s) return [];
     return this.allVisible().filter(x => x.slug !== s.slug).slice(0, 3);
   });
+
+  skillIcon(name: string) { return getSkillIcon(name); }
 }

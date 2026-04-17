@@ -86,8 +86,8 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     const ctx = this.ctx;
     const MAX_DIST   = 110;
     const MOUSE_DIST = 130;
-    const dotColor   = this.darkMode ? 'rgba(34,197,94,0.5)'  : 'rgba(34,197,94,0.3)';
-    const lineBase   = 'rgba(34,197,94,';
+    const dotColor   = this.darkMode ? 'rgba(34,197,94,0.5)'  : 'rgba(15,118,110,0.45)';
+    const lineBase   = this.darkMode  ? 'rgba(34,197,94,'      : 'rgba(15,118,110,';
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 

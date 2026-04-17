@@ -5,6 +5,7 @@ import { CaseStudyService } from '../../core/services/case-study.service';
 import { SettingsService } from '../../core/services/settings.service';
 import { LanguageService } from '../../core/services/language.service';
 import { SkillsService } from '../../core/services/skills.service';
+import { ExperienceService } from '../../core/services/experience.service';
 import { getSkillIcon } from '../../core/data/skill-icons';
 import { CaseStudyCardComponent } from '../../shared/components/case-study-card/case-study-card.component';
 import { NodeCanvasComponent } from '../../shared/components/node-canvas/node-canvas.component';
@@ -24,15 +25,17 @@ const GRID: Record<number, string> = {
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private caseStudyService = inject(CaseStudyService);
-  private settingsService  = inject(SettingsService);
-  private skillsService    = inject(SkillsService);
-  readonly lang            = inject(LanguageService);
+  private caseStudyService   = inject(CaseStudyService);
+  private settingsService    = inject(SettingsService);
+  private skillsService      = inject(SkillsService);
+  private experienceService  = inject(ExperienceService);
+  readonly lang              = inject(LanguageService);
 
-  allStudies = toSignal(this.caseStudyService.getVisible(), { initialValue: [] });
-  settings   = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const } });
+  allStudies  = toSignal(this.caseStudyService.getVisible(), { initialValue: [] });
+  settings    = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const } });
   skillGroups = toSignal(this.skillsService.get(), { initialValue: this.skillsService.getCached() });
-  activeTag  = signal<string | null>(null);
+  experiences = toSignal(this.experienceService.get(), { initialValue: this.experienceService.getCached() });
+  activeTag   = signal<string | null>(null);
 
   allTags = computed(() =>
     [...new Set(this.allStudies().flatMap(s => s.tags ?? []))].sort()
@@ -50,6 +53,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   skillIcon(name: string): { url: string; darkInvert: boolean } | null {
     return getSkillIcon(name);
   }
+
+  /** Derived from GitHub API: repos by language — JS×3, TS×2, HTML×1 out of 6 repos with a language */
+  readonly githubLangs = [
+    { name: 'JavaScript', color: '#f1e05a', pct: 50 },
+    { name: 'TypeScript', color: '#3178c6', pct: 33 },
+    { name: 'HTML',       color: '#e34c26', pct: 17 },
+  ];
 
   readonly copied = signal(false);
   readonly showBackToTop = signal(false);

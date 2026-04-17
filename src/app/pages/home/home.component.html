@@ -7,67 +7,109 @@
   <!-- Node canvas background -->
   <app-node-canvas />
 
-  <!-- Blue/indigo radial gradient — adapts to theme via CSS variables -->
+  <!-- Layered radial glows -->
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <!-- Primary glow — upper centre-right -->
-    <div class="absolute top-0 left-0 right-0 bottom-0"
-         style="background: radial-gradient(ellipse 80% 60% at 65% 30%, var(--c-hero-glow-1), transparent 70%)"></div>
-    <!-- Secondary glow — lower left -->
-    <div class="absolute top-0 left-0 right-0 bottom-0"
-         style="background: radial-gradient(ellipse 60% 50% at 20% 75%, var(--c-hero-glow-2), transparent 65%)"></div>
-    <!-- Green accent glow — top right -->
-    <div class="absolute -top-20 right-0 w-80 h-80 rounded-full opacity-40"
-         style="background:radial-gradient(circle,rgba(34,197,94,0.1),transparent 65%);filter:blur(50px)"></div>
+    <!-- Top-centre soft glow -->
+    <div class="absolute inset-0"
+         style="background:radial-gradient(ellipse 70% 55% at 50% 20%, var(--c-hero-glow-1), transparent 65%)"></div>
+    <!-- Bottom-left accent -->
+    <div class="absolute inset-0"
+         style="background:radial-gradient(ellipse 55% 45% at 15% 80%, var(--c-hero-glow-2), transparent 60%)"></div>
+    <!-- Horizon glow at bottom — the "planet edge" effect from references -->
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-64 pointer-events-none"
+         style="background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(34,197,94,0.18) 0%, rgba(22,163,74,0.08) 45%, transparent 70%);filter:blur(8px)"></div>
   </div>
 
   <!-- Content — centred -->
-  <div class="relative z-10 max-w-3xl mx-auto px-6 md:px-10 w-full pt-32 pb-24 text-center">
+  <div class="relative z-10 max-w-2xl mx-auto px-6 md:px-10 w-full pt-32 pb-32 text-center">
 
-    <!-- Headline -->
-    <h1 class="font-extrabold text-[var(--c-fg)] leading-[1.08] tracking-tight mb-6"
-        style="font-size:clamp(2.6rem,6.5vw,4rem)"
-        [fadeUp]="80">
-      {{ lang.t().hero.h1 }}<br/>
-      {{ lang.t().hero.h2 }}<br/>
-      <span class="text-[#22c55e]">{{ lang.t().hero.accent }}</span>
+    <!-- Role badge -->
+    <div [fadeUp]="0" class="flex justify-center mb-5">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full
+                   bg-[#22c55e]/10 border border-[#22c55e]/25
+                   text-[#22c55e] text-[11px] font-semibold tracking-widest uppercase
+                   shadow-[0_0_20px_rgba(34,197,94,0.12)]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse flex-shrink-0"></span>
+        {{ lang.t().hero.badge }}
+      </span>
+    </div>
+
+    <!-- Eyebrow -->
+    <p class="text-[var(--c-fg-subtle)] text-[15px] mb-2 tracking-wide"
+       [fadeUp]="60">
+      {{ lang.t().hero.eyebrow }}
+    </p>
+
+    <!-- Name — the centrepiece -->
+    <h1 class="font-extrabold text-[var(--c-fg)] leading-[0.95] tracking-tight mb-6"
+        style="font-size:clamp(3.8rem,10vw,6.5rem)"
+        [fadeUp]="100">
+      Hasan Ali
     </h1>
 
-    <!-- Sub-headline -->
-    <p class="text-[var(--c-fg-muted)] text-[15px] leading-relaxed mb-10 max-w-xl mx-auto"
-       [fadeUp]="160">
+    <!-- Mixed-typography tagline (reference-style) -->
+    <div class="mb-8 space-y-1" [fadeUp]="170">
+      <!-- Line 1 — bold, full opacity -->
+      <p class="font-bold text-[var(--c-fg)] leading-snug"
+         style="font-size:clamp(1.25rem,3vw,1.75rem)">
+        {{ lang.t().hero.h1 }}
+      </p>
+      <!-- Line 2 — italic, muted -->
+      <p class="italic font-light text-[var(--c-fg-muted)] leading-snug"
+         style="font-size:clamp(1.25rem,3vw,1.75rem)">
+        {{ lang.t().hero.h2 }}
+      </p>
+    </div>
+
+    <!-- Sub -->
+    <p class="text-[var(--c-fg-subtle)] text-[14px] leading-relaxed mb-10 max-w-md mx-auto"
+       [fadeUp]="230">
       {{ lang.t().hero.sub }}
     </p>
 
     <!-- CTAs -->
-    <div class="flex flex-wrap gap-4 justify-center" [fadeUp]="240">
+    <div class="flex flex-wrap items-center gap-4 justify-center" [fadeUp]="290">
+      <!-- Primary -->
       <button onclick="document.getElementById('work')?.scrollIntoView({behavior:'smooth'})"
-              class="inline-flex items-center gap-2 text-white font-bold
-                     text-sm px-7 py-3.5 rounded-xl cursor-pointer
+              class="inline-flex items-center gap-2.5 text-white font-semibold
+                     text-[13px] px-6 py-3 rounded-full cursor-pointer
                      focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2
-                     focus:ring-offset-[var(--c-bg)] shadow-md shadow-green-500/20
-                     transition-opacity duration-200 hover:opacity-90"
-              style="background: linear-gradient(135deg, #16a34a 0%, #4ade80 100%)">
+                     focus:ring-offset-[var(--c-bg)] shadow-lg shadow-green-500/25
+                     transition-all duration-200 hover:shadow-green-500/40 hover:scale-[1.02] active:scale-[0.98]"
+              style="background:linear-gradient(135deg,#16a34a 0%,#4ade80 100%)">
         {{ lang.t().hero.cta1 }}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
              class="w-4 h-4" aria-hidden="true">
           <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
         </svg>
       </button>
-      <button onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})"
-              class="inline-flex items-center gap-2 font-semibold
-                     text-sm px-7 py-3.5 rounded-xl border cursor-pointer
-                     transition-colors duration-200
-                     focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2
-                     focus:ring-offset-[var(--c-bg)]
-                     dark:bg-white dark:text-black dark:border-white dark:hover:bg-gray-100
-                     bg-black text-white border-black hover:bg-gray-900">
-        {{ lang.t().hero.cta2 }}
+
+      <!-- Email copy CTA — reference-style inline email -->
+      <button (click)="copyEmailWithFeedback()"
+              class="inline-flex items-center gap-2 text-[var(--c-fg-muted)]
+                     hover:text-[var(--c-fg)] text-[13px] font-mono
+                     transition-colors duration-200 cursor-pointer group
+                     focus:outline-none focus:ring-2 focus:ring-[#22c55e] rounded-lg px-1">
+        <!-- Mail icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+             class="w-4 h-4 flex-shrink-0 text-[var(--c-fg-subtle)] group-hover:text-[#22c55e] transition-colors duration-200"
+             aria-hidden="true">
+          <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z"/>
+          <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z"/>
+        </svg>
+        <span>hasanaliiba&#64;gmail.com</span>
+        <!-- Copy state indicator -->
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-[var(--c-surface2)] border border-[var(--c-border)]
+                     text-[var(--c-fg-subtle)] group-hover:border-[#22c55e]/40 transition-colors duration-200"
+              aria-live="polite">
+          {{ copied() ? '✓ copied' : 'copy' }}
+        </span>
       </button>
     </div>
   </div>
 
-  <!-- Divider fade into next section -->
-  <div class="absolute bottom-0 left-0 right-0 h-28 pointer-events-none" aria-hidden="true"
+  <!-- Horizon fade into next section -->
+  <div class="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" aria-hidden="true"
        style="background:linear-gradient(to bottom, transparent, var(--c-bg))"></div>
 </section>
 
@@ -185,8 +227,8 @@
       </div>
     }
 
-    <!-- Card grid -->
-    <div class="grid gap-5" [class]="gridClass()" [fadeUp]="120">
+    <!-- Card grid — single column for horizontal card layout -->
+    <div class="grid grid-cols-1 gap-5" [fadeUp]="120">
       @for (study of filtered(); track study.id) {
         <app-case-study-card [study]="study" />
       } @empty {
@@ -196,6 +238,213 @@
         </div>
       }
     </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     EXPERIENCE
+════════════════════════════════════════════════ -->
+<section id="experience" class="bg-[var(--c-bg)] py-24 border-t border-[var(--c-border)]">
+  <div class="max-w-4xl mx-auto px-6 md:px-10">
+
+    <!-- Section header -->
+    <div class="text-center mb-16" [fadeUp]="0">
+      <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-3">
+        {{ lang.t().experience.eyebrow }}
+      </p>
+      <h2 class="font-extrabold text-[var(--c-fg)] tracking-tight mb-3"
+          style="font-size:clamp(2rem,5vw,3rem)">
+        {{ lang.t().experience.heading }}<span class="text-[#22c55e]">.</span>
+      </h2>
+      <p class="text-[var(--c-fg-muted)] text-[14px]">{{ lang.t().experience.sub }}</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative">
+      <!-- Vertical spine -->
+      <div class="absolute left-[7px] md:left-[11px] top-3 bottom-3 w-px
+                  bg-gradient-to-b from-[#22c55e]/60 via-[var(--c-border)] to-transparent"
+           aria-hidden="true"></div>
+
+      <div class="flex flex-col gap-10">
+        @for (exp of experiences(); track exp.company; let last = $last) {
+          <div class="relative pl-9 md:pl-14" [fadeUp]="80">
+
+            <!-- Timeline dot -->
+            <div class="absolute left-0 top-6 flex items-center justify-center
+                        w-[15px] h-[15px] md:w-[23px] md:h-[23px]"
+                 aria-hidden="true">
+              <div class="w-[9px] h-[9px] md:w-[13px] md:h-[13px] rounded-full border-2
+                          border-[#22c55e] bg-[var(--c-bg)] z-10 relative flex-shrink-0
+                          transition-all duration-300"
+                   [class]="exp.current ? 'shadow-[0_0_8px_2px_rgba(34,197,94,0.5)]' : ''"></div>
+              <!-- Ping ring for current role -->
+              @if (exp.current) {
+                <div class="absolute inset-0 rounded-full border border-[#22c55e]/40 animate-ping"></div>
+              }
+            </div>
+
+            <!-- Card -->
+            <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-5 md:p-6
+                        hover:border-[var(--c-border2)] transition-colors duration-200 shadow-sm">
+
+              <!-- Top row: role + period -->
+              <div class="flex items-start justify-between gap-3 mb-1.5 flex-wrap">
+                <h3 class="font-semibold text-[var(--c-fg)] text-[16px] md:text-[17px] leading-snug">
+                  {{ exp.role }}
+                </h3>
+                <span class="font-mono text-[11px] text-[var(--c-fg-subtle)] flex-shrink-0 pt-0.5">
+                  {{ exp.period }}
+                </span>
+              </div>
+
+              <!-- Company + badges -->
+              <div class="flex items-center gap-2 mb-5 flex-wrap">
+                <span class="text-[13px] font-medium text-[var(--c-fg-muted)]">{{ exp.company }}</span>
+                <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border
+                             bg-[var(--c-surface2)] border-[var(--c-border)] text-[var(--c-fg-subtle)]">
+                  {{ exp.type }}
+                </span>
+                @if (exp.current) {
+                  <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full
+                               bg-[#22c55e]/12 border border-[#22c55e]/30 text-[#22c55e]">
+                    {{ lang.t().experience.present }}
+                  </span>
+                }
+              </div>
+
+              <!-- Bullet points -->
+              <ul class="space-y-2.5 mb-5">
+                @for (bullet of exp.bullets; track bullet) {
+                  <li class="flex items-start gap-2.5 text-[13px] text-[var(--c-fg-muted)] leading-relaxed">
+                    <span class="w-1 h-1 rounded-full bg-[#22c55e] mt-[7px] flex-shrink-0"
+                          aria-hidden="true"></span>
+                    {{ bullet }}
+                  </li>
+                }
+              </ul>
+
+              <!-- Tech tags -->
+              <div class="flex flex-wrap gap-1.5">
+                @for (tag of exp.tags; track tag) {
+                  <span class="inline-flex items-center gap-1.5 text-[11px] font-mono
+                               px-2.5 py-1 rounded-lg
+                               bg-[var(--c-surface2)] border border-[var(--c-border)]
+                               text-[var(--c-fg-subtle)]
+                               hover:border-[#22c55e]/30 hover:text-[var(--c-fg-muted)]
+                               transition-colors duration-150">
+                    {{ tag }}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     GITHUB ACTIVITY
+════════════════════════════════════════════════ -->
+<section class="bg-[var(--c-surface)] py-24 border-t border-[var(--c-border)]">
+  <div class="max-w-4xl mx-auto px-6 md:px-10">
+
+    <!-- Header -->
+    <div class="flex items-end justify-between gap-4 mb-10 flex-wrap" [fadeUp]="0">
+      <div>
+        <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22c55e] mb-3">Open Source</p>
+        <h2 class="font-extrabold text-[var(--c-fg)] tracking-tight"
+            style="font-size:clamp(1.8rem,4vw,2.4rem)">
+          GitHub Activity<span class="text-[#22c55e]">.</span>
+        </h2>
+      </div>
+      <a href="https://github.com/hasanaliiba" target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-2 text-[12px] font-mono text-[var(--c-fg-muted)]
+                hover:text-[#22c55e] transition-colors duration-200 pb-1">
+        github.com/hasanaliiba
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Contribution heatmap -->
+    <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl p-5 md:p-7 mb-6 shadow-sm"
+         [fadeUp]="60">
+      <p class="text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-4">
+        Contribution history
+      </p>
+      <!-- Live heatmap from ghchart.rshah.org — green colour matches brand -->
+      <img src="https://ghchart.rshah.org/22c55e/hasanaliiba"
+           alt="Hasan Ali's GitHub contribution chart"
+           class="w-full rounded-lg dark:opacity-90"
+           loading="lazy" />
+    </div>
+
+    <!-- Stats grid + language card -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6" [fadeUp]="120">
+
+      <!-- Stat: Years -->
+      <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl p-5 flex flex-col gap-1
+                  hover:border-[#22c55e]/30 transition-colors duration-200">
+        <span class="font-extrabold text-[var(--c-fg)] text-3xl tracking-tight leading-none">7<span class="text-[#22c55e]">+</span></span>
+        <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] uppercase tracking-widest mt-1">Years Coding</span>
+        <span class="text-[10px] text-[var(--c-fg-subtle)] mt-0.5">Since 2017</span>
+      </div>
+
+      <!-- Stat: Repos -->
+      <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl p-5 flex flex-col gap-1
+                  hover:border-[#22c55e]/30 transition-colors duration-200">
+        <span class="font-extrabold text-[var(--c-fg)] text-3xl tracking-tight leading-none">10<span class="text-[#22c55e]">+</span></span>
+        <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] uppercase tracking-widest mt-1">Public Repos</span>
+        <span class="text-[10px] text-[var(--c-fg-subtle)] mt-0.5">+ private work</span>
+      </div>
+
+      <!-- Stat: Employer -->
+      <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl p-5 flex flex-col gap-1
+                  hover:border-[#22c55e]/30 transition-colors duration-200">
+        <span class="font-extrabold text-[var(--c-fg)] text-xl tracking-tight leading-tight">Techlogix</span>
+        <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] uppercase tracking-widest mt-1">Current Role</span>
+        <span class="text-[10px] text-[var(--c-fg-subtle)] mt-0.5">Front-End Developer</span>
+      </div>
+
+      <!-- Stat: Core stack -->
+      <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl p-5 flex flex-col gap-1
+                  hover:border-[#22c55e]/30 transition-colors duration-200">
+        <span class="font-extrabold text-[var(--c-fg)] text-xl tracking-tight leading-tight">Angular</span>
+        <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] uppercase tracking-widest mt-1">Core Stack</span>
+        <span class="text-[10px] text-[var(--c-fg-subtle)] mt-0.5">+ TypeScript · Laravel</span>
+      </div>
+    </div>
+
+    <!-- Top languages card from GitHub readme stats -->
+    <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl overflow-hidden shadow-sm"
+         [fadeUp]="160">
+      <div class="px-5 md:px-7 py-4 border-b border-[var(--c-border)]">
+        <p class="text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)]">Most used languages</p>
+      </div>
+      <div class="p-5 md:p-7 flex flex-wrap gap-3">
+        <!-- Language bars — hardcoded from API response: JS 3, TS 2, HTML 1 -->
+        @for (lang of githubLangs; track lang.name) {
+          <div class="flex items-center gap-2.5 bg-[var(--c-surface)] border border-[var(--c-border)]
+                      rounded-xl px-4 py-2.5 flex-1 min-w-[140px]">
+            <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" [style.background]="lang.color"></span>
+            <div class="flex-1 min-w-0">
+              <p class="text-[13px] font-medium text-[var(--c-fg)] truncate">{{ lang.name }}</p>
+              <div class="w-full h-1 bg-[var(--c-border)] rounded-full mt-1 overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-700"
+                     [style.width]="lang.pct + '%'"
+                     [style.background]="lang.color"></div>
+              </div>
+            </div>
+            <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] flex-shrink-0">{{ lang.pct }}%</span>
+          </div>
+        }
+      </div>
+    </div>
+
   </div>
 </section>
 

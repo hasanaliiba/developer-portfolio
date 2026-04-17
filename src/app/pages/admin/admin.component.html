@@ -435,6 +435,215 @@
   </div>
 
   <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  EXPERIENCE SECTION                                       -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="mb-14">
+    <div class="flex items-center justify-between mb-5 gap-4 flex-wrap">
+      <div>
+        <p class="font-mono text-[var(--c-fg-subtle)] text-[10px] tracking-[0.2em] uppercase mb-0.5">Manage</p>
+        <h2 class="text-[var(--c-fg)] font-semibold text-lg">Experience</h2>
+      </div>
+      <button (click)="addExpEntry()"
+              class="inline-flex items-center gap-2 bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-fg-muted)] text-sm px-4 py-2 rounded-xl hover:border-[#22c55e]/50 hover:text-[#22c55e] transition-colors duration-200 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+        </svg>
+        Add Entry
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-3 mb-4">
+      @for (exp of expItems(); let idx = $index; track idx) {
+        <div class="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
+             [class]="expExpanded() === idx ? 'border-[#22c55e]/30' : 'hover:border-[var(--c-border2)]'">
+
+          <!-- Collapsed header -->
+          <div class="flex items-center gap-3 px-5 py-3.5">
+            <button (click)="toggleExpEntry(idx)" class="flex items-center gap-2 flex-1 min-w-0 text-left cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                   class="w-4 h-4 flex-shrink-0 text-[var(--c-fg-subtle)] transition-transform duration-200"
+                   [class]="expExpanded() === idx ? 'rotate-90' : ''" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+              </svg>
+              <span class="font-medium text-sm text-[var(--c-fg)] truncate">{{ exp.role || 'Untitled Role' }}</span>
+              @if (exp.company) {
+                <span class="text-[11px] text-[var(--c-fg-subtle)] truncate hidden sm:block">&#64; {{ exp.company }}</span>
+              }
+              @if (exp.current) {
+                <span class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#22c55e]/12 border border-[#22c55e]/30 text-[#22c55e] flex-shrink-0">Current</span>
+              }
+            </button>
+            <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] flex-shrink-0 hidden sm:block">{{ exp.period }}</span>
+            <button (click)="moveExpEntry(idx, -1)" [disabled]="idx === 0"
+                    class="p-1.5 rounded-lg text-[var(--c-fg-subtle)] hover:text-[var(--c-fg)] hover:bg-[var(--c-surface2)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer" title="Move up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true"><path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04L10.75 5.612V16.25A.75.75 0 0110 17z" clip-rule="evenodd"/></svg>
+            </button>
+            <button (click)="moveExpEntry(idx, 1)" [disabled]="idx === expItems().length - 1"
+                    class="p-1.5 rounded-lg text-[var(--c-fg-subtle)] hover:text-[var(--c-fg)] hover:bg-[var(--c-surface2)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer" title="Move down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd"/></svg>
+            </button>
+            <button (click)="removeExpEntry(idx)"
+                    class="p-1.5 rounded-lg text-[var(--c-fg-subtle)] hover:text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer" title="Delete entry">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
+
+          <!-- Expanded body -->
+          @if (expExpanded() === idx) {
+            <div class="border-t border-[var(--c-border)] px-5 py-5 flex flex-col gap-5">
+
+              <!-- Row 1: Role + Company -->
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">Job Title</label>
+                  <input type="text" [value]="exp.role"
+                         (input)="updateExpField(idx, 'role', $any($event.target).value)"
+                         placeholder="e.g. Senior Front-End Developer"
+                         class="w-full bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">Company</label>
+                  <input type="text" [value]="exp.company"
+                         (input)="updateExpField(idx, 'company', $any($event.target).value)"
+                         placeholder="e.g. Acme Ltd"
+                         class="w-full bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors" />
+                </div>
+              </div>
+
+              <!-- Row 2: Type + Period + Current toggle -->
+              <div class="grid sm:grid-cols-3 gap-4 items-end">
+                <div>
+                  <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">Type</label>
+                  <select [value]="exp.type"
+                          (change)="updateExpField(idx, 'type', $any($event.target).value)"
+                          class="w-full bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] focus:outline-none focus:border-[#22c55e] transition-colors cursor-pointer">
+                    @for (t of employmentTypes; track t) {
+                      <option [value]="t" [selected]="exp.type === t">{{ t }}</option>
+                    }
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">Period</label>
+                  <input type="text" [value]="exp.period"
+                         (input)="updateExpField(idx, 'period', $any($event.target).value)"
+                         placeholder="e.g. 2022 – Present"
+                         class="w-full bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-1.5">Current Role</label>
+                  <button (click)="updateExpField(idx, 'current', !exp.current)"
+                          class="relative inline-flex items-center gap-3 cursor-pointer select-none">
+                    <span class="w-11 h-6 rounded-full border transition-colors duration-200 flex items-center px-0.5"
+                          [class]="exp.current ? 'bg-[#22c55e] border-[#22c55e]' : 'bg-[var(--c-surface2)] border-[var(--c-border)]'">
+                      <span class="w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200"
+                            [class]="exp.current ? 'translate-x-5' : 'translate-x-0'"></span>
+                    </span>
+                    <span class="text-sm font-medium" [class]="exp.current ? 'text-[var(--c-fg)]' : 'text-[var(--c-fg-muted)]'">
+                      {{ exp.current ? 'Yes' : 'No' }}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Bullet Points -->
+              <div>
+                <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-2">Responsibilities</label>
+                <div class="flex flex-col gap-2 mb-2">
+                  @for (bullet of exp.bullets; let bi = $index; track bi) {
+                    <div class="flex gap-2 items-start">
+                      <span class="w-1 h-1 rounded-full bg-[#22c55e] mt-3.5 flex-shrink-0" aria-hidden="true"></span>
+                      <textarea rows="2"
+                                [value]="bullet"
+                                (input)="updateExpBullet(idx, bi, $any($event.target).value)"
+                                class="flex-1 bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors resize-none leading-relaxed"></textarea>
+                      <button (click)="removeExpBullet(idx, bi)"
+                              class="mt-1 p-1.5 rounded-lg text-[var(--c-fg-subtle)] hover:text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  }
+                  @if (exp.bullets.length === 0) {
+                    <p class="text-[11px] text-[var(--c-fg-subtle)] font-mono italic">No bullets yet.</p>
+                  }
+                </div>
+                <!-- Add bullet -->
+                <div class="flex gap-2">
+                  <input type="text" [value]="expBulletInputs()[idx]"
+                         (input)="onExpBulletInput(idx, $any($event.target).value)"
+                         (keydown.enter)="addExpBullet(idx)"
+                         placeholder="Add a responsibility…"
+                         class="flex-1 bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors" />
+                  <button (click)="addExpBullet(idx)" [disabled]="!expBulletInputs()[idx].trim()"
+                          class="px-3 py-2 bg-[#22c55e] text-black text-xs font-semibold rounded-lg hover:bg-[#16a34a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer">
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tech Tags -->
+              <div>
+                <label class="block text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)] mb-2">Tech Tags</label>
+                <div class="flex flex-wrap gap-2 mb-2">
+                  @for (tag of exp.tags; let ti = $index; track ti) {
+                    <span class="inline-flex items-center gap-1.5 bg-[var(--c-surface2)] border border-[var(--c-border)]
+                                 text-[var(--c-fg-muted)] text-[11px] font-mono px-2.5 py-1 rounded-lg">
+                      {{ tag }}
+                      <button (click)="removeExpTag(idx, ti)"
+                              class="hover:text-red-500 transition-colors cursor-pointer"
+                              [attr.aria-label]="'Remove ' + tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3" aria-hidden="true">
+                          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+                        </svg>
+                      </button>
+                    </span>
+                  }
+                  @if (exp.tags.length === 0) {
+                    <span class="text-[11px] text-[var(--c-fg-subtle)] font-mono italic">No tags yet.</span>
+                  }
+                </div>
+                <div class="flex gap-2">
+                  <input type="text" [value]="expTagInputs()[idx]"
+                         (input)="onExpTagInput(idx, $any($event.target).value)"
+                         (keydown.enter)="addExpTag(idx)"
+                         placeholder="e.g. Angular, TypeScript…"
+                         class="flex-1 max-w-xs bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg px-3 py-2 text-sm text-[var(--c-fg)] placeholder:text-[var(--c-fg-subtle)] focus:outline-none focus:border-[#22c55e] transition-colors" />
+                  <button (click)="addExpTag(idx)" [disabled]="!expTagInputs()[idx].trim()"
+                          class="px-3 py-2 bg-[#22c55e] text-black text-xs font-semibold rounded-lg hover:bg-[#16a34a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer">
+                    Add
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          }
+        </div>
+      } @empty {
+        <div class="py-12 text-center border border-dashed border-[var(--c-border)] rounded-2xl">
+          <p class="text-[var(--c-fg-muted)] font-mono text-sm">No experience entries yet.</p>
+          <p class="text-[var(--c-fg-subtle)] font-mono text-xs mt-1">Click "Add Entry" to get started.</p>
+        </div>
+      }
+    </div>
+
+    <!-- Save / Discard bar -->
+    @if (expDirty()) {
+      <div class="flex items-center gap-3 p-4 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded-xl">
+        <span class="text-sm text-[var(--c-fg)] flex-1 font-medium">You have unsaved changes.</span>
+        <button (click)="discardExperience()"
+                class="text-sm text-[var(--c-fg-muted)] px-4 py-2 border border-[var(--c-border)] rounded-lg hover:text-[var(--c-fg)] hover:border-[var(--c-border2)] transition-colors cursor-pointer">
+          Discard
+        </button>
+        <button (click)="saveExperience()" [disabled]="expSaving()"
+                class="text-sm font-semibold bg-[#22c55e] text-black px-5 py-2 rounded-lg hover:bg-[#16a34a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
+          {{ expSaving() ? 'Saving…' : 'Save Changes' }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
   <!--  CASE STUDIES SECTION                                     -->
   <!-- ══════════════════════════════════════════════════════════ -->
   <div>

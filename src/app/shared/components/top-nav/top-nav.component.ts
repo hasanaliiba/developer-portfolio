@@ -20,9 +20,10 @@ export class TopNavComponent implements OnInit, OnDestroy {
   readonly supportedLangs = SUPPORTED_LANGS;
 
   readonly navLinks = computed(() => [
-    { id: 'about',   label: this.lang.t().nav.about },
-    { id: 'work',    label: this.lang.t().nav.work },
-    { id: 'contact', label: this.lang.t().nav.contact },
+    { id: 'about',      label: this.lang.t().nav.about },
+    { id: 'work',       label: this.lang.t().nav.work },
+    { id: 'experience', label: this.lang.t().nav.experience },
+    { id: 'contact',    label: this.lang.t().nav.contact },
   ]);
 
   readonly menuOpen      = signal(false);
@@ -31,7 +32,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
   readonly activeSection = signal<string>('hero');
   readonly scrolled      = signal(false);
 
-  private readonly SECTIONS = ['hero', 'about', 'work', 'contact'];
+  private readonly SECTIONS = ['hero', 'about', 'work', 'experience', 'contact'];
   private readonly NAV_OFFSET = 100; // px below nav to trigger
 
   private onScroll = (): void => {
