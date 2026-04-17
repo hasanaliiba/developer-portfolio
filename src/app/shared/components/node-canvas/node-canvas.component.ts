@@ -48,28 +48,45 @@ export class NodeCanvasComponent implements AfterViewInit, OnDestroy {
     };
     resize();
 
-    this.resizeObserver = new ResizeObserver(resize);
-    this.resizeObserver.observe(parent);
-
     this.themeObserver = new MutationObserver(() => {
       this.darkMode = document.documentElement.classList.contains('dark');
     });
     this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    // Seed nodes
-    this.nodes = Array.from({ length: 400 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.8,
-      vy: (Math.random() - 0.5) * 0.8,
-      r: Math.random() * 1.8 + 1,
-    }));
+    this.seedNodes(canvas);
+
+    // Re-seed when viewport crosses mobile/desktop breakpoint
+    let wasMobile = this.isMobile();
+    this.resizeObserver = new ResizeObserver(() => {
+      resize();
+      const nowMobile = this.isMobile();
+      if (nowMobile !== wasMobile) {
+        wasMobile = nowMobile;
+        this.seedNodes(canvas);
+      }
+    });
+    this.resizeObserver.observe(parent);
 
     // Mouse tracking on parent
     parent.addEventListener('mousemove', this.onMouseMove);
     parent.addEventListener('mouseleave', this.onMouseLeave);
 
     this.draw();
+  }
+
+  private isMobile(): boolean {
+    return window.innerWidth < 768;
+  }
+
+  private seedNodes(canvas: HTMLCanvasElement): void {
+    const count = this.isMobile() ? 50 : 400;
+    this.nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      r: Math.random() * 1.8 + 1,
+    }));
   }
 
   private onMouseMove = (e: MouseEvent): void => {

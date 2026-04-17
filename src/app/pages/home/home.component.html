@@ -21,7 +21,7 @@
   </div>
 
   <!-- Content — centred -->
-  <div class="relative z-10 max-w-2xl mx-auto px-6 md:px-10 w-full pt-32 pb-32 text-center">
+  <div class="relative z-10 max-w-2xl mx-auto px-6 md:px-10 w-full pt-28 pb-24 md:pt-32 md:pb-32 text-center">
 
     <!-- Role badge -->
     <div [fadeUp]="0" class="flex justify-center mb-5">
@@ -377,10 +377,12 @@
         Contribution history
       </p>
       <!-- Live heatmap from ghchart.rshah.org — green colour matches brand -->
-      <img src="https://ghchart.rshah.org/22c55e/hasanaliiba"
-           alt="Hasan Ali's GitHub contribution chart"
-           class="w-full rounded-lg dark:opacity-90"
-           loading="lazy" />
+      <div class="overflow-x-auto -mx-1">
+        <img src="https://ghchart.rshah.org/22c55e/hasanaliiba"
+             alt="Hasan Ali's GitHub contribution chart"
+             class="min-w-[600px] w-full rounded-lg dark:opacity-90"
+             loading="lazy" />
+      </div>
     </div>
 
     <!-- Stats grid + language card -->
@@ -425,11 +427,11 @@
       <div class="px-5 md:px-7 py-4 border-b border-[var(--c-border)]">
         <p class="text-[11px] font-mono uppercase tracking-widest text-[var(--c-fg-subtle)]">Most used languages</p>
       </div>
-      <div class="p-5 md:p-7 flex flex-wrap gap-3">
+      <div class="p-5 md:p-7 flex flex-col sm:flex-row flex-wrap gap-3">
         <!-- Language bars — hardcoded from API response: JS 3, TS 2, HTML 1 -->
         @for (lang of githubLangs; track lang.name) {
           <div class="flex items-center gap-2.5 bg-[var(--c-surface)] border border-[var(--c-border)]
-                      rounded-xl px-4 py-2.5 flex-1 min-w-[140px]">
+                      rounded-xl px-4 py-2.5 flex-1 sm:min-w-[140px]">
             <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" [style.background]="lang.color"></span>
             <div class="flex-1 min-w-0">
               <p class="text-[13px] font-medium text-[var(--c-fg)] truncate">{{ lang.name }}</p>
@@ -484,15 +486,15 @@
     </p>
 
     <!-- Email pill -->
-    <div class="inline-flex items-center gap-3 bg-[var(--c-surface)] border border-[var(--c-border)]
-                rounded-2xl px-5 py-3.5 mb-6"
+    <div class="flex items-center gap-3 bg-[var(--c-surface)] border border-[var(--c-border)]
+                rounded-2xl px-5 py-3.5 mb-6 w-full max-w-sm mx-auto"
          [fadeUp]="200">
-      <span class="font-mono text-[14px] font-semibold text-[var(--c-fg)]">
+      <span class="font-mono text-[13px] md:text-[14px] font-semibold text-[var(--c-fg)] flex-1 min-w-0 truncate">
         hasanaliiba&#64;gmail.com
       </span>
       <button (click)="copyEmailWithFeedback()"
               class="text-[11px] text-[var(--c-fg-subtle)] bg-[var(--c-surface2)] hover:bg-[var(--c-border)]
-                     px-2.5 py-1 rounded-md transition-colors cursor-pointer
+                     px-2.5 py-1 rounded-md transition-colors cursor-pointer flex-shrink-0
                      focus:outline-none focus:ring-1 focus:ring-[#22c55e]">
         {{ copied() ? lang.t().contact.copied : lang.t().contact.copy }}
       </button>
