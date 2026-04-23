@@ -30,10 +30,12 @@ export class AdminComponent {
   private router             = inject(Router);
 
   // ── Display Settings ─────────────────────────────────────────
-  settings    = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const, i18nEnabled: true } });
+  settings    = toSignal(this.settingsService.get(), { initialValue: this.settingsService.getCached() });
   columnOptions: (1 | 2 | 3 | 4)[] = [1, 2, 3, 4];
   setColumns(n: 1 | 2 | 3 | 4): void { this.settingsService.setColumns(n); }
   setI18nEnabled(enabled: boolean): void { this.settingsService.setI18nEnabled(enabled); }
+  setShowExperienceSection(show: boolean): void { this.settingsService.setShowExperienceSection(show); }
+  setShowGithubSection(show: boolean): void { this.settingsService.setShowGithubSection(show); }
 
   // ── Case Studies ─────────────────────────────────────────────
   studies$     = this.caseStudyService.getAll();

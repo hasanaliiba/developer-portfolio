@@ -3,6 +3,7 @@ import { Component, inject, signal, computed, OnInit, OnDestroy } from '@angular
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { ResumeService } from '../../../core/services/resume.service';
+import { SettingsService } from '../../../core/services/settings.service';
 import { LanguageService, SUPPORTED_LANGS } from '../../../core/services/language.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -15,16 +16,24 @@ export class TopNavComponent implements OnInit, OnDestroy {
   readonly theme        = inject(ThemeService);
   readonly lang         = inject(LanguageService);
   private resumeService = inject(ResumeService);
+  private settingsService = inject(SettingsService);
   private router        = inject(Router);
 
   readonly supportedLangs = SUPPORTED_LANGS;
 
-  readonly navLinks = computed(() => [
-    { id: 'about',      label: this.lang.t().nav.about },
-    { id: 'work',       label: this.lang.t().nav.work },
-    { id: 'experience', label: this.lang.t().nav.experience },
-    { id: 'contact',    label: this.lang.t().nav.contact },
-  ]);
+  private readonly settings = toSignal(this.settingsService.get(), { initialValue: this.settingsService.getCached() });
+
+  readonly navLinks = computed(() => {
+    const links: { id: string; label: string }[] = [
+      { id: 'about',   label: this.lang.t().nav.about },
+      { id: 'work',    label: this.lang.t().nav.work },
+    ];
+    if (this.settings().showExperienceSection !== false) {
+      links.push({ id: 'experience', label: this.lang.t().nav.experience });
+    }
+    links.push({ id: 'contact', label: this.lang.t().nav.contact });
+    return links;
+  });
 
   readonly menuOpen      = signal(false);
   readonly langMenuOpen  = signal(false);
@@ -32,20 +41,29 @@ export class TopNavComponent implements OnInit, OnDestroy {
   readonly activeSection = signal<string>('hero');
   readonly scrolled      = signal(false);
 
-  private readonly SECTIONS = ['hero', 'about', 'work', 'experience', 'contact'];
   private readonly NAV_OFFSET = 100; // px below nav to trigger
+
+  /** Section ids in scroll order (must match elements with matching `id` on the home page). */
+  private readonly sectionIds = computed(() => {
+    const ids = ['hero', 'about', 'work'];
+    if (this.settings().showExperienceSection !== false) ids.push('experience');
+    ids.push('contact');
+    return ids;
+  });
 
   private onScroll = (): void => {
     this.scrolled.set(window.scrollY > 30);
 
+    const sections = this.sectionIds();
+
     // If scrolled to (or near) the bottom, activate the last section
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 80) {
-      this.activeSection.set(this.SECTIONS[this.SECTIONS.length - 1]);
+      this.activeSection.set(sections[sections.length - 1] ?? 'contact');
       return;
     }
 
     let current = 'hero';
-    for (const id of this.SECTIONS) {
+    for (const id of sections) {
       const el = document.getElementById(id);
       if (el && el.getBoundingClientRect().top <= this.NAV_OFFSET) {
         current = id;

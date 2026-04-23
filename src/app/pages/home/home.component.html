@@ -244,6 +244,7 @@
 <!-- ═══════════════════════════════════════════════
      EXPERIENCE
 ════════════════════════════════════════════════ -->
+@if (settings().showExperienceSection !== false) {
 <section id="experience" class="bg-[var(--c-bg)] py-24 border-t border-[var(--c-border)]">
   <div class="max-w-4xl mx-auto px-6 md:px-10">
 
@@ -344,10 +345,12 @@
     </div>
   </div>
 </section>
+}
 
 <!-- ═══════════════════════════════════════════════
      GITHUB ACTIVITY
 ════════════════════════════════════════════════ -->
+@if (settings().showGithubSection !== false) {
 <section class="bg-[var(--c-surface)] py-24 border-t border-[var(--c-border)]">
   <div class="max-w-4xl mx-auto px-6 md:px-10">
 
@@ -407,9 +410,9 @@
       <!-- Stat: Employer -->
       <div class="bg-[var(--c-bg)] border border-[var(--c-border)] rounded-2xl p-5 flex flex-col gap-1
                   hover:border-[#22c55e]/30 transition-colors duration-200">
-        <span class="font-extrabold text-[var(--c-fg)] text-xl tracking-tight leading-tight">Techlogix</span>
+        <span class="font-extrabold text-[var(--c-fg)] text-xl tracking-tight leading-tight">Freelance</span>
         <span class="text-[11px] font-mono text-[var(--c-fg-subtle)] uppercase tracking-widest mt-1">Current Role</span>
-        <span class="text-[10px] text-[var(--c-fg-subtle)] mt-0.5">Front-End Developer</span>
+        <span class="text-[10px] text-[var(--c-fg-subtle)] mt-0.5">Frontend Engineer</span>
       </div>
 
       <!-- Stat: Core stack -->
@@ -449,6 +452,7 @@
 
   </div>
 </section>
+}
 
 <!-- ═══════════════════════════════════════════════
      CONTACT

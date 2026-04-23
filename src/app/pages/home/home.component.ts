@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   readonly lang              = inject(LanguageService);
 
   allStudies  = toSignal(this.caseStudyService.getVisible(), { initialValue: [] });
-  settings    = toSignal(this.settingsService.get(), { initialValue: { columnsPerRow: 2 as const } });
+  settings    = toSignal(this.settingsService.get(), { initialValue: this.settingsService.getCached() });
   skillGroups = toSignal(this.skillsService.get(), { initialValue: this.skillsService.getCached() });
   experiences = toSignal(this.experienceService.get(), { initialValue: this.experienceService.getCached() });
   activeTag   = signal<string | null>(null);

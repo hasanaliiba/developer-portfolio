@@ -8,9 +8,18 @@ import { map, catchError, tap } from 'rxjs/operators';
 export interface SiteSettings {
   columnsPerRow: 1 | 2 | 3 | 4;
   i18nEnabled?: boolean;
+  /** When false, the Experience timeline block is hidden on the home page. Default: visible. */
+  showExperienceSection?: boolean;
+  /** When false, the GitHub activity block is hidden on the home page. Default: visible. */
+  showGithubSection?: boolean;
 }
 
-const DEFAULTS: SiteSettings = { columnsPerRow: 2, i18nEnabled: true };
+const DEFAULTS: SiteSettings = {
+  columnsPerRow: 2,
+  i18nEnabled: true,
+  showExperienceSection: true,
+  showGithubSection: true,
+};
 const REF = 'settings/display';
 const CACHE_KEY = 'portfolio-settings';
 
@@ -43,6 +52,16 @@ export class SettingsService {
   setI18nEnabled(i18nEnabled: boolean): Promise<void> {
     this.patchCache({ i18nEnabled });
     return setDoc(doc(this.firestore, REF), { i18nEnabled }, { merge: true });
+  }
+
+  setShowExperienceSection(showExperienceSection: boolean): Promise<void> {
+    this.patchCache({ showExperienceSection });
+    return setDoc(doc(this.firestore, REF), { showExperienceSection }, { merge: true });
+  }
+
+  setShowGithubSection(showGithubSection: boolean): Promise<void> {
+    this.patchCache({ showGithubSection });
+    return setDoc(doc(this.firestore, REF), { showGithubSection }, { merge: true });
   }
 
   private patchCache(patch: Partial<SiteSettings>): void {
